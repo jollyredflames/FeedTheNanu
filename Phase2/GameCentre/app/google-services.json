@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1064712180304",
+    "firebase_url": "https://slidingtiles-42957.firebaseio.com",
+    "project_id": "slidingtiles-42957",
+    "storage_bucket": "slidingtiles-42957.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1064712180304:android:e316255d57d655ed",
+        "android_client_info": {
+          "package_name": "com.ramsy.slidingtiles"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1064712180304-mp0ktqroufqpd68qvahu5nr3buq7v26v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ramsy.slidingtiles",
+            "certificate_hash": "30e06cc3a39facdc76834ef4aa8bbaa6c7c6f121"
+          }
+        },
+        {
+          "client_id": "1064712180304-f44oqm0apbrm04su27q6hp8k9a1uetof.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLsiZr0GrF8B5d2hghbTVpJyQ9ofCKPpA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1064712180304-f44oqm0apbrm04su27q6hp8k9a1uetof.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

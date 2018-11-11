@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Sliding Tiles</string>
+    <string name="password">Password</string>
+
+    <!--LoginPage-->
+    <string name="email_username">Email or Username</string>
+    <string name="log_in">Log In</string> <!--Button-->
+
+    <!--SignUpPage-->
+    <string name="sign_up">Sign Up</string> <!--Static Text Field-->
+    <string name="username">Username</string>
+    <string name="email">Email</string>
+    <string name="confirm_password">Re-enter Password</string>
+    <string name="finish">Finish</string>
+    <string name="title_activity_leader_board">LeaderBoard</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="tab_text_3">Tab 3</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="saved_games">SAVED GAMES</string>
+    <string name="new_game">New Game</string>
+    <string name="Three">Three</string>
+    <string name="Four">Four</string>
+    <string name="Five">Five</string>
+    <string name="Picture">Picture</string>
+    <string name="number">Number</string>
+    <string name="select_game_size">Select Game Size</string>
+    <string name="select_background">Select Background</string>
+
+    <string name="score_board">Go to scoreboard</string>
+
+
+    <!--Button-->
+=======
+    <string name="next">Next</string>
+    <string name="select_game_to_play_">Select Game</string>
+    <string name="empty">Empty Slot</string>
+>>>>>>> 1e38993e8fdf5c924bc623662a0f27537298f6aa
+</resources>

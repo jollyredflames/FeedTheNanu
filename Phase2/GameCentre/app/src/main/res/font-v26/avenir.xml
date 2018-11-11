@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- regular -->
+    <font
+
+        android:font="@font/avenirregular"
+        android:fontStyle="normal"
+        android:fontWeight="400"/>
+
+    <!-- italic -->
+    <font
+
+        android:font="@font/aveniritalic"
+        android:fontStyle="italic"
+        android:fontWeight="400"/>
+
+    <!-- bold -->
+    <font
+
+        android:font="@font/avenirbold"
+        android:fontStyle="normal"
+        android:fontWeight="600"/>
+
+</font-family>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background= "@color/app_theme"
+    tools:context=".SavedGamesActivity">
+
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_gravity="center_horizontal"
+            android:autoSizeTextType="uniform"
+            android:text="@string/select_game_to_play_"
+            android:textAlignment="center"
+            android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/slot1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/app_theme"
+        android:text="@string/empty"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toStartOf="@+id/delete1"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <Button
+        android:id="@+id/slot2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/app_theme"
+        android:text="@string/empty"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toStartOf="@+id/delete2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/slot1" />
+
+    <Button
+        android:id="@+id/slot3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/app_theme"
+        android:text="@string/empty"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toStartOf="@+id/delete3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/slot2" />
+
+    <Button
+        android:id="@+id/delete1"
+        android:layout_width="80dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorAccent"
+        android:text="Delete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <Button
+        android:id="@+id/delete2"
+        android:layout_width="80dp"
+        android:layout_height="0dp"
+        android:background="@color/colorAccent"
+        android:text="Delete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/delete1" />
+
+    <Button
+        android:id="@+id/delete3"
+        android:layout_width="80dp"
+        android:layout_height="0dp"
+        android:background="@color/colorAccent"
+        android:text="Delete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/delete2" />
+
+
+</android.support.constraint.ConstraintLayout>
