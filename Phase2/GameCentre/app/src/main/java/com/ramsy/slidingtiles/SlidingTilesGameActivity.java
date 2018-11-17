@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class GameActivity extends AppCompatActivity implements View.OnClickListener, SlidingTileGameDelegate {
+public class SlidingTilesGameActivity extends AppCompatActivity implements View.OnClickListener, SlidingTileGameDelegate {
 
 
     // For customization of where the board starts vertically

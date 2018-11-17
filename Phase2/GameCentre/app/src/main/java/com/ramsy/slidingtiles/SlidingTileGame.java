@@ -7,10 +7,10 @@ import java.util.*;
 /**
  * Encapsulation of all game related components.
  *     Stores all game data models and logic.
- *     GameActivity uses these components.
+ *     MemoryGameActivity uses these components.
  *     This is an encapsulation with windows and entry points,
- *     As GameActivity needs access to a lot of it, some however, can be private, like the algorithms.
- *     So there is collaboration needed between this class and GameActivity,
+ *     As MemoryGameActivity needs access to a lot of it, some however, can be private, like the algorithms.
+ *     So there is collaboration needed between this class and MemoryGameActivity,
  *     Since that is the class that the user interacts with, and that displays visuals that correspond to the game state.
  *
  *     - ID, Point Hashmap (a hashmap that stores tile id's with their location)
@@ -213,6 +213,7 @@ class SlidingTileGame {
             this.score -= 50;
             this.movesStack.push(m);
 
+            //TODO: Talk about this in presentation
             // Make this class responsible for checking if the game has been won,
             // only if the gap is in the right position (for efficiency)
 

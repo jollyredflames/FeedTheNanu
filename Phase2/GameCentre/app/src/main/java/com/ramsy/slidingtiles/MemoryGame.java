@@ -7,10 +7,10 @@ import java.util.*;
 /**
  * Encapsulation of all game related components.
  *     Stores all game data models and logic.
- *     GameActivity uses these components.
+ *     MemoryGameActivity uses these components.
  *     This is an encapsulation with windows and entry points,
- *     As GameActivity needs access to a lot of it, some however, can be private, like the algorithms.
- *     So there is collaboration needed between this class and GameActivity,
+ *     As MemoryGameActivity needs access to a lot of it, some however, can be private, like the algorithms.
+ *     So there is collaboration needed between this class and MemoryGameActivity,
  *     Since that is the class that the user interacts with, and that displays visuals that correspond to the game state.
  *
  *     - ID, Point Hashmap (a hashmap that stores tile id's with their location)
@@ -24,8 +24,7 @@ import java.util.*;
  */
 
 //TODO: MAKE SaveState constuctor with: int Score, int size. int mistakes/lives, int undo
-//TODO: Make undo so that it increments lives and changes color of the last tile clicked to neutral color
-//TODO:
+//TODO: Make undo so that it increments lives and changes color of the last tile clicked to neutral color again
 class MemoryGame {
 
 
@@ -55,7 +54,6 @@ class MemoryGame {
     // Need a function that can create and return a SaveState based on this instance.
     // Also need an init that can create a new instance from a SaveState.
 
-
     MemoryGame(SaveState s) {
 
         this.size = s.size;
@@ -72,14 +70,15 @@ class MemoryGame {
     MemoryGame(int size) {
 
         // Set initial state
-        this.gap = new Point(size - 1, size - 1);
 
-        for (int i = 1; i < (size * size); i += 1) {
+        for (int i = 1; i <= (size * size); i += 1) {
             // Determine coordinates using i
             int y = (i - 1) / size; // Row (y)
             int x = (i - 1) % size; // Column (x)
             this.positionMap.put(String.valueOf(i), new Point(x, y));
         }
+
+        this.gap = this.positionMap.get(String.valueOf(size * size));
 
         this.size = size;
 
@@ -90,8 +89,10 @@ class MemoryGame {
 
     SaveState save() {
         // Returns a SaveState object configured to represent the game in its current state.
-
-        return new SaveState(this.positionMap, this.gap, this.score, this.size);
+        //TODO:Uncomment
+        //return new SaveState(this.score, this.size, this.livesLeft, this.undoLeft);
+        //TODO: Delete below
+        return new SaveState();
     }
 
     //TODO: Take Out pause and Resume, make sure to take out the view's related too.
@@ -124,7 +125,6 @@ class MemoryGame {
         return 10000 + (int) n * 20;
     }
 
-    //TODO: Take Out Scramble
     private int scrambleAmount() {
         // Algorithm that uses game size to determine how many moves to scramble by.
         return this.size * this.size * 10; // just a constant factor

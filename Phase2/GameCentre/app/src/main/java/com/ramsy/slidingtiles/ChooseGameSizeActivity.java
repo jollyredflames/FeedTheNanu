@@ -88,7 +88,7 @@ public class ChooseGameSizeActivity extends AppCompatActivity {
                 openGallery();
                 }
                 else{
-                    Intent t = new Intent(this, GameActivity.class);
+                    Intent t = new Intent(this, MemoryGameActivity.class);
                     image = null;
                     t.putExtra("size", this.size);
                     t.putExtra("slot", this.slot);
@@ -120,7 +120,7 @@ public class ChooseGameSizeActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Intent t = new Intent(this, GameActivity.class);
+            Intent t = new Intent(this, MemoryGameActivity.class);
             t.putExtra("size", this.size);
             t.putExtra("slot", 0);
             startActivity(t);

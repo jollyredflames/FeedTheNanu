@@ -58,7 +58,7 @@ public class SavedGamesActivity extends AppCompatActivity {
                 each.setBackgroundColor(getColor(R.color.app_theme));
             }
             slot1.setBackgroundColor(getColor(R.color.app_button));
-            Intent tmp = new Intent(this, GameActivity.class);
+            Intent tmp = new Intent(this, MemoryGameActivity.class);
             tmp.putExtra("slot", 0);
             startActivity(tmp);
 
@@ -75,7 +75,7 @@ public class SavedGamesActivity extends AppCompatActivity {
                 each.setBackgroundColor(getColor(R.color.app_theme));
             }
             slot2.setBackgroundColor(getColor(R.color.app_button));
-            Intent tmp = new Intent(this, GameActivity.class);
+            Intent tmp = new Intent(this, MemoryGameActivity.class);
             tmp.putExtra("slot", 1);
             startActivity(tmp);
 
@@ -92,7 +92,7 @@ public class SavedGamesActivity extends AppCompatActivity {
                 each.setBackgroundColor(getColor(R.color.app_theme));
             }
             slot3.setBackgroundColor(getColor(R.color.app_button));
-            Intent tmp = new Intent(this, GameActivity.class);
+            Intent tmp = new Intent(this, MemoryGameActivity.class);
             tmp.putExtra("slot", 2);
             startActivity(tmp);
         });
