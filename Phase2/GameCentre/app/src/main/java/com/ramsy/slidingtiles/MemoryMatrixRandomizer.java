@@ -1,29 +1,37 @@
 package com.ramsy.slidingtiles;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
 public class MemoryMatrixRandomizer {
-    int size;
-    public MemoryMatrixRandomizer(int size){
-        this.size = size;
+    Set<Integer> clickableID;
+    int numClicked;
+    int badIndex;
+    public MemoryMatrixRandomizer(Set<Integer> clickableID, int numClicked,int badIndex){
+        this.clickableID = clickableID;
+        this.numClicked = numClicked;
+        this.badIndex = badIndex;
     }
 
     public Set<Integer> randomizer(){
-        Set<Integer> values = new HashSet<>();
-        Random random = new Random();
-        for(int i = 0; i<Math.ceil(size*0.25);i++){
-            Integer id = random.nextInt(size);
-            if (values.contains(id)){
-                i--;
+        Random rand = new Random();
+        int max = Collections.max(clickableID)+2;
+        int min = Collections.min(clickableID);
+        Set<Integer> mustBeClicked = new HashSet<>();
+        for(int i =0;i<numClicked;i++){
+            int temp = rand.nextInt((max - min) + 1) + min;
+            if(clickableID.contains(temp) && !mustBeClicked.contains(temp)){
+                mustBeClicked.add(temp);
             }
             else{
-                values.add(id);
+                i--;
             }
         }
-        return values;
+        return mustBeClicked;
     }
 }
