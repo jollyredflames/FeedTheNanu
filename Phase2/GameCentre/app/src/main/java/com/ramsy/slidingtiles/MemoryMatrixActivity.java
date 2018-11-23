@@ -38,8 +38,11 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
     private Set<Integer> rightID = new HashSet<>();
     private Set<Integer> clickable = new HashSet<>();
     int badIndex;
+    private MemoryMatrixManager person;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setInstanceVariables();
@@ -150,13 +153,18 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
             }
         }
         badIndex= Collections.min(underID);
-        MemoryMatrixManager person = new MemoryMatrixManager(container,clickable,numTileX,numTileY,badIndex);
+        person = new MemoryMatrixManager(container,clickable,numTileX,numTileY,badIndex);
+
     }
     @Override
     public void onClick(View v) {
-        int color;
-        color=Color.WHITE;
-        v.setBackgroundColor(color);
+        if (!person.getClick()) {
+            return;
+        }
+       person.checkTileCorrect(v);
+       if (person.isGameComplete() == true) {
+           Toast.makeText(this, "HELLOTHERE HELLO", Toast.LENGTH_LONG).show();
+       }
     }
 
     private void setInstanceVariables() {
