@@ -2,6 +2,7 @@ package com.ramsy.slidingtiles;
 
 import android.accessibilityservice.FingerprintGestureController;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -73,7 +74,9 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
 
         TextView item2 = new TextView(this);
         item2.setText("yofdgdsf gshbgsdbhfsyv");
+        item2.setId(-500);
         item2.setBackgroundColor(Color.GREEN);
+        item2.setOnClickListener(this);
         container.addView(item2);
         RelativeLayout.LayoutParams other2 = new RelativeLayout.LayoutParams(200, 100);
         other2.addRule(RelativeLayout.ALIGN_PARENT_TOP);
@@ -162,6 +165,12 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
     }
     @Override
     public void onClick(View v) {
+        if(v.getId() == -500){
+            //TODO:change to choose game activity
+            Intent chooseGame = new Intent(this,LoginPage.class);
+            startActivity(chooseGame);
+            return;
+        }
         if (v.getId() == -2){
             person.setUpUndo();
             return;
