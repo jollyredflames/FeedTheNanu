@@ -32,8 +32,8 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
     private int vertSpacerHeight;
     private int horSpacerWidth;
     private int horSpacerHeight;
-    private int numTileX = 5;
-    private int numTileY = 3;
+    private int numTileX = 2;
+    private int numTileY = 2;
     private DisplayMetrics displayMetrics;
     private Set<Integer> underID = new HashSet<>();
     private Set<Integer> rightID = new HashSet<>();
