@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.Window
+import android.view.Window;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
@@ -47,15 +47,15 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setInstanceVariables();
         setContentView(container);
-        Button undo = new Button(this);
-        undo.setText("Undo");
-        undo.setOnClickListener(this);
-        undo.setBackgroundColor(Color.YELLOW);
-        undo.setId(-2);
-        container.addView(undo);
-        RelativeLayout.LayoutParams other = new RelativeLayout.LayoutParams(100, 0);
+        TextView item = new TextView(this);
+        item.setOnClickListener(this);
+        item.setText("yofdgdsf gshbgsdbhfsyv");
+        item.setBackgroundColor(Color.YELLOW);
+        item.setId(-2);
+        container.addView(item);
+        RelativeLayout.LayoutParams other = new RelativeLayout.LayoutParams(100, 100);
         other.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        undo.setLayoutParams(other);
+        item.setLayoutParams(other);
 
 
         TextView item1 = new TextView(this);
@@ -159,13 +159,17 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
     }
     @Override
     public void onClick(View v) {
+        if (v.getId() == -2){
+            person.setUpUndo();
+            return;
+        }
         if (!person.getClick()) {
             return;
         }
-       person.checkTileCorrect(v);
-       if (person.isGameComplete() == true) {
-           Toast.makeText(this, "HELLOTHERE HELLO", Toast.LENGTH_LONG).show();
-       }
+        person.checkTileCorrect(v);
+        if (person.isGameComplete() == true) {
+            Toast.makeText(this, "HELLOTHERE HELLO", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void setInstanceVariables() {
