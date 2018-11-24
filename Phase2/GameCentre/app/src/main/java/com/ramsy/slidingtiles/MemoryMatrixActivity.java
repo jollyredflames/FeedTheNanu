@@ -53,18 +53,19 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
         item.setBackgroundColor(Color.YELLOW);
         item.setId(-2);
         container.addView(item);
-        RelativeLayout.LayoutParams other = new RelativeLayout.LayoutParams(100, 100);
+        RelativeLayout.LayoutParams other = new RelativeLayout.LayoutParams(200, 100);
         other.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         item.setLayoutParams(other);
 
 
         TextView item1 = new TextView(this);
         item1.setText("yofdgdsf gshbgsdbhfsyv");
-        item1.setBackgroundColor(Color.YELLOW);
-        item1.setId(-4);
+        item1.setBackgroundColor(Color.BLUE);
+        item1.setId(-999);
         container.addView(item1);
-        RelativeLayout.LayoutParams other1 = new RelativeLayout.LayoutParams(100, 0);
+        RelativeLayout.LayoutParams other1 = new RelativeLayout.LayoutParams(200, 100);
         other1.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        other1.addRule(RelativeLayout.RIGHT_OF,-2);
         item1.setLayoutParams(other1);
 
 
@@ -72,12 +73,14 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
 
         TextView item2 = new TextView(this);
         item2.setText("yofdgdsf gshbgsdbhfsyv");
-        item2.setBackgroundColor(Color.YELLOW);
-        item2.setId(-6);
+        item2.setBackgroundColor(Color.GREEN);
         container.addView(item2);
-        RelativeLayout.LayoutParams other2 = new RelativeLayout.LayoutParams(100, 0);
+        RelativeLayout.LayoutParams other2 = new RelativeLayout.LayoutParams(200, 100);
         other2.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        other2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         item2.setLayoutParams(other2);
+
+
         int rightOfCounter = 1;
         int belowOfCounter = -2;
         for (int i = 1; i < 2 * numTileX; i++) {
