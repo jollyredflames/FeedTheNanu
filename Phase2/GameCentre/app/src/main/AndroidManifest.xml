@@ -37,7 +37,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".GameActivity"
+            android:name=".SlidingTilesGameActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
@@ -76,6 +76,7 @@
         <activity android:name=".SelectPicture">
             <intent-filter>
                 <action android:name="android.intent.action.SelectPicture" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -88,14 +89,19 @@
         </activity>
         <activity android:name=".ImagePlaygroundActivity">
             <intent-filter>
-                <action android:name="android.intent.action.ImagePlaygroundActivity"/>
+                <action android:name="android.intent.action.ImagePlaygroundActivity" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MemoryMatrixActivity"
-            android:screenOrientation="portrait"
+        <activity android:name=".MemoryGameActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MemoryGameActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MemoryMatrixActivity">
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MemoryMatrixActivity" />
@@ -103,6 +109,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
