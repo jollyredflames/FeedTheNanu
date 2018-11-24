@@ -11,6 +11,8 @@ public class ChooseGameActivity extends AppCompatActivity {
     Context context;
     private User meUser;
     Button[] group;
+    //TODO: GAMENAME MUST BE PASSED
+    String gameName = "SlidingTiles";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +38,7 @@ public class ChooseGameActivity extends AppCompatActivity {
     private void setupNewGameListener(){
         group[0].setOnClickListener((V) ->{
             meUser = FirebaseFuncts.getUser();
-            if (meUser.getTheNumberSaved() == 3){
+            if (meUser.getTheNumberSaved(gameName) == 3){
 
                     Log.e("check", "meuser not null, inner if block reached");
                     NewGameDialog newGameDialog = new NewGameDialog();

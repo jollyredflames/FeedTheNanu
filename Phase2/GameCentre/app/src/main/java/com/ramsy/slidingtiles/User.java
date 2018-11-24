@@ -17,7 +17,7 @@ public class User {
     private String email;
     private static HashMap<String, ArrayList<String>> myScores = new HashMap<>();
 
-    private static ArrayList<SaveState> savedGames = new ArrayList<SaveState>();
+    private static HashMap<String, ArrayList<SaveState>> savedGames = new HashMap<>();
 
     private String meUserID;
 
@@ -38,7 +38,7 @@ public class User {
      * @param myScores
      * @param savedGames
      */
-    public User(String username, String email, String meUserID, HashMap<String, ArrayList<String>> myScores, ArrayList<SaveState> savedGames) {
+    public User(String username, String email, String meUserID, HashMap<String, ArrayList<String>> myScores, HashMap<String, ArrayList<SaveState>> savedGames) {
         mDatabase.keepSynced(true);
         this.email = email;
         this.username = username;
@@ -84,7 +84,7 @@ public class User {
      * @return myScores
      */
     public HashMap<String, ArrayList<String>> getMyScores() {
-        return myScores;
+        return myScores == null ? new HashMap<String, ArrayList<String>>() : myScores;
     }
 
     /**
@@ -129,15 +129,23 @@ public class User {
      * return a list of 3 saved games
      * @return savedGame : SaveState if a list of saved game exists, else return null
      */
-    public ArrayList<SaveState> getSavedGames() {
-        return savedGames == null ? new ArrayList<SaveState>() : savedGames;
+    public HashMap<String, ArrayList<SaveState>> getSavedGames() {
+        return savedGames == null ? new HashMap<String, ArrayList<SaveState>>() : savedGames;
+    }
+
+    /**
+     * return a list of 3 saved games
+     * @return savedGame : SaveState if a list of saved game exists, else return null
+     */
+    public ArrayList<SaveState> getSavedGamesForGameName(String gameName) {
+        return savedGames.containsKey(gameName) ? savedGames.get(gameName) : new ArrayList<>();
     }
 
     /**
      * Set the savedGames of this user
      * @param savedGames : A list of all the saved games of this user.
      */
-    public void setTheSavedGames(ArrayList<SaveState> savedGames) {
+    public void setTheSavedGames(HashMap<String, ArrayList<SaveState>> savedGames) {
         this.savedGames = savedGames;
     }
 
@@ -145,21 +153,26 @@ public class User {
      * Returns the number of saved games on file
      * @return savedGames.size()
      */
-    public int getTheNumberSaved(){
-        return savedGames.size();
+    public int getTheNumberSaved(String gameName){
+        if(savedGames.containsKey(gameName)){
+            return savedGames.get(gameName).size();
+        }
+        savedGames.put(gameName, new ArrayList<SaveState>());
+        return 0;
     }
 
     /**
      * Returns the first available slot available for save. Defaults to slot 3 if all slots taken.
      * @return slotAvailable
      */
-    public int correctSlot(){
-        if(savedGames.size() >= 3){
-            deleteGame(2);
+    public int correctSlot(String gameName){
+        ArrayList<SaveState> savedGamesForName = savedGames.containsKey(gameName) ? savedGames.get(gameName) : new ArrayList<>();
+        if(savedGamesForName.size() >= 3){
+            deleteGame(gameName,2);
             stateChange();
             return 2;
         }else{
-            return savedGames.size();
+            return savedGamesForName.size();
         }
     }
 
@@ -168,16 +181,16 @@ public class User {
      * @param index of game slot
      * @return SaveState
      */
-    public SaveState getGame(int index){
-        return savedGames.size() > index ? savedGames.get(index): null;
+    public SaveState getGame(String gameName, int index){
+        return savedGames.get(gameName).size() > index ? savedGames.get(gameName).get(index): null;
     }
 
     /**
      * Delete the game at this slot
      * @param index of the slot to be wiped
      */
-    public void deleteGame(int index){
-        savedGames.remove(index);
+    public void deleteGame(String gameName, int index){
+        savedGames.get(gameName).remove(index);
         stateChange();
     }
 
@@ -186,11 +199,13 @@ public class User {
      * @param state of the game to be saved
      * @param index the slot to save the game at
      */
-    public void saveGame(SaveState state, int index){
-        if(savedGames.size()>index){
-            savedGames.remove(index);
+    public void saveGame(String gameName, SaveState state, int index){
+        ArrayList<SaveState> savedGamesForName = savedGames.containsKey(gameName) ? savedGames.get(gameName) : new ArrayList<>();
+        if(savedGamesForName.size()>index){
+            savedGamesForName.remove(index);
         }
-        savedGames.add(index, state);
+        savedGamesForName.add(index, state);
+        savedGames.put(gameName, savedGamesForName);
         stateChange();
     }
 
@@ -210,11 +225,11 @@ public class User {
 
     /**
      * add the new score, sort the leader board, trim to the first 10, update the gameScoreList
-     * @param gameName the game name
+     * @param subGameName the game name
      * @param newScore the score of the game
      */
-    private void sortAndPlaceNewScore(String gameName, String newScore){
-        ArrayList<String> myScoresList = getScoreList(gameName);
+    private void sortAndPlaceNewScore(String subGameName, String newScore){
+        ArrayList<String> myScoresList = getScoreList(subGameName);
         myScoresList.add(newScore);
         ArrayList<Integer> intScoresList = new ArrayList<>();
         for(String temp: myScoresList){
@@ -229,7 +244,7 @@ public class User {
         for(int temp: intScoresList){
             myScoresList.add(String.valueOf(temp));
         }
-        myScores.put(gameName, myScoresList);
+        myScores.put(subGameName, myScoresList);
     }
 
     private void stateChange(){

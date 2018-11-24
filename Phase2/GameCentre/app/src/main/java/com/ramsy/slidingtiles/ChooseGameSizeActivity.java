@@ -82,7 +82,7 @@ public class ChooseGameSizeActivity extends AppCompatActivity {
         this.next.setOnClickListener((V) ->{
             this.next.setBackgroundColor(getColor(R.color.app_button));
             this.size = this.np.getValue();
-            this.slot = meUser.correctSlot();
+            this.slot = meUser.correctSlot("SlidingTiles");
             if (this.bg != null) {
                 if(bg.equals("p")){
                 openGallery();

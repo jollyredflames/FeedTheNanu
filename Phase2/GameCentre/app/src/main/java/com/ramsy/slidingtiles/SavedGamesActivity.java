@@ -21,6 +21,7 @@ public class SavedGamesActivity extends AppCompatActivity {
     TextView tv;
     User meUser;
     Button[] group= new Button[3];
+    String gameName = "SlidingTiles";
 
     /**
      * defined all buttons and set the screen
@@ -42,7 +43,7 @@ public class SavedGamesActivity extends AppCompatActivity {
         group[2]=slot3;
 
         tv = findViewById(R.id.textView3);
-        ss = meUser.getSavedGames();
+        ss = meUser.getSavedGamesForGameName(gameName);
         tv.setText("Select Game");
         setSlot();
 
@@ -104,8 +105,8 @@ public class SavedGamesActivity extends AppCompatActivity {
 
     private void setupDelete1Listener() {
         delete1.setOnClickListener((V) -> {
-            meUser.deleteGame(0);
-            ss = meUser.getSavedGames();
+            meUser.deleteGame(gameName,0);
+            ss = meUser.getSavedGamesForGameName(gameName);
             setSlot();
         });
     }
@@ -116,8 +117,8 @@ public class SavedGamesActivity extends AppCompatActivity {
 
     private void setupDelete2Listener() {
         delete2.setOnClickListener((V) -> {
-            meUser.deleteGame(1);
-            ss = meUser.getSavedGames();
+            meUser.deleteGame(gameName, 1);
+            ss = meUser.getSavedGamesForGameName(gameName);
             setSlot();
 
         });
@@ -129,8 +130,8 @@ public class SavedGamesActivity extends AppCompatActivity {
 
     private void setupDelete3Listener() {
         delete3.setOnClickListener((V) -> {
-            meUser.deleteGame(2);
-            ss = meUser.getSavedGames();
+            meUser.deleteGame(gameName,2);
+            ss = meUser.getSavedGamesForGameName(gameName);
             setSlot();
         });
     }
@@ -141,7 +142,7 @@ public class SavedGamesActivity extends AppCompatActivity {
      * */
 
 private void setSlot(){
-        if (meUser.getTheNumberSaved() == 1){
+        if (meUser.getTheNumberSaved(gameName) == 1){
             slot1.setText(ss.get(0).localTime);
             slot2.setAlpha(0f);
             slot3.setAlpha(0f);
@@ -150,7 +151,7 @@ private void setSlot(){
             setupSlot1Listener();
             setupDelete1Listener();
         }
-        else if(meUser.getTheNumberSaved() == 2){
+        else if(meUser.getTheNumberSaved(gameName) == 2){
             slot1.setText(ss.get(0).localTime);
             slot2.setText(ss.get(1).localTime);
             slot3.setAlpha(0f);
@@ -161,7 +162,7 @@ private void setSlot(){
             setupDelete2Listener();
 
         }
-        else if(meUser.getTheNumberSaved() == 3){
+        else if(meUser.getTheNumberSaved(gameName) == 3){
             slot1.setText(ss.get(0).localTime);
             slot2.setText(ss.get(1).localTime);
             slot3.setText(ss.get(2).localTime);

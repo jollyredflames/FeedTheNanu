@@ -54,6 +54,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
 
     TextView defaultUndoAmountLabel;
 
+    String gameName = "SlidingTiles";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +87,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
         int size = b.getInt("size");
         int slot = b.getInt("slot");
         Bitmap image = ChooseGameSizeActivity.image;
-        SaveState save = meUser.getGame(slot);
+        SaveState save = meUser.getGame(gameName, slot);
 
         System.out.println("XXX  size" + String.valueOf(size));
         System.out.println("XXX  slot" + String.valueOf(slot));
@@ -455,7 +456,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
         int slot = this.slot;
 
         // Throw this to the backend function
-        meUser.saveGame(s, slot);
+        meUser.saveGame("SlidingTiles", s, slot);
 
     }
 
@@ -475,9 +476,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
         this.userInteractionDisabled = true;
         Move m = this.slidingTileGame.movesStack.pop();
         m.reverse();
-        this.performMove(m, false, 100, () -> {
-            this.undo(i - 1);
-        }); // if this function takes in a closure, and calls it at the end of the animation,
+        this.performMove(m, false, 100, () -> this.undo(i - 1)); // if this function takes in a closure, and calls it at the end of the animation,
         // that provides a chance to chain another call to undo, this time with i - 1.
         // We simply pass that closure to the animation to call when it ends.
 

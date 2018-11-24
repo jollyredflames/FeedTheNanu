@@ -160,7 +160,7 @@ public class SignUpPage extends AppCompatActivity {
     }
 
     private void setUsernameAndInitialize(String username, String emailID, FirebaseUser refUser){
-        User newUser = new User(username, emailID, refUser.getUid(), new HashMap<String, ArrayList<String>>(), new ArrayList<SaveState>());
+        User newUser = new User(username, emailID, refUser.getUid(), new HashMap<String, ArrayList<String>>(), new HashMap<String, ArrayList<SaveState>>());
         String uid = refUser.getUid();
         mDatabase.child("users").child(uid).setValue(newUser);
     }
