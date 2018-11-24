@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.Window;
+import android.view.Window
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
@@ -47,14 +47,15 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setInstanceVariables();
         setContentView(container);
-        TextView item = new TextView(this);
-        item.setText("yofdgdsf gshbgsdbhfsyv");
-        item.setBackgroundColor(Color.YELLOW);
-        item.setId(-2);
-        container.addView(item);
+        Button undo = new Button(this);
+        undo.setText("Undo");
+        undo.setOnClickListener(this);
+        undo.setBackgroundColor(Color.YELLOW);
+        undo.setId(-2);
+        container.addView(undo);
         RelativeLayout.LayoutParams other = new RelativeLayout.LayoutParams(100, 0);
         other.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        item.setLayoutParams(other);
+        undo.setLayoutParams(other);
 
 
         TextView item1 = new TextView(this);

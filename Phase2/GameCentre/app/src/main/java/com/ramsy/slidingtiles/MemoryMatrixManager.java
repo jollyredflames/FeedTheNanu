@@ -5,10 +5,12 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
+
 
 public class MemoryMatrixManager implements View.OnClickListener {
     private RelativeLayout container;
@@ -23,6 +25,7 @@ public class MemoryMatrixManager implements View.OnClickListener {
     private int resetDelay = 5000;
     private boolean canClick = false;
     private Set<Integer> correctClicks = new HashSet<>();
+    private ArrayList<Integer> wrongClicks = new ArrayList<>();
 
     public MemoryMatrixManager(RelativeLayout container, Set<Integer> clickableID,int numTileX,int numTileY,int badIndex) {
         this.container = container;
@@ -79,6 +82,7 @@ public class MemoryMatrixManager implements View.OnClickListener {
         }
         else {
             v.setBackgroundColor(Color.RED);
+            wrongClicks.add(v.getId());
         }
     }
     public void loseHP(){
@@ -107,5 +111,21 @@ public class MemoryMatrixManager implements View.OnClickListener {
 
     public boolean getClick () {
         return canClick;
+    }
+
+    public void setUpUndo () {
+        if (undo <= 0) {
+            return;
+        }
+        this.gainHP();
+        undo--;
+
+        if (wrongClicks.size() == 0) {
+            return;
+        }
+
+        int index = wrongClicks.size() - 1;
+        wrongClicks.get(index);
+        container.getChildAt(index + 2);
     }
 }
