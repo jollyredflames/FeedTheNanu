@@ -84,7 +84,8 @@ class Nanu extends ImageView {
 
 
     /**
-     * time in milliseconds between each texture.
+     * time in milliseconds between each texture. Use a smaller number to speed up the Nanu.
+     * Useful for when coffee is consumed.
      */
 
     private long speed = 50;
@@ -130,8 +131,9 @@ class Nanu extends ImageView {
 
     Rect getMouthZone() {
         Rect r = RectUtility.boundingBox(this);
-        int padding = -50; // pad by this amount on the left, right and bottom (not the top)
-        RectUtility.padRect(r, new int[] {padding, 0, padding, padding});
+        int padding = -50; // pad by this amount on the left, right, top, and bottom
+        // we pad the top so the item needs to fall within the mouth a bit before it's eaten.
+        RectUtility.padRect(r, new int[] {padding, padding, padding, padding});
 
         return r;
     }
@@ -429,15 +431,6 @@ class Nanu extends ImageView {
 
     void start() {
         // Start a new timer that controls which texture to display
-//        Timer t = new Timer();
-//        t.schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//
-//            }
-//        }, 0, this.speed);
-//        this.animationTimer = t;
-
         handler.post(update);
 
     }

@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
 
-            handler2.postDelayed(this, 800);
+            handler2.postDelayed(this, 1200);
         }
     };
 
