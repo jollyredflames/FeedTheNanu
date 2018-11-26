@@ -1,9 +1,7 @@
 package com.ramsy.slidingtiles;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -118,6 +116,8 @@ public class MemoryMatrixManager implements View.OnClickListener {
         }
         this.gainHP();
         undo--;
+
+
 
         int index = wrongClicks.size() - 1;
         int item = wrongClicks.get(index);
