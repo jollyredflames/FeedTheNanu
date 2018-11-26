@@ -1,10 +1,10 @@
-package com.ramsy.slidingtiles;
+package com.ramsy.GameCentre.SlidingTiles;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
@@ -14,6 +14,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.FirebaseFuncts;
+import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.SaveState;
+import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.User;
+import com.ramsy.GameCentre.GameCentreCommon.FinishedGameActivity;
+import com.ramsy.GameCentre.GameCentreCommon.NewOrSavedGame;
 
 import java.util.Map;
 import java.util.Timer;
@@ -186,7 +192,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
         pauseView.setText("Pause");
         pauseView.setTextColor(Color.BLACK);
         pauseView.setBackgroundColor(Color.WHITE);
-        pauseView.setId(-2);
+        pauseView.setId((int)-2);
         pauseView.setOnClickListener(this);
         pauseView.setGravity(Gravity.CENTER);
         this.container.addView(pauseView);
@@ -371,18 +377,18 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
             return;
         }
 
-        if (v.getId() == -2) {
+        if (v.getId() == (int)-2) {
             this.pauseTapped();
             return;
         }
 
         // Quit button
-        if (v.getId() == 1000) {
+        if (v.getId() == (int)1000) {
             this.quitPressed();
             return;
         }
 
-        if (v.getId() == -999) {
+        if (v.getId() == (int)-999) {
             if (this.defaultUndoAmount == 1) {
             } else {
                 this.defaultUndoAmount -= 1;
@@ -392,7 +398,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
         }
 
 
-        if (v.getId() == 999) {
+        if (v.getId() == (int)999) {
             if (this.defaultUndoAmount == 10) {
             } else {
                 this.defaultUndoAmount += 1;
@@ -584,7 +590,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
 
         // Add the Quit Button
         Button b = new Button(this);
-        b.setId(1000);
+        b.setId((int)1000);
         b.setText("Quit");
         b.setGravity(Gravity.CENTER);
         b.setOnClickListener(this);
@@ -601,7 +607,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
         TextView label = new TextView(this);
         label.setText(String.valueOf(this.defaultUndoAmount));
         label.setTextColor(Color.WHITE);
-        label.setId(1234);
+        label.setId((int)1234);
         label.setTextSize(100);
 //        label.setBackgroundColor(Color.RED);
         label.setGravity(Gravity.CENTER);
@@ -619,7 +625,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
         decrementButton.setText("-");
         decrementButton.setTextColor(Color.BLACK);
         decrementButton.setBackgroundColor(Color.WHITE);
-        decrementButton.setId(-999);
+        decrementButton.setId((int)-999);
         decrementButton.setOnClickListener(this);
         decrementButton.setGravity(Gravity.CENTER);
         con.addView(decrementButton);
@@ -635,7 +641,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
         incrementButton.setText("+");
         incrementButton.setTextColor(Color.BLACK);
         incrementButton.setBackgroundColor(Color.WHITE);
-        incrementButton.setId(999);
+        incrementButton.setId((int)999);
         incrementButton.setOnClickListener(this);
         incrementButton.setGravity(Gravity.CENTER);
         con.addView(incrementButton);
