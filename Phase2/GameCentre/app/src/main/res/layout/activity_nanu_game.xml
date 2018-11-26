@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FeedTheNanu.NanuGameActivity">
+
+    <ImageView
+        android:id="@+id/cookie1"
+        android:layout_width="45dp"
+        android:layout_height="61dp"
+        app:srcCompat="@drawable/cookie"
+        tools:layout_editor_absoluteX="50dp"
+        tools:layout_editor_absoluteY="43dp" />
+
+    <ImageView
+        android:id="@+id/poison1"
+        android:layout_width="40dp"
+        android:layout_height="69dp"
+        app:srcCompat="@drawable/poison"
+        tools:layout_editor_absoluteX="175dp"
+        tools:layout_editor_absoluteY="43dp" />
+
+    <ImageView
+        android:id="@+id/cookie2"
+        android:layout_width="48dp"
+        android:layout_height="61dp"
+        app:srcCompat="@drawable/cookie"
+        tools:layout_editor_absoluteX="47dp"
+        tools:layout_editor_absoluteY="141dp" />
+
+    <ImageView
+        android:id="@+id/melon1"
+        android:layout_width="50dp"
+        android:layout_height="45dp"
+        app:srcCompat="@drawable/melon"
+        tools:layout_editor_absoluteX="105dp"
+        tools:layout_editor_absoluteY="233dp" />
+
+    <ImageView
+        android:id="@+id/melon2"
+        android:layout_width="50dp"
+        android:layout_height="45dp"
+        app:srcCompat="@drawable/melon"
+        tools:layout_editor_absoluteX="294dp"
+        tools:layout_editor_absoluteY="224dp" />
+
+    <ImageView
+        android:id="@+id/poison2"
+        android:layout_width="40dp"
+        android:layout_height="69dp"
+        app:srcCompat="@drawable/poison"
+        tools:layout_editor_absoluteX="228dp"
+        tools:layout_editor_absoluteY="112dp" />
+
+</android.support.constraint.ConstraintLayout>

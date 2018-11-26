@@ -32,9 +32,9 @@
 
 
     <!--Button-->
-=======
+    =======
     <string name="next">Next</string>
     <string name="select_game_to_play_">Select Game</string>
     <string name="empty">Empty Slot</string>
->>>>>>> 1e38993e8fdf5c924bc623662a0f27537298f6aa
+    >>>>>>> 1e38993e8fdf5c924bc623662a0f27537298f6aa
 </resources>
