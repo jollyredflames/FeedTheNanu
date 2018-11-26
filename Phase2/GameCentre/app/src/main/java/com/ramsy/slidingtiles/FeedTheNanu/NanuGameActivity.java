@@ -7,6 +7,8 @@ import android.view.ViewPropertyAnimator;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import com.ramsy.slidingtiles.FeedTheNanu.DropItems.*;
+
 import java.util.Random;
 
 
