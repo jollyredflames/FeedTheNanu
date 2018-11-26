@@ -42,46 +42,46 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
     private MemoryMatrixManager person;
 
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setInstanceVariables();
         setContentView(container);
-
-        Button undo = new Button(this);
-        undo.setOnClickListener(this);
-        undo.setText("Undo");
-        undo.setBackgroundColor(Color.YELLOW);
-        undo.setId(-2);
-        container.addView(undo);
+        TextView item = new TextView(this);
+        item.setOnClickListener(this);
+        item.setText("yofdgdsf gshbgsdbhfsyv");
+        item.setBackgroundColor(Color.YELLOW);
+        item.setId(-2);
+        container.addView(item);
         RelativeLayout.LayoutParams other = new RelativeLayout.LayoutParams(200, 100);
         other.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        undo.setLayoutParams(other);
+        item.setLayoutParams(other);
 
 
-        Button gameInfo = new Button(this);
-        gameInfo.setText("Game Info");
-        gameInfo.setBackgroundColor(Color.BLUE);
-        gameInfo.setId(-999);
-        container.addView(gameInfo);
+        TextView item1 = new TextView(this);
+        item1.setText("yofdgdsf gshbgsdbhfsyv");
+        item1.setBackgroundColor(Color.BLUE);
+        item1.setId(-999);
+        container.addView(item1);
         RelativeLayout.LayoutParams other1 = new RelativeLayout.LayoutParams(200, 100);
         other1.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         other1.addRule(RelativeLayout.RIGHT_OF,-2);
-        gameInfo.setLayoutParams(other1);
+        item1.setLayoutParams(other1);
 
 
-        Button quit = new Button(this);
-        quit.setText("Quit");
-        quit.setId(-500);
-        quit.setBackgroundColor(Color.GREEN);
-        quit.setOnClickListener(this);
-        container.addView(quit);
+
+
+        TextView item2 = new TextView(this);
+        item2.setText("yofdgdsf gshbgsdbhfsyv");
+        item2.setId(-500);
+        item2.setBackgroundColor(Color.GREEN);
+        item2.setOnClickListener(this);
+        container.addView(item2);
         RelativeLayout.LayoutParams other2 = new RelativeLayout.LayoutParams(200, 100);
         other2.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         other2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        quit.setLayoutParams(other2);
+        item2.setLayoutParams(other2);
 
 
         int rightOfCounter = 1;
@@ -166,9 +166,9 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         if(v.getId() == -500){
-            //person.setUpQuit();
-            Intent pullChooseGameActivity = new Intent (this, ChooseGameActivity.class);
-            startActivity(pullChooseGameActivity);
+            //TODO:change to choose game activity
+            Intent chooseGame = new Intent(this,LoginPage.class);
+            startActivity(chooseGame);
             return;
         }
         if (v.getId() == -2){
@@ -180,7 +180,7 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
         }
         person.checkTileCorrect(v);
         if (person.isGameComplete() == true) {
-            Toast.makeText(this, "Correct tiles selected", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "HELLOTHERE HELLO", Toast.LENGTH_LONG).show();
         }
     }
 
