@@ -29,6 +29,7 @@ public class ChooseGameActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+
     }
 
     /**

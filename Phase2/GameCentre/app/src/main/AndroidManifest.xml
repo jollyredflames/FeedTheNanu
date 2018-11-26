@@ -109,7 +109,20 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".Playground">
+            <intent-filter>
+                <action android:name="android.intent.action.Playground" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".FeedTheNanu.NanuGameActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.NanuGameActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
