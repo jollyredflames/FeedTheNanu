@@ -8,7 +8,7 @@ import android.widget.ImageView;
 
 import java.util.HashMap;
 import android.os.Handler;
-
+import com.ramsy.slidingtiles.R;
 
 /**
  * A class that represents the game creature, called a 'Nanu'.
@@ -317,15 +317,15 @@ class Nanu extends ImageView {
 
             } else if (state == State.FINISHED_CHEWING) {
                 // Reset counter
-                // Get the first idling texture
-                // Set state to idling
+                // Get the first mouth opening texture
+                // Set state to opening mouth
 
                 counter = 1;
 
-                Bitmap im = idleTextures.get(String.valueOf(counter));
+                Bitmap im = mouthOpeningTextures.get(String.valueOf(counter));
                 setImageBitmap(im);
 
-                state = State.IDLING;
+                state = State.OPENING_MOUTH;
 
             } else if (state == State.MOUTH_FULLY_OPENED && foodIsNearby) {
                 // Do nothing
