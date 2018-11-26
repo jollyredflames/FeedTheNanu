@@ -8,7 +8,7 @@ package com.ramsy.slidingtiles.FeedTheNanu;
  * there will be 10 subclasses of ImageView, and each one can tailor their effects.
  */
 
-interface Edible {
+public interface Edible {
 
     /**
      * How much the Edible instance affects the life by.

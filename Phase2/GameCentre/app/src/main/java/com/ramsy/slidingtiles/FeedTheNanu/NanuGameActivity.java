@@ -1,4 +1,8 @@
 package com.ramsy.slidingtiles.FeedTheNanu;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,9 +12,8 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import com.ramsy.slidingtiles.FeedTheNanu.DropItems.*;
-
 import java.util.Random;
-
+import com.ramsy.slidingtiles.R;
 
 public class NanuGameActivity extends AppCompatActivity {
 
@@ -46,13 +49,14 @@ public class NanuGameActivity extends AppCompatActivity {
         this.life = 3;
         this.eaten = 0;
         this.dropSpeed = 2500;
-//        set up drop
+//        set up drop so that items have a certain probability of dropping
         this.drop = new String[]{"cookie", "cookie", "p", "t", "t", "p","coffee", "p", "m", "p", "m"};
         //set up bin
         this.bin = new RelativeLayout(this);
+        Resources res = getResources();
+        Drawable bg = res.getDrawable(R.drawable.desert);
+        bin.setBackground(bg);
         setContentView(bin);
-        System.out.println(bin.getWidth() + "nana Width");
-        System.out.println(bin.getHeight() + "nana Height");
         handler.post(repeat);
     }
 
@@ -60,35 +64,36 @@ public class NanuGameActivity extends AppCompatActivity {
 
         ImageView toDrop = chooseItem();
         //display and start dropping item's animation
+        //fixing the size of the image view
+        BitmapDrawable bitmapDrawable = ((BitmapDrawable) toDrop.getDrawable());
+        Bitmap bitmap = bitmapDrawable .getBitmap();
+//        int y = bitmap.getHeight();
+//        int x = bitmap.getWidth();
+
         bin.addView(toDrop);
         //setting the size of the image
-        RelativeLayout.LayoutParams foodParam = new RelativeLayout.LayoutParams(200,
-                200);
+        RelativeLayout.LayoutParams foodParam = new RelativeLayout.LayoutParams(150,150);
+//        foodParam.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+//        foodParam.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+//        foodParam.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        //let it show up in random location of the top of the screen
         Random location = new Random();
-        foodParam.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        foodParam.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        //let it showup in random location of the top of the screen
-        foodParam.setMargins(location.nextInt(width-100) + 100,
-                100, 0, 0);
+        int i = location.nextInt(this.width - 300) + 150;
+        toDrop.setX((float)i);
+        toDrop.setY(0f);
+//        foodParam.setMargins(i,
+//                -100, 0, 0);
         toDrop.setLayoutParams(foodParam);
+//        toDrop.getLayoutParams().height = 150;
+//        toDrop.getLayoutParams().width = 150;
 
         ViewPropertyAnimator animation = toDrop.animate().setDuration(this.dropSpeed).
                 setInterpolator(new LinearInterpolator());
         animation.y(this.height).withEndAction(new Runnable() {
             @Override
-            public void run() {
-                bin.removeView(toDrop);
+            public void run() { bin.removeView(toDrop);
             }
         });
-
-//        animation.withEndAction(new Runnable() {
-//            @Override
-//            public void run() {
-//                  bin.removeView(toDrop);
-//
-//            }
-//        });
-
 
     }
 
@@ -113,8 +118,9 @@ public class NanuGameActivity extends AppCompatActivity {
             return new Tomato(this);
         }
 
-
     }
+
+
 
     //        Cookie cookie1;
 //        Cookie cookie2;
@@ -144,6 +150,7 @@ public class NanuGameActivity extends AppCompatActivity {
     //get original location on screen
 //                int[] loc = new int[2];
 //                toDrop[0].getLocationOnScreen(loc);
+
 
 
 }

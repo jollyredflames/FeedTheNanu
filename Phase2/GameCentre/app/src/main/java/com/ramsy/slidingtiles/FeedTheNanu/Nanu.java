@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import java.util.HashMap;
 import android.os.Handler;
+import com.ramsy.slidingtiles.R;
 
 
 /**

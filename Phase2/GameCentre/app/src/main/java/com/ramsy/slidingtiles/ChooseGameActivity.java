@@ -49,6 +49,8 @@ public class ChooseGameActivity extends AppCompatActivity {
                 group[0].setBackgroundColor(getColor(R.color.app_button));
                 Intent tmp = new Intent(this, ChooseGameSizeActivity.class);
                 startActivity(tmp);}
+
+
         });
     }
 
