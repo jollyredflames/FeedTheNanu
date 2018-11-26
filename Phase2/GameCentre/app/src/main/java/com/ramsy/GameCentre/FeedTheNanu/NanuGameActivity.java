@@ -1,4 +1,4 @@
-package com.ramsy.slidingtiles.FeedTheNanu;
+package com.ramsy.GameCentre.FeedTheNanu;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -11,8 +11,8 @@ import android.view.ViewPropertyAnimator;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import com.ramsy.slidingtiles.FeedTheNanu.DropItems.*;
 import java.util.Random;
+import com.ramsy.GameCentre.FeedTheNanu.DropItems.*;
 import com.ramsy.slidingtiles.R;
 
 public class NanuGameActivity extends AppCompatActivity {
@@ -78,7 +78,7 @@ public class NanuGameActivity extends AppCompatActivity {
 //        foodParam.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         //let it show up in random location of the top of the screen
         Random location = new Random();
-        int i = location.nextInt(this.width - 300) + 150;
+        int i = location.nextInt(this.width - 200) + 150;
         toDrop.setX((float)i);
         toDrop.setY(0f);
 //        foodParam.setMargins(i,
@@ -117,6 +117,8 @@ public class NanuGameActivity extends AppCompatActivity {
         else{
             return new Tomato(this);
         }
+
+
 
     }
 

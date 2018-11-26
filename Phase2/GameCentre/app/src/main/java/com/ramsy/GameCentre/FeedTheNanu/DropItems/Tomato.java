@@ -3,11 +3,11 @@ package com.ramsy.GameCentre.FeedTheNanu.DropItems;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
-import com.ramsy.slidingtiles.FeedTheNanu.Edible;
+import com.ramsy.GameCentre.FeedTheNanu.Edible;
 import com.ramsy.slidingtiles.R;
 
 public class Tomato extends android.support.v7.widget.AppCompatImageView implements Edible {
+
     Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.tomato);
     public Tomato(Context context){
         super(context);

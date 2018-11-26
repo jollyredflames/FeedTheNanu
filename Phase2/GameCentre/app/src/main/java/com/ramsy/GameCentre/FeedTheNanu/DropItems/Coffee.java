@@ -1,4 +1,4 @@
-package com.ramsy.slidingtiles.FeedTheNanu.DropItems;
+package com.ramsy.GameCentre.FeedTheNanu.DropItems;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -6,10 +6,11 @@ import android.graphics.BitmapFactory;
 import android.view.ContextMenu;
 
 
-import com.ramsy.slidingtiles.FeedTheNanu.Edible;
+import com.ramsy.GameCentre.FeedTheNanu.Edible;
 import com.ramsy.slidingtiles.R;
 
 public class Coffee extends android.support.v7.widget.AppCompatImageView implements Edible {
+
     Bitmap image;
     public Coffee(Context context){
         super(context);
@@ -17,7 +18,6 @@ public class Coffee extends android.support.v7.widget.AppCompatImageView impleme
         this.setImageBitmap(this.image);
 
     }
-
 
     @Override
     public int effectOnLife() {
