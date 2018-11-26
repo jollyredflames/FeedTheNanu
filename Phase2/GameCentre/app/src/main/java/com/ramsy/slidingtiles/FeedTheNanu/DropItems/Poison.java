@@ -1,4 +1,4 @@
-package com.ramsy.slidingtiles.FeedTheNanu;
+package com.ramsy.slidingtiles.FeedTheNanu.DropItems;
 
 import android.content.Context;
 import android.graphics.Bitmap;
