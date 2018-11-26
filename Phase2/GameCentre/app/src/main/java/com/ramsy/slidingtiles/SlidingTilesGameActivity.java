@@ -86,7 +86,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
         Bundle b = getIntent().getExtras(); // this is how we get data from the intent that started this activity.
         int size = b.getInt("size");
         int slot = b.getInt("slot");
-        Bitmap image = ChooseGameSizeActivity.image;
+        Bitmap image = SlidingTilesSizeActivity.image;
         SaveState save = meUser.getGame(gameName, slot);
 
         System.out.println("XXX  size" + String.valueOf(size));
@@ -530,7 +530,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
         this.save();
 //        this.finish();
 
-        Intent n = new Intent(this, ChooseGameActivity.class);
+        Intent n = new Intent(this, NewOrSavedGame.class);
         startActivity(n);
 
 

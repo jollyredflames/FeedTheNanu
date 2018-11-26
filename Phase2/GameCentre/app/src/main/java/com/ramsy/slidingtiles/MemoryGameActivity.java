@@ -86,7 +86,7 @@ public class MemoryGameActivity extends AppCompatActivity implements View.OnClic
         //int size = b.getInt("size");
         //int slot = b.getInt("slot");
         int size = 3;
-        Bitmap image = ChooseGameSizeActivity.image;
+        Bitmap image = SlidingTilesSizeActivity.image;
         //TODO:Uncomment below
         //SaveState save = meUser.getGame(slot);
         //TODO: Delete below
@@ -537,7 +537,7 @@ public class MemoryGameActivity extends AppCompatActivity implements View.OnClic
         this.save();
 //        this.finish();
 
-        Intent n = new Intent(this, ChooseGameActivity.class);
+        Intent n = new Intent(this, NewOrSavedGame.class);
         startActivity(n);
 
 

@@ -113,30 +113,6 @@ public class ImagePlaygroundActivity extends AppCompatActivity {
 
         imv.setImageBitmap(result);
 
-
-
-
-
-
-
-//        System.out.println("XXX   " + encodedString);
-
-
-
-//        Bitmap newImage = Bitmap.createBitmap(bm, bm.getWidth() / 2, bm.getHeight() / 2, bm.getWidth() / 2, bm.getHeight() / 2);
-//        imv.setImageBitmap(newImage);
-
-
-//        int w = this.screenWidth();
-
-
-        // Try scale the image.
-//        Bitmap im2 = Bitmap.createScaledBitmap(bm, w, w, false);
-//        imv.setImageBitmap(im2);
-
-//        Bitmap image = this.scaleImageToFitInsideSquareOfSideLength(bm, (double) w);
-//        imv.setImageBitmap(image);
-
     }
 
     /**

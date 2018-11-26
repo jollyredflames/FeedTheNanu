@@ -70,7 +70,7 @@ public class LeaderBoardActivity extends AppCompatActivity {
             startActivity(pullSignIn);
         }
        else if (id == R.id.action_newgame) {
-           Intent pullNewGame = new Intent (this, ChooseGameActivity.class);
+           Intent pullNewGame = new Intent (this, NewOrSavedGame.class);
            startActivity(pullNewGame);
        }
         return super.onOptionsItemSelected(item);

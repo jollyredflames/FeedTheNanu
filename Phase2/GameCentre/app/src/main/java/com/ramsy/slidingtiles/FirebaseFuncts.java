@@ -102,6 +102,7 @@ public class FirebaseFuncts {
         }else {
             Log.e("FBFUNCTS: Non-Null User", "User is not null");
         }
+
         Log.e("FBFUNCTS: User Scores: ", "" + meUser.getMyScores());
     }
 }

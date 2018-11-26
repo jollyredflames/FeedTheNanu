@@ -153,7 +153,7 @@ public class LoginPage extends AppCompatActivity {
         } else {
             new FirebaseFuncts(uname.getUid());
             uid = uname.getUid();
-            Intent goToMain = new Intent(this, ChooseGameActivity.class);
+            Intent goToMain = new Intent(this, NewOrSavedGame.class);
             new Timer().schedule(new TimerTask() {
                 @Override
                 public void run() {

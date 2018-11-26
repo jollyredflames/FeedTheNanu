@@ -31,8 +31,6 @@ public class SignUpPage extends AppCompatActivity {
     private Vibrator vib;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-    private boolean usernameExists;
-    private boolean firstTrial = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +42,10 @@ public class SignUpPage extends AppCompatActivity {
     }
 
     public void sendSignUp (View view) {
+        firebaseCheckUserNameExists(((EditText)findViewById(R.id.username_field)).getText().toString());
+    }
+
+    public void checkInput(boolean usernameExists){
         EditText username_field = findViewById(R.id.username_field);
         EditText email_field = findViewById(R.id.email_field);
         EditText password_field = findViewById(R.id.password_field);
@@ -53,9 +55,6 @@ public class SignUpPage extends AppCompatActivity {
         String email = email_field.getText().toString();
         String password = password_field.getText().toString();
         String verify = verifyPassword_field.getText().toString();
-
-        firebaseCheckUserNameExists(username);
-
 
         if (username.equals("")){
             Toast.makeText(this, "Username Field cannot be empty!",
@@ -81,57 +80,39 @@ public class SignUpPage extends AppCompatActivity {
             vib.vibrate(100);
             Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
             verifyPassword_field.startAnimation(shake);
-        }else if(check_verifyPassword(password, verify)){
+        }else if(!password.equals(verify)){
             Toast.makeText(this, "Verify Password must match original password",
                     Toast.LENGTH_SHORT).show();
             vib.vibrate(100);
             Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
             verifyPassword_field.startAnimation(shake);
-        }else if(!usernameExists) {
-            if(firstTrial){
-                Toast.makeText(this, "Connection Error! Try Again!",
-                        Toast.LENGTH_SHORT).show();
-                vib.vibrate(100);
-                Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
-                username_field.startAnimation(shake);
-                firstTrial = !firstTrial;
-            }else {
+        }else if(usernameExists) {
                 Toast.makeText(this, "This username has been taken",
                         Toast.LENGTH_SHORT).show();
                 vib.vibrate(100);
                 Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
                 username_field.startAnimation(shake);
-            }
         }else{
             createUser(username, email, password);
         }
     }
 
-    public boolean check_verifyPassword(String password, String verify){
-        return !password.equals(verify);
-    }
-
     public void firebaseCheckUserNameExists(String username){
-        Log.e("Penis ", " Stinnky");
         mDatabase.child("users").orderByChild("username").equalTo(username).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Object comparator = snapshot.getValue();
                 Log.e("Snapshot: ", String.valueOf(comparator));
                 Log.e("bool: ", String.valueOf(comparator == null));
-                setUserNameExists(comparator == null);
+                checkInput(!(comparator == null));
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                setUserNameExists(true);
+                checkInput(true);
             }
         });
     }
 
-    public void setUserNameExists(boolean exists){
-        usernameExists = exists;
-        Log.e("Username: ", String.valueOf(usernameExists));
-    }
 
     public void createUser(String userID, String emailID, String password){
         final String username = userID;

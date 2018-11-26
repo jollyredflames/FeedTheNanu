@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 
-public class ChooseGameActivity extends AppCompatActivity {
+public class NewOrSavedGame extends AppCompatActivity {
     Context context;
     private User meUser;
     Button[] group;
@@ -47,7 +47,7 @@ public class ChooseGameActivity extends AppCompatActivity {
             }
             else{group[1].setBackgroundColor(getColor(R.color.app_button1));
                 group[0].setBackgroundColor(getColor(R.color.app_button));
-                Intent tmp = new Intent(this, ChooseGameSizeActivity.class);
+                Intent tmp = new Intent(this, SlidingTilesSizeActivity.class);
                 startActivity(tmp);}
         });
     }

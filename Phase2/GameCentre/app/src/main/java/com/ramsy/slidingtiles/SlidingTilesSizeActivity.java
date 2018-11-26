@@ -15,7 +15,7 @@ import java.io.IOException;
 /**
  * check if the user wants to play with pictures or tiles and then take them to the game
  */
-public class ChooseGameSizeActivity extends AppCompatActivity {
+public class SlidingTilesSizeActivity extends AppCompatActivity {
     String bg;
     int size;
     Button[] group1;

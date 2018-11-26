@@ -1,28 +1,20 @@
 package com.ramsy.slidingtiles;
 
-import android.accessibilityservice.FingerprintGestureController;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ViewSwitcher;
-
-import org.w3c.dom.Text;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MemoryMatrixActivity extends Activity implements View.OnClickListener{
     private RelativeLayout container;
@@ -167,7 +159,7 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
     public void onClick(View v) {
         if(v.getId() == -500){
             //person.setUpQuit();
-            Intent pullChooseGameActivity = new Intent (this, ChooseGameActivity.class);
+            Intent pullChooseGameActivity = new Intent (this, NewOrSavedGame.class);
             startActivity(pullChooseGameActivity);
             return;
         }
