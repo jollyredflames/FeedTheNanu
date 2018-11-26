@@ -573,7 +573,6 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
             }
         }, 1000);
 
-
     }
 
     private void showPausedScreen() {
@@ -675,4 +674,5 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
 
 
     }
+
 }
