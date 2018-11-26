@@ -16,7 +16,6 @@ public class NanuGameActivity extends AppCompatActivity {
 
 
     String[] drop;
-    ImageView toDrop;
     RelativeLayout bin;
     int life;
     int eaten;
@@ -28,10 +27,9 @@ public class NanuGameActivity extends AppCompatActivity {
     Runnable repeat = new Runnable() {
         public void run() {
             generateFood();
-            handler.postDelayed(this, 1000);
+            handler.postDelayed(this, 1500);
         }
     };
-
 
 
     @Override
@@ -42,11 +40,12 @@ public class NanuGameActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(display);
         this.width = display.widthPixels;
         this.height = display.heightPixels;
+        System.out.println(this.height + "height");
 
         //initialize life and eaten
         this.life = 3;
         this.eaten = 0;
-        this.dropSpeed = 2000;
+        this.dropSpeed = 2500;
 //        set up drop
         this.drop = new String[]{"cookie", "cookie", "p", "t", "t", "p","coffee", "p", "m", "p", "m"};
         //set up bin
@@ -59,7 +58,7 @@ public class NanuGameActivity extends AppCompatActivity {
 
     void generateFood(){
 
-        toDrop = chooseItem();
+        ImageView toDrop = chooseItem();
         //display and start dropping item's animation
         bin.addView(toDrop);
         //setting the size of the image
@@ -73,15 +72,22 @@ public class NanuGameActivity extends AppCompatActivity {
                 100, 0, 0);
         toDrop.setLayoutParams(foodParam);
 
-        ViewPropertyAnimator animation = toDrop.animate().setDuration(dropSpeed).
+        ViewPropertyAnimator animation = toDrop.animate().setDuration(this.dropSpeed).
                 setInterpolator(new LinearInterpolator());
-        animation.y(height + height/10);
-        animation.withEndAction(new Runnable() {
+        animation.y(this.height).withEndAction(new Runnable() {
             @Override
             public void run() {
                 bin.removeView(toDrop);
             }
         });
+
+//        animation.withEndAction(new Runnable() {
+//            @Override
+//            public void run() {
+//                  bin.removeView(toDrop);
+//
+//            }
+//        });
 
 
     }
