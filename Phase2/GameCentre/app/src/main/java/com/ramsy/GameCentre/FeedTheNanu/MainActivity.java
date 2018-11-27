@@ -10,12 +10,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ViewUtils;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
 import android.view.animation.LinearInterpolator;
 import android.widget.RelativeLayout;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, NanuDelegate {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener, NanuDelegate {
 
 
     Nanu nanu;
