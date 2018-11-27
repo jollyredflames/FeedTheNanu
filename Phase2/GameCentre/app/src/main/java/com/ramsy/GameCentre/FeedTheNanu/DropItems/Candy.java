@@ -1,17 +1,22 @@
 package com.ramsy.GameCentre.FeedTheNanu.DropItems;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
+
 import com.ramsy.GameCentre.FeedTheNanu.Edible;
 import com.ramsy.GameCentre.R;
 
-public class Melon extends android.support.v7.widget.AppCompatImageView implements Edible {
+public class Candy extends android.support.v7.widget.AppCompatImageView implements Edible{
 
+    Bitmap image;
 
-    Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.melon);
-    public Melon(Context context){
+    public Candy(Context context){
         super(context);
+        this.image = BitmapFactory.decodeResource(getResources(), R.drawable.candy);
         this.setImageBitmap(this.image);
+
     }
 
     @Override

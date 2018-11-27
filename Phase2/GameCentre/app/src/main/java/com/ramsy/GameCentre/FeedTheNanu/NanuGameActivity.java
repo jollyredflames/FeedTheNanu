@@ -20,6 +20,7 @@ public class NanuGameActivity extends AppCompatActivity {
 
     String[] drop;
     RelativeLayout bin;
+    boolean pause;
     int life;
     int eaten;
     int width;
@@ -44,13 +45,14 @@ public class NanuGameActivity extends AppCompatActivity {
         this.width = display.widthPixels;
         this.height = display.heightPixels;
         System.out.println(this.height + "height");
+        this.pause = false;
 
         //initialize life and eaten
         this.life = 3;
         this.eaten = 0;
         this.dropSpeed = 2500;
 //        set up drop so that items have a certain probability of dropping
-        this.drop = new String[]{"cookie", "cookie", "p", "t", "t", "p","coffee", "p", "m", "p", "m"};
+        this.drop = new String[]{"candy", "candy", "p", "cup", "cup", "p","coffee", "p", "d", "p", "d"};
         //set up bin
         this.bin = new RelativeLayout(this);
         Resources res = getResources();
@@ -102,20 +104,20 @@ public class NanuGameActivity extends AppCompatActivity {
         Random ran = new Random();
         int i = ran.nextInt(11);
         System.out.println(i + "lala");
-        if (drop[i].equals("p")){
-            return new Poison(this);
+        if (drop[i].equals("candy")){
+            return new Candy(this);
         }
         else if (drop[i].equals("coffee")){
             return new Coffee(this);
         }
-        else if (drop[i].equals("cookie")){
-            return new Cookie(this);
+        else if (drop[i].equals("cup")){
+            return new Cupcake(this);
         }
-        else if (drop[i].equals("m")){
-            return new Melon(this);
+        else if (drop[i].equals("d")){
+            return new Donut(this);
         }
         else{
-            return new Tomato(this);
+            return new Spider(this);
         }
 
 
@@ -124,36 +126,17 @@ public class NanuGameActivity extends AppCompatActivity {
 
 
 
-    //        Cookie cookie1;
-//        Cookie cookie2;
-//        Tomato tomato1;
-//        Tomato tomato2;
-//        Coffee coffee;
-//        Poison poison1;
-//        Poison poison2;
-//        Poison poison3;
-//        Poison poison4;
-//        Melon melon1;
-//        Melon melon2;
-//        cookie1 = new Cookie(this);
-//        cookie2 = new Cookie(this);
-//        tomato1 = new Tomato(this);
-//        tomato2 = new Tomato(this);
-//        coffee = new Coffee(this);
-//        poison1 = new Poison(this);
-//        poison2 = new Poison(this);
-//        poison3 = new Poison(this);
-//        poison4 = new Poison(this);
-//        melon1 = new Melon(this);
-//        melon2 = new Melon(this);
-//        drop = new ImageView[] {cookie1, cookie2, poison1, tomato1, tomato2,
-//            poison2, coffee, poison3, melon2, poison4, melon1};
 
-    //get original location on screen
-//                int[] loc = new int[2];
-//                toDrop[0].getLocationOnScreen(loc);
+
 
 
 
 }
+
+
+
+//get original location on screen
+//                int[] loc = new int[2];
+//                toDrop[0].getLocationOnScreen(loc);
+
 
