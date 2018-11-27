@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             p.addRule(RelativeLayout.ALIGN_PARENT_TOP);
             p.addRule(RelativeLayout.CENTER_HORIZONTAL);
             box.setLayoutParams(p);
-            box.setId(10);
+            box.setId((int)10);
 
             container.addView(box);
 
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             int childCount = container.getChildCount();
             for (int i = 0; i < childCount; i++) {
                 View v = container.getChildAt(i);
-                if (v.getId() != 10) {
+                if (v.getId() != (int)10) {
                     continue;
                 }
 
@@ -168,79 +168,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         handler2.post(itemDropTest);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//        Timer t = new Timer();
-//        t.schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//
-//                // Need quick access to all box views
-//
-//
-////                Set<View> toRemove = new HashSet<View>();
-////                System.out.println("XXX number of falling items: " + fallingViews.size());
-//
-//
-//
-//
-//
-//
-////                boolean flag = false;
-////                for (View each : fallingViews) {
-////
-////                    // Print it's y coordinate
-//////                    int[] a = new int[2];
-//////                    each.getLocationOnScreen(a);
-//////                    if (a[1] >= 2000) {
-////                        // Schedule the view for removal from the set
-//////                        toRemove.add(each);
-//////                    }
-//////                    System.out.println("XXX y: " + a[1]);
-////
-////                    Rect r1 = nanu.getProximityZone();
-////                    Rect r2 = RectUtility.boundingBox(each);
-////                    if (r1.intersects(r2.left, r2.top, r2.right, r2.bottom)) {
-////                        flag = true;
-////                        break;
-////                    }
-////
-//////                    System.out.println("XXX hi");
-////                }
-//
-////                System.out.println("XXX about to remove a view from the container");
-////                container.removeView(each);
-////                System.out.println("XXX successfully removed a view from the container");
-////                fallingViews.remove(each);
-//
-//
-//
-////
-//
-//
-//            }
-//        }, 0, 100);
 
     }
 
