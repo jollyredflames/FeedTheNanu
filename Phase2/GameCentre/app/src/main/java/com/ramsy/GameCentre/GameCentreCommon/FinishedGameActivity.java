@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.FirebaseFuncts;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.User;
-import com.ramsy.slidingtiles.R;
+import com.ramsy.GameCentre.R;
 
 /**
  * set the view of the activity for when the user finishes a game

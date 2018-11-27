@@ -8,7 +8,7 @@ import android.util.DisplayMetrics;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.ramsy.slidingtiles.R;
+import com.ramsy.GameCentre.R;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
