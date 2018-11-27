@@ -7,7 +7,7 @@ import android.graphics.Rect;
 import android.os.Handler;
 import android.widget.ImageView;
 
-import com.ramsy.slidingtiles.R;
+import com.ramsy.GameCentre.R;
 
 import java.util.HashMap;
 

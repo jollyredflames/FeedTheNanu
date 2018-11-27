@@ -11,7 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.ramsy.slidingtiles.R;
+import com.ramsy.GameCentre.R;
 
 /**
  * This class will make the layout for tabbed activity, and allow the user to swipe between

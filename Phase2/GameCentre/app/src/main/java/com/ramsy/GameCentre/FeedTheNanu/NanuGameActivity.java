@@ -1,28 +1,26 @@
 package com.ramsy.GameCentre.FeedTheNanu;
-
-import android.os.Bundle;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.ViewPropertyAnimator;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-
-import com.ramsy.GameCentre.FeedTheNanu.DropItems.Coffee;
-import com.ramsy.GameCentre.FeedTheNanu.DropItems.Cookie;
-import com.ramsy.GameCentre.FeedTheNanu.DropItems.Melon;
-import com.ramsy.GameCentre.FeedTheNanu.DropItems.Poison;
-import com.ramsy.GameCentre.FeedTheNanu.DropItems.Tomato;
-
 import java.util.Random;
-
+import com.ramsy.GameCentre.FeedTheNanu.DropItems.*;
+import com.ramsy.GameCentre.R;
 
 public class NanuGameActivity extends AppCompatActivity {
 
 
     String[] drop;
     RelativeLayout bin;
+    boolean pause;
     int life;
     int eaten;
     int width;
@@ -47,18 +45,20 @@ public class NanuGameActivity extends AppCompatActivity {
         this.width = display.widthPixels;
         this.height = display.heightPixels;
         System.out.println(this.height + "height");
+        this.pause = false;
 
         //initialize life and eaten
         this.life = 3;
         this.eaten = 0;
         this.dropSpeed = 2500;
-//        set up drop
-        this.drop = new String[]{"cookie", "cookie", "p", "t", "t", "p","coffee", "p", "m", "p", "m"};
+//        set up drop so that items have a certain probability of dropping
+        this.drop = new String[]{"candy", "candy", "p", "cup", "cup", "p","coffee", "p", "d", "p", "d"};
         //set up bin
         this.bin = new RelativeLayout(this);
+        Resources res = getResources();
+        Drawable bg = res.getDrawable(R.drawable.desert);
+        bin.setBackground(bg);
         setContentView(bin);
-        System.out.println(bin.getWidth() + "nana Width");
-        System.out.println(bin.getHeight() + "nana Height");
         handler.post(repeat);
     }
 
@@ -66,35 +66,36 @@ public class NanuGameActivity extends AppCompatActivity {
 
         ImageView toDrop = chooseItem();
         //display and start dropping item's animation
+        //fixing the size of the image view
+        BitmapDrawable bitmapDrawable = ((BitmapDrawable) toDrop.getDrawable());
+        Bitmap bitmap = bitmapDrawable .getBitmap();
+//        int y = bitmap.getHeight();
+//        int x = bitmap.getWidth();
+
         bin.addView(toDrop);
         //setting the size of the image
-        RelativeLayout.LayoutParams foodParam = new RelativeLayout.LayoutParams(200,
-                200);
+        RelativeLayout.LayoutParams foodParam = new RelativeLayout.LayoutParams(150,150);
+//        foodParam.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+//        foodParam.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+//        foodParam.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        //let it show up in random location of the top of the screen
         Random location = new Random();
-        foodParam.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        foodParam.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        //let it showup in random location of the top of the screen
-        foodParam.setMargins(location.nextInt(width-100) + 100,
-                100, 0, 0);
+        int i = location.nextInt(this.width - 200) + 150;
+        toDrop.setX((float)i);
+        toDrop.setY(0f);
+//        foodParam.setMargins(i,
+//                -100, 0, 0);
         toDrop.setLayoutParams(foodParam);
+//        toDrop.getLayoutParams().height = 150;
+//        toDrop.getLayoutParams().width = 150;
 
         ViewPropertyAnimator animation = toDrop.animate().setDuration(this.dropSpeed).
                 setInterpolator(new LinearInterpolator());
         animation.y(this.height).withEndAction(new Runnable() {
             @Override
-            public void run() {
-                bin.removeView(toDrop);
+            public void run() { bin.removeView(toDrop);
             }
         });
-
-//        animation.withEndAction(new Runnable() {
-//            @Override
-//            public void run() {
-//                  bin.removeView(toDrop);
-//
-//            }
-//        });
-
 
     }
 
@@ -103,54 +104,39 @@ public class NanuGameActivity extends AppCompatActivity {
         Random ran = new Random();
         int i = ran.nextInt(11);
         System.out.println(i + "lala");
-        if (drop[i].equals("p")){
-            return new Poison(this);
+        if (drop[i].equals("candy")){
+            return new Candy(this);
         }
         else if (drop[i].equals("coffee")){
             return new Coffee(this);
         }
-        else if (drop[i].equals("cookie")){
-            return new Cookie(this);
+        else if (drop[i].equals("cup")){
+            return new Cupcake(this);
         }
-        else if (drop[i].equals("m")){
-            return new Melon(this);
+        else if (drop[i].equals("d")){
+            return new Donut(this);
         }
         else{
-            return new Tomato(this);
+            return new Spider(this);
         }
+
 
 
     }
 
-    //        Cookie cookie1;
-//        Cookie cookie2;
-//        Tomato tomato1;
-//        Tomato tomato2;
-//        Coffee coffee;
-//        Poison poison1;
-//        Poison poison2;
-//        Poison poison3;
-//        Poison poison4;
-//        Melon melon1;
-//        Melon melon2;
-//        cookie1 = new Cookie(this);
-//        cookie2 = new Cookie(this);
-//        tomato1 = new Tomato(this);
-//        tomato2 = new Tomato(this);
-//        coffee = new Coffee(this);
-//        poison1 = new Poison(this);
-//        poison2 = new Poison(this);
-//        poison3 = new Poison(this);
-//        poison4 = new Poison(this);
-//        melon1 = new Melon(this);
-//        melon2 = new Melon(this);
-//        drop = new ImageView[] {cookie1, cookie2, poison1, tomato1, tomato2,
-//            poison2, coffee, poison3, melon2, poison4, melon1};
 
-    //get original location on screen
-//                int[] loc = new int[2];
-//                toDrop[0].getLocationOnScreen(loc);
+
+
+
+
 
 
 }
+
+
+
+//get original location on screen
+//                int[] loc = new int[2];
+//                toDrop[0].getLocationOnScreen(loc);
+
 

@@ -21,7 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.FirebaseFuncts;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.SignUpPage;
-import com.ramsy.slidingtiles.R;
+import com.ramsy.GameCentre.R;
 
 import java.util.Timer;
 import java.util.TimerTask;
