@@ -11,9 +11,7 @@ import android.os.Bundle;
 import android.support.v7.widget.ViewUtils;
 import android.util.DisplayMetrics;
 import android.util.LruCache;
-import android.view.View;
-import android.view.ViewPropertyAnimator;
-import android.view.WindowId;
+import android.view.*;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
@@ -22,7 +20,7 @@ import android.widget.RelativeLayout;
 
 import java.util.*;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, NanuDelegate {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener, NanuDelegate {
 
 
     Nanu nanu;
@@ -41,9 +39,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void run() {
             // Create a box view
             final FoodItem box = new FoodItem(MainActivity.this);
-            box.setBackgroundColor(Color.BLUE);
 
-            RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(50, 50);
+
+//            box.setBackgroundColor(Color.BLUE);
+
+            RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(125, 125);
             p.addRule(RelativeLayout.ALIGN_PARENT_TOP);
             p.addRule(RelativeLayout.CENTER_HORIZONTAL);
             box.setLayoutParams(p);
@@ -140,7 +140,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         View v = new View(this);
 //        v.setBackgroundColor(Color.RED);
         container.addView(v);
-        v.setOnClickListener(this);
+//        v.setOnClickListener(this);
+        v.setOnTouchListener(this);
+//        v.setOnDragListener(this);
         this.background = v;
 
 
@@ -173,6 +175,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         this.nanu = n;
         nanu.delegate = this;
         n.start();
+
+//        n.setOnDragListener(this);
 
 
         handler.post(update);
@@ -320,4 +324,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         View v = (View) item;
         container.removeView(v);
     }
+
+
+    float oldX;
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+
+        // Map the Nanu's center to the touch location
+//        nanu.setX(event.getX() - (nanu.getWidth() / 2));
+
+        // Alternatively, track delta changes
+        float newX = event.getX();
+        switch (event.getAction()) {
+
+            case MotionEvent.ACTION_DOWN:
+                oldX = newX;
+                break;
+
+            case MotionEvent.ACTION_MOVE:
+                float deltaX = newX - oldX;
+                nanu.setX(nanu.getX() + deltaX);
+                oldX = event.getX();
+
+                // Adjust position to keep it from being moved out of the screen.
+                if (nanu.getX() < 0) {
+                    nanu.setX(0);
+                } else if (nanu.getX() + nanu.getWidth() > screenWidth()) {
+                    nanu.setX(screenWidth() - nanu.getWidth());
+                }
+                break;
+
+            default:
+                // Called on new finger touch downs, and all finger releases.
+                break;
+        }
+
+
+
+
+        return true;
+    }
+
+
+    private int screenWidth() {
+        DisplayMetrics display = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(display);
+        return display.widthPixels;
+    }
+
 }
