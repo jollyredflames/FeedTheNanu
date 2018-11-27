@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import com.ramsy.GameCentre.FeedTheNanu.Edible;
-import com.ramsy.slidingtiles.R;
+import com.ramsy.GameCentre.R;
 
 public class Poison extends android.support.v7.widget.AppCompatImageView implements Edible {
 

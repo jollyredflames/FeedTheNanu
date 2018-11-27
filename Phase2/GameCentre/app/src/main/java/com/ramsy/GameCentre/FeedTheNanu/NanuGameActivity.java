@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import java.util.Random;
 import com.ramsy.GameCentre.FeedTheNanu.DropItems.*;
-import com.ramsy.slidingtiles.R;
+import com.ramsy.GameCentre.R;
 
 public class NanuGameActivity extends AppCompatActivity {
 

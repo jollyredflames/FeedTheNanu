@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ramsy.slidingtiles">
+    package="com.ramsy.GameCentre">
 
     <uses-permission android:name="android.permission.VIBRATE" />
 
@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light">
         <activity
-            android:name="com.ramsy.GameCentre.GameCentreCommon.LoginPage"
+            android:name=".GameCentreCommon.LoginPage"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
@@ -23,11 +23,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.ramsy.GameCentre.DatabaseSavablesAndFuncts.SignUpPage"
+            android:name=".DatabaseSavablesAndFuncts.SignUpPage"
             android:parentActivityName="com.ramsy.GameCentre.GameCentreCommon.LoginPage"
             android:theme="@style/Theme.AppCompat.Light" />
         <activity
-            android:name="com.ramsy.GameCentre.GameCentreCommon.LeaderBoardActivity"
+            android:name=".GameCentreCommon.LeaderBoardActivity"
             android:label="@string/title_activity_leader_board"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -37,7 +37,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.ramsy.GameCentre.SlidingTiles.SlidingTilesGameActivity"
+            android:name=".SlidingTiles.SlidingTilesGameActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
@@ -46,26 +46,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <!--<activity-->
-            <!--android:name="com.ramsy.GameCentre.GameCentreCommon.ChooseGameActivity"-->
-            <!--android:screenOrientation="portrait">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.ChooseGameActivity" />-->
-
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
         <activity
-            android:name=".ChooseGameSizeActivity"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.ChooseGameSizeActivity" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name="com.ramsy.GameCentre.GameCentreCommon.SavedGamesActivity"
+            android:name=".GameCentreCommon.SavedGamesActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.SavedGamesActivity" />
@@ -73,35 +55,21 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".SelectPicture">
-            <intent-filter>
-                <action android:name="android.intent.action.SelectPicture" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name="com.ramsy.GameCentre.GameCentreCommon.FinishedGameActivity">
+        <activity android:name=".GameCentreCommon.FinishedGameActivity">
             <intent-filter>
                 <action android:name="android.intent.action.FinishedGameActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="com.ramsy.GameCentre.SlidingTiles.ImagePlaygroundActivity">
+        <activity android:name=".SlidingTiles.ImagePlaygroundActivity">
             <intent-filter>
                 <action android:name="android.intent.action.ImagePlaygroundActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <!--<activity android:name="com.ramsy.GameCentre.MemoryMatrix.MemoryGameActivity">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MemoryGameActivity" />-->
-
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
-        <activity android:name="com.ramsy.GameCentre.MemoryMatrix.MemoryMatrixActivity">
+        <activity android:name=".MemoryMatrix.MemoryMatrixActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MemoryMatrixActivity" />
@@ -109,21 +77,21 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="com.ramsy.GameCentre.FeedTheNanu.Playground">
+        <activity android:name=".FeedTheNanu.Playground">
             <intent-filter>
                 <action android:name="android.intent.action.Playground" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="com.ramsy.GameCentre.FeedTheNanu.NanuGameActivity">
+        <activity android:name=".FeedTheNanu.NanuGameActivity">
             <intent-filter>
                 <action android:name="android.intent.action.NanuGameActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="com.ramsy.GameCentre.FeedTheNanu.MainActivity">
+        <activity android:name=".FeedTheNanu.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.FeedTheNanu.MainActivity" />
 

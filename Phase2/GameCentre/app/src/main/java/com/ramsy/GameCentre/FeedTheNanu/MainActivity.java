@@ -14,14 +14,21 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
 import android.view.animation.LinearInterpolator;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import com.ramsy.GameCentre.R;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener, NanuDelegate {
 
+    // TODO:
+    // - Lock to portrait orientation only (app wide?)
+    // - Disable status bar
+    // - Create pause / resume buttons
+    
 
     Nanu nanu;
     RelativeLayout container;
-    View background;
+    ImageView background;
 
 
 
@@ -133,8 +140,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Set the Activity's window to the View Group
         setContentView(container);
 
-        View v = new View(this);
+//        View v = new View(this);
+        ImageView v = new ImageView(this);
+        Bitmap im = BitmapFactory.decodeResource(getResources(), R.drawable.background1);
+        v.setImageBitmap(im);
+        v.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+//        RelativeLayout.LayoutParams backgroundParams = new RelativeLayout.LayoutParams(0, 0);
+//        backgroundParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+//        backgroundParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+//        backgroundParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+//        backgroundParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+//        v.setLayoutParams(backgroundParams);
+
 //        v.setBackgroundColor(Color.RED);
+
         container.addView(v);
 //        v.setOnClickListener(this);
         v.setOnTouchListener(this);
@@ -161,8 +181,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         RelativeLayout.LayoutParams nanuParams = new RelativeLayout.LayoutParams(250, 250);
-        nanuParams.addRule(RelativeLayout.CENTER_VERTICAL);
+        nanuParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         nanuParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        nanuParams.setMargins(0, 0, 0, 50);
         n.setLayoutParams(nanuParams);
 
 

@@ -10,7 +10,7 @@ import android.widget.Button;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.FirebaseFuncts;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.User;
 import com.ramsy.GameCentre.SlidingTiles.SlidingTilesSizeActivity;
-import com.ramsy.slidingtiles.R;
+import com.ramsy.GameCentre.R;
 
 public class NewOrSavedGame extends AppCompatActivity {
     Context context;
