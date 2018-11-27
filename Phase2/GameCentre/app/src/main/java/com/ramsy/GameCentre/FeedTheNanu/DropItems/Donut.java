@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory;
 
 
 import com.ramsy.GameCentre.FeedTheNanu.Edible;
-import com.ramsy.slidingtiles.R;
+import com.ramsy.GameCentre.R;
 
 public class Donut extends android.support.v7.widget.AppCompatImageView implements Edible{
 

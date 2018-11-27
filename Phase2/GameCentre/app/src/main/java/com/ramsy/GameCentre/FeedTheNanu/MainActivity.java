@@ -1,5 +1,7 @@
 package com.ramsy.GameCentre.FeedTheNanu;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -24,7 +26,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // - Lock to portrait orientation only (app wide?)
     // - Disable status bar
     // - Create pause / resume buttons
-    
+
+    // - Have an interface that requires conforming classes to have a method that returns an ObjectAnimator.
+    // - Have all the drop items (which are already subclasses of ImageView, in order to conform to Edible)
+    // conform to this interface as well. So when a pause button is pressed, we loop over all views in the hierarchy,
+    // and if the cast to the interface type succeeds, we get the animator object, and call pause / resume on it.
+
+    // Instead of it being a method, make it a property.
+    // Assign that property in the method that creates the new view, and a new animator object.
+
+    // Have a Pausible interface with a pause and resume method.
+    // Classes confrom to the Pausible interface by implementing that method.
+    // So we don't even need to have the client grab the animator and pause / resume it.
+    // That way we can have the Nanu use it too, and it will implement it differently as it has no animator object.
+    // So we can pause everything in the hieracrchy in one fell swoop.
+    // So the food items need to have a property that stores their animator object.
+    // And the method that creates them and their animation, needs to be working with a type such that that property
+    // is visible to the compiler.
+    // So don't work with them there as a Pausible, but perhaps as a Fallable instead?
+
+    /*
+    Note: Java interfaces evidently cannot contain attributes, so either make an abstract subclass of ImageView
+    that provides the new attribute. Or have interface getAnimator and setAnimator methods,
+    which will involve the conforming class needing to store the attribute anyway. So go with an abstract class design instead.
+    Maybe we can make the abstract class subclass ImageView, declare the animator property, and also conform to
+    Pausable, with pause and resume implementations that directly manage that animator object.
+    Instead of the subclasses all needing to provide the same implementations.
+    However, if it's an abstract class, we cant subclass AND call super.
+    So just don't make it abstract then.
+     */
+
 
     Nanu nanu;
     RelativeLayout container;
@@ -37,17 +68,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     Handler handler2 = new Handler();
 
+
     Runnable itemDropTest = new Runnable() {
         @Override
         public void run() {
             // Create a box view
             final FoodItem box = new FoodItem(MainActivity.this);
 
-
 //            box.setBackgroundColor(Color.BLUE);
 
             RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(125, 125);
-            p.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+//            p.addRule(RelativeLayout.);
+            box.setY(-150);
             p.addRule(RelativeLayout.CENTER_HORIZONTAL);
             box.setLayoutParams(p);
             box.setId(10);
@@ -61,23 +93,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             int h = display.heightPixels;
 
             // Schedule an animation
-            ViewPropertyAnimator anim = box.animate().setDuration(5000).setInterpolator(new LinearInterpolator());
-            anim.y(h);
-            anim.withEndAction(new Runnable() {
+//            ViewPropertyAnimator anim = box.animate().setDuration(5000).setInterpolator(new LinearInterpolator());
+//            anim.y(h);
+//            anim.withEndAction(new Runnable() {
+//                @Override
+//                public void run() {
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            container.removeView(box);
+//                        }
+//                    });
+//                }
+//            });
+
+
+            // Trying a pausible animation
+            ObjectAnimator anim = ObjectAnimator.ofFloat(box, "y", screenHeight());
+            anim.setDuration(5000);
+            anim.setInterpolator(null);
+            anim.addListener(new Animator.AnimatorListener() {
                 @Override
-                public void run() {
+                public void onAnimationStart(Animator animation) {
 
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            container.removeView(box);
-                        }
-                    });
+                }
 
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    System.out.println("XXX Animation just ended");
+                    container.removeView(box);
+                }
 
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
 
                 }
             });
+
+            box.animator = anim;
+            anim.start();
+
+            // But now, how to store all these animations so we can pause them later?
+
 
             handler2.postDelayed(this, 1200);
         }
@@ -156,10 +218,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        v.setBackgroundColor(Color.RED);
 
         container.addView(v);
-//        v.setOnClickListener(this);
         v.setOnTouchListener(this);
 //        v.setOnDragListener(this);
         this.background = v;
+
+        // Create pause resume toggle button
+        View pauseButton = new View(this);
+        pauseButton.setBackgroundColor(Color.BLUE);
+        pauseButton.setX(100);
+        pauseButton.setY(100);
+        pauseButton.setOnClickListener(this);
+
+        RelativeLayout.LayoutParams pauseButtonParams = new RelativeLayout.LayoutParams(100, 100);
+        pauseButton.setLayoutParams(pauseButtonParams);
+        container.addView(pauseButton);
 
 
 
@@ -191,12 +263,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         container.addView(n);
         this.nanu = n;
         nanu.delegate = this;
-        n.start();
+        n.resume();
 
 
         handler.post(update);
-
-
         handler2.post(itemDropTest);
 
 
@@ -275,52 +345,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    boolean isPaused = false;
 
     @Override
     public void onClick(View v) {
 
-//        this.nanu.foodIsNearby = !this.nanu.foodIsNearby;
-
-//        System.out.println("XXX  TAP!");
-//
-//
-        // Create a box view
-        final FoodItem box = new FoodItem(this);
-        box.setBackgroundColor(Color.BLUE);
-
-        RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(50, 50);
-        p.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        p.addRule(RelativeLayout.CENTER_HORIZONTAL);
-        box.setLayoutParams(p);
-        box.setId(10);
-
-        this.container.addView(box);
-
-
-        // Get screen height
-        DisplayMetrics display = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(display);
-        int h = display.heightPixels;
-
-        // Schedule an animation
-        ViewPropertyAnimator anim = box.animate().setDuration(5000).setInterpolator(new LinearInterpolator());
-        anim.y(h);
-        anim.withEndAction(new Runnable() {
-            @Override
-            public void run() {
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        container.removeView(box);
-                    }
-                });
+        // Pause non view stuff (like stop the handlers that generate new food, prevent Nanu from being moved)
+        if (!isPaused) {
+            handler2.removeCallbacks(itemDropTest); // stop new items from falling
+            handler.removeCallbacks(update); // pause the game engine loop, for efficiency
+        } else {
+            handler2.postDelayed(itemDropTest, 1000); // we use post delayed here, to prevent the situation where spamming the pause button
+            // caused an item to drop on each resume. But then it's possible to spam the pause button and progress time
+            // without any food falling at all. For now, this is enough.
+            handler.post(update);
+        }
 
 
 
+        // Pause child views
+        int childCount = container.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View someChildView = container.getChildAt(i);
+            if (someChildView instanceof Pausable) {
+                Pausable p = (Pausable) someChildView;
+                if (!isPaused) {
+                    p.pause();
+                } else {
+                    p.resume();
+                }
             }
-        });
+        }
 
+        // Flip the isPaused flag
+        isPaused = !isPaused;
 
     }
 
@@ -345,6 +403,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+
+
+        // Prevent the Nanu from being moved if isPaused is true.
+        if (isPaused) { return false; }
 
         // Map the Nanu's center to the touch location
 //        nanu.setX(event.getX() - (nanu.getWidth() / 2));
@@ -386,6 +448,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         DisplayMetrics display = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(display);
         return display.widthPixels;
+    }
+
+    private int screenHeight() {
+        DisplayMetrics display = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(display);
+        return display.heightPixels;
     }
 
 }

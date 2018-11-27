@@ -43,7 +43,7 @@ import java.util.HashMap;
  */
 
 
-class Nanu extends ImageView {
+class Nanu extends ImageView implements Pausable {
 
     /**
      * This enum encapsulates all the states of the Nanu character.
@@ -179,7 +179,7 @@ class Nanu extends ImageView {
      * Call start at any later time to resume without any loss of continuity in the state machine
      */
 
-    void pause() {
+    public void pause() {
 
         handler.removeCallbacks(update);
     }
@@ -430,7 +430,7 @@ class Nanu extends ImageView {
      * Starts the animation system, essentially making the Nanu 'active'
      */
 
-    void start() {
+    public void resume() {
         // Start a new timer that controls which texture to display
         handler.post(update);
 

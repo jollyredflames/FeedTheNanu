@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import com.ramsy.GameCentre.R;
 
-class FoodItem extends ImageView implements Edible {
+class FoodItem extends DropItem implements Edible {
 
     FoodItem(Context context) {
         super(context);
