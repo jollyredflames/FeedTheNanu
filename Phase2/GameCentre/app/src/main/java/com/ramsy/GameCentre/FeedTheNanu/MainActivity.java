@@ -235,10 +235,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         PauseButton p = new PauseButton(this);
         p.delegate = this;
-        p.setX(100);
-        p.setY(100);
 
         RelativeLayout.LayoutParams pauseButtonParams = new RelativeLayout.LayoutParams(175, 175);
+        pauseButtonParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        pauseButtonParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        pauseButtonParams.setMargins(0, 10, 10, 0);
         p.setLayoutParams(pauseButtonParams);
         container.addView(p);
 
