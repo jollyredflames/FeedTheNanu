@@ -10,8 +10,9 @@ import com.ramsy.GameCentre.R;
 
 /**
  * A class representing a pause / resume button.
- * This is a subclass of a view group, that can be told to show the pause icon, or show the resume icon,
- * effectively switching between showing one image or the other.
+ * This is a subclass of a view group that listens to click gestures,
+ * and performs it's own state management internally, and then alerts a delegate if that state is now paused or not.
+ * Internal state management is effectively just switching between showing one image or the other.
  * Starts off by showing the pause icon.
  */
 
@@ -19,7 +20,9 @@ class PauseButton extends RelativeLayout implements View.OnClickListener {
 
     private ImageView pauseImageView;
     private ImageView resumeImageView;
-    private boolean isPlaying = true;
+    private boolean playing = true;
+
+    PauseButtonDelegate delegate;
 
     PauseButton(Context context) {
         super(context);
@@ -44,8 +47,8 @@ class PauseButton extends RelativeLayout implements View.OnClickListener {
     }
 
     private void toggle() {
-        this.isPlaying = !this.isPlaying;
-        if (this.isPlaying) {
+        this.playing = !this.playing;
+        if (this.playing) {
             this.showPauseIcon();
         } else {
             this.showResumeIcon();
@@ -68,8 +71,15 @@ class PauseButton extends RelativeLayout implements View.OnClickListener {
     public void onClick(View v) {
         this.toggle();
 
-        // Have a delegate method like 'wasTapped' that takes in a boolean.
+        boolean paused = !this.playing;
+
+        System.out.println("XXX " + paused);
+
+        // Have a delegate method like 'wasTapped' that takes in a boolean of whether the button has been paused or not.
         // Then the client can use that boolean to resume / pause it's elements accordingly.
+        // After this class has managed it's part internally.
+        this.delegate.pauseButtonWasTapped(paused);
+
 
 
     }
