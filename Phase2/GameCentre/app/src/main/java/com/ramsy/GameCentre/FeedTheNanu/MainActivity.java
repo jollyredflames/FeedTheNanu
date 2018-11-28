@@ -2,7 +2,6 @@ package com.ramsy.GameCentre.FeedTheNanu;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
-import android.content.ClipData;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -85,9 +84,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 //            box.setBackgroundColor(Color.BLUE);
+
             RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(125, 125);
 
 //            p.addRule(RelativeLayout.);
+            box.setY(-150);
+            p.addRule(RelativeLayout.CENTER_HORIZONTAL);
             box.setLayoutParams(p);
 
             Random random = new Random();
@@ -479,8 +481,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getWindowManager().getDefaultDisplay().getMetrics(display);
         return display.heightPixels;
     }
-
-
-
 
 }
