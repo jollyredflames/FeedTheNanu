@@ -1,5 +1,0 @@
-<resources>
-    <string name="app_name">Try</string>
-    <string name="title_activity_memory_game">MemoryGameActivity</string>
-    <string name="title_activity_memory_matrix_manager">MemoryMatrixManager</string>
-</resources>
