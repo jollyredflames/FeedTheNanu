@@ -3,10 +3,12 @@ package com.ramsy.GameCentre.FeedTheNanu.DropItems;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
+import com.ramsy.GameCentre.FeedTheNanu.DropItem;
 import com.ramsy.GameCentre.FeedTheNanu.Edible;
 import com.ramsy.GameCentre.R;
 
-public class Spider extends android.support.v7.widget.AppCompatImageView implements Edible {
+public class Spider extends DropItem implements Edible {
 
     Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.spider);
     public Spider(Context context){

@@ -2,6 +2,7 @@ package com.ramsy.GameCentre.FeedTheNanu;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.content.ClipData;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -19,6 +20,8 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import com.ramsy.GameCentre.R;
+
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener, NanuDelegate {
 
@@ -60,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Nanu nanu;
     RelativeLayout container;
     ImageView background;
+    ItemGenerator itemGenerator;
+    final int padding = 100;
 
 
 
@@ -73,24 +78,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void run() {
             // Create a box view
-            final FoodItem box = new FoodItem(MainActivity.this);
+//            final FoodItem box = new FoodItem(MainActivity.this);
+            DropItem box = (DropItem)itemGenerator.getItem();
+            box.setId(10);
+
+
 
 //            box.setBackgroundColor(Color.BLUE);
-
             RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(125, 125);
+
 //            p.addRule(RelativeLayout.);
-            box.setY(-150);
-            p.addRule(RelativeLayout.CENTER_HORIZONTAL);
             box.setLayoutParams(p);
-            box.setId(10);
+
+            Random random = new Random();
+            int dropWidth = 125;
+            float positionX = random.nextInt(screenWidth() - padding * 2 - dropWidth) + padding;
+
+            box.setX(positionX);
+
+
+
+
+            box.setY(-150);
+//            p.addRule(RelativeLayout.CENTER_HORIZONTAL);
+//            box.setId(10);
 
             container.addView(box);
 
 
-            // Get screen height
-            DisplayMetrics display = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getMetrics(display);
-            int h = display.heightPixels;
+
 
             // Schedule an animation
 //            ViewPropertyAnimator anim = box.animate().setDuration(5000).setInterpolator(new LinearInterpolator());
@@ -134,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 }
             });
+
 
             box.animator = anim;
             anim.start();
@@ -194,6 +211,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_main);
+
+
+        this.itemGenerator = new ItemGenerator(this);
+
+
+
+
 
         // Create a View Group
         final RelativeLayout container = new RelativeLayout(this);
@@ -455,5 +479,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getWindowManager().getDefaultDisplay().getMetrics(display);
         return display.heightPixels;
     }
+
+
+
 
 }

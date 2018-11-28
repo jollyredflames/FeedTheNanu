@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import java.util.Random;
 import com.ramsy.GameCentre.FeedTheNanu.DropItems.*;
-import com.ramsy.slidingtiles.R;
+import com.ramsy.GameCentre.R;
 public class NanuGameActivity extends AppCompatActivity {
 
 
@@ -46,10 +46,10 @@ public class NanuGameActivity extends AppCompatActivity {
         this.width = display.widthPixels;
         this.height = display.heightPixels;
         System.out.println(this.height + "height");
-        this.isPaused = false;
 
         //initialize life and eaten
         this.life = 3;
+        this.isPaused = false;
         this.eaten = 0;
         this.dropSpeed = 2500;
 //        set up drop so that items have a certain probability of dropping
@@ -60,8 +60,6 @@ public class NanuGameActivity extends AppCompatActivity {
         Drawable bg = res.getDrawable(R.drawable.desert);
         bin.setBackground(bg);
         setContentView(bin);
-//        Nanu nanu = new Nanu(this);
-//        bin.addView(nanu);
 
 
         RelativeLayout viewGroup = new RelativeLayout(this);
@@ -87,7 +85,7 @@ public class NanuGameActivity extends AppCompatActivity {
 
     void generateFood() {
         ItemGenerator ch = new ItemGenerator(this);
-        ImageView toDrop = ch.chooseItem(this);
+        ImageView toDrop = ch.getItem();
         //display and start dropping item's animation
         //fixing the size of the image view
         BitmapDrawable bitmapDrawable = ((BitmapDrawable) toDrop.getDrawable());
@@ -128,22 +126,6 @@ public class NanuGameActivity extends AppCompatActivity {
     }
 
 
-    ImageView chooseItem() {
-        Random ran = new Random();
-        int i = ran.nextInt(11);
-        System.out.println(i + "lala");
-        if (drop[i].equals("candy")) {
-            return new Candy(this);
-        } else if (drop[i].equals("coffee")) {
-            return new Coffee(this);
-        } else if (drop[i].equals("cup")) {
-            return new Cupcake(this);
-        } else if (drop[i].equals("d")) {
-            return new Donut(this);
-        } else {
-            return new Spider(this);
-        }
-    }
 
     // set a pause button somewhere on the screen
     // once it is press, the game would be pause
