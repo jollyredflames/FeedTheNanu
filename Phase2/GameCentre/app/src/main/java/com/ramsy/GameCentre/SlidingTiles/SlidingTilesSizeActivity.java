@@ -13,7 +13,7 @@ import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.FirebaseFuncts;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.User;
 import com.ramsy.GameCentre.GameCentreCommon.LoginPage;
 import com.ramsy.GameCentre.MemoryMatrix.MemoryMatrixActivity;
-import com.ramsy.slidingtiles.R;
+import com.ramsy.GameCentre.R;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

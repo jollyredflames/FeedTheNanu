@@ -1,5 +1,4 @@
 package com.ramsy.GameCentre.FeedTheNanu;
-import android.animation.Animator;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -14,12 +13,12 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import java.util.Random;
-
+import com.ramsy.GameCentre.FeedTheNanu.DropItems.*;
 import com.ramsy.slidingtiles.R;
 public class NanuGameActivity extends AppCompatActivity {
 
 
-
+    String[] drop;
     RelativeLayout bin;
     boolean isPaused;
     int life;
@@ -53,6 +52,8 @@ public class NanuGameActivity extends AppCompatActivity {
         this.life = 3;
         this.eaten = 0;
         this.dropSpeed = 2500;
+//        set up drop so that items have a certain probability of dropping
+        this.drop = new String[]{"candy", "candy", "p", "cup", "cup", "p", "coffee", "p", "d", "p", "d"};
         //set up bin
         this.bin = new RelativeLayout(this);
         Resources res = getResources();
@@ -74,17 +75,17 @@ public class NanuGameActivity extends AppCompatActivity {
         this.pause = new View(this);
         pause.setBackgroundColor(getColor(R.color.app_theme));
 
-        setPauseOnClickListener();
+//        setPauseOnClickListener();
 
         // Customize v1 here
         viewGroup.addView(pause);
-        RelativeLayout.LayoutParams pa = new RelativeLayout.LayoutParams(width/4, 80);
+        RelativeLayout.LayoutParams pa = new RelativeLayout.LayoutParams(width / 4, 80);
         pause.setLayoutParams(pa);
         bin.addView(viewGroup);
         handler.post(repeat);
     }
 
-    void generateFood(){
+    void generateFood() {
         ItemGenerator ch = new ItemGenerator(this);
         ImageView toDrop = ch.chooseItem(this);
         //display and start dropping item's animation
@@ -96,22 +97,27 @@ public class NanuGameActivity extends AppCompatActivity {
 
         bin.addView(toDrop);
         //setting the size of the image
-        RelativeLayout.LayoutParams foodParam = new RelativeLayout.LayoutParams(125,125);
+        RelativeLayout.LayoutParams foodParam = new RelativeLayout.LayoutParams(125, 125);
         //let it show up in random location of the top of the screen
         Random location = new Random();
         int i = location.nextInt(this.width - 200) + 100;
-        toDrop.setX((float)i);
+        toDrop.setX((float) i);
         toDrop.setY(0f);
+//        foodParam.setMargins(i,
+//                -100, 0, 0);
         toDrop.setLayoutParams(foodParam);
+//        toDrop.getLayoutParams().height = 150;
+//        toDrop.getLayoutParams().width = 150;
 
         //start the animation
         ViewPropertyAnimator animation = toDrop.animate().setDuration(this.dropSpeed).
                 setInterpolator(new LinearInterpolator());
-        if (isPaused){
+        if (isPaused) {
             toDrop.setAlpha(0f);
             pause.setBackgroundColor(getColor(R.color.colorPrimaryDark));
+        } else {
+            animation.y(this.height);
         }
-        else { animation.y(this.height);}
         animation.withEndAction(new Runnable() {
             @Override
             public void run() {
@@ -122,26 +128,34 @@ public class NanuGameActivity extends AppCompatActivity {
     }
 
 
-
+    ImageView chooseItem() {
+        Random ran = new Random();
+        int i = ran.nextInt(11);
+        System.out.println(i + "lala");
+        if (drop[i].equals("candy")) {
+            return new Candy(this);
+        } else if (drop[i].equals("coffee")) {
+            return new Coffee(this);
+        } else if (drop[i].equals("cup")) {
+            return new Cupcake(this);
+        } else if (drop[i].equals("d")) {
+            return new Donut(this);
+        } else {
+            return new Spider(this);
+        }
+    }
 
     // set a pause button somewhere on the screen
     // once it is press, the game would be pause
-
-    void setPauseOnClickListener(){
-        pause.setOnClickListener((V)-> {
-            if(isPaused){this.isPaused = false;}
-            else{this.isPaused = true;}
-
-        });
-
-    }
-
-
-
-
-
-}
-
+//
+//    void setPauseOnClickListener(){
+//        pause.setOnClickListener((V)-> {
+//            if(isPaused){this.isPaused = false;}
+//            else{this.isPaused = true;}
+//
+//        });
+//
+//    }
 
 
 //get original location on screen
@@ -149,3 +163,4 @@ public class NanuGameActivity extends AppCompatActivity {
 //                toDrop[0].getLocationOnScreen(loc);
 
 
+}

@@ -8,13 +8,13 @@ import android.graphics.BitmapFactory;
 import com.ramsy.GameCentre.FeedTheNanu.Edible;
 import com.ramsy.GameCentre.R;
 
-public class Candy extends android.support.v7.widget.AppCompatImageView implements Edible{
+public class Cookie extends android.support.v7.widget.AppCompatImageView implements Edible{
 
     Bitmap image;
 
-    public Candy(Context context){
+    public Cookie(Context context){
         super(context);
-        this.image = BitmapFactory.decodeResource(getResources(), R.drawable.candy);
+        this.image = BitmapFactory.decodeResource(getResources(), R.drawable.cookie);
         this.setImageBitmap(this.image);
 
     }

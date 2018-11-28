@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.View;
 import android.widget.ImageView;
-import com.ramsy.slidingtiles.R;
+import com.ramsy.GameCentre.R;
 
 class FoodItem extends ImageView implements Edible {
 
