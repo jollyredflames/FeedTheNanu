@@ -27,7 +27,7 @@ public class Spider extends DropItem implements Edible {
 
     @Override
     public int effectOnLife() {
-        return -1;
+        return -10;
     }
 
     @Override
