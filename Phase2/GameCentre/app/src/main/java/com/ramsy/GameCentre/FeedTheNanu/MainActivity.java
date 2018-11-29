@@ -1,5 +1,6 @@
 package com.ramsy.GameCentre.FeedTheNanu;
-
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -7,79 +8,110 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.ViewUtils;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewPropertyAnimator;
-import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import com.ramsy.GameCentre.R;
+import java.util.Random;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener, NanuDelegate {
+public class MainActivity extends AppCompatActivity implements View.OnTouchListener, NanuDelegate, PauseButtonDelegate {
 
     // TODO:
     // - Lock to portrait orientation only (app wide?)
     // - Disable status bar
-    // - Create pause / resume buttons
-    
+
+    /*
+    Note: Java interfaces evidently cannot contain attributes, so either make an abstract subclass of ImageView
+    that provides the new attribute. Or have interface getAnimator and setAnimator methods,
+    which will involve the conforming class needing to store the attribute anyway. So go with an abstract class design instead.
+    Maybe we can make the abstract class subclass ImageView, declare the animator property, and also conform to
+    Pausable, with pause and resume implementations that directly manage that animator object.
+    Instead of the subclasses all needing to provide the same implementations.
+    However, if it's an abstract class, we cant subclass AND call super.
+    So just don't make it abstract then.
+     */
+
 
     Nanu nanu;
     RelativeLayout container;
-    ImageView background;
+    ItemGenerator itemGenerator;
+    final int padding = 100;
+
+    HealthBar healthBar;
+
+    int score;
+    TextView scoreLabel;
+
+    boolean isPaused = false;
 
 
+    Handler updateHandler = new Handler();
+    Handler itemDropHandler = new Handler();
 
 
-    Handler handler = new Handler();
-
-    Handler handler2 = new Handler();
-
-    Runnable itemDropTest = new Runnable() {
+    Runnable itemDrop = new Runnable() {
         @Override
         public void run() {
-            // Create a box view
-            final FoodItem box = new FoodItem(MainActivity.this);
+
+            /*
+             The food items need to have a property that stores their animator object.
+             That's why we made them all subclass DropItem, which provides that item, and implements Pausable.
+             And the method that creates them and their animation (here), needs to be working with a type such that
+             that property is visible to the compiler (case them as a DropItem).
+             */
+
+            // Vend an item
+            DropItem newItem = (DropItem)itemGenerator.getItem();
+            newItem.setId(10);
+
+            int w = 125;
+            int h = 125;
+            RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(w, h);
+            newItem.setLayoutParams(p);
+
+            // Set X position so the left edges and right edges of the items can only get so close to the screen edges.
+            Random random = new Random();
+            float x = random.nextInt(screenWidth() - padding * 2 - w) + padding;
+            newItem.setX(x);
+            newItem.setY(-(h + 25)); // an extra 25 pixels just for good measure.
+
+            container.addView(newItem);
 
 
-//            box.setBackgroundColor(Color.BLUE);
-
-            RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(125, 125);
-            p.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-            p.addRule(RelativeLayout.CENTER_HORIZONTAL);
-            box.setLayoutParams(p);
-            box.setId(10);
-
-            container.addView(box);
-
-
-            // Get screen height
-            DisplayMetrics display = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getMetrics(display);
-            int h = display.heightPixels;
-
-            // Schedule an animation
-            ViewPropertyAnimator anim = box.animate().setDuration(5000).setInterpolator(new LinearInterpolator());
-            anim.y(h);
-            anim.withEndAction(new Runnable() {
+            // Create a new animation
+            ObjectAnimator anim = ObjectAnimator.ofFloat(newItem, "y", screenHeight());
+            anim.setDuration(5000);
+            anim.setInterpolator(null);
+            anim.addListener(new Animator.AnimatorListener() {
                 @Override
-                public void run() {
+                public void onAnimationStart(Animator animation) {
 
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            container.removeView(box);
-                        }
-                    });
+                }
 
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    container.removeView(newItem);
+                }
 
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
 
                 }
             });
 
-            handler2.postDelayed(this, 1200);
+            newItem.animator = anim;
+            anim.start();
+
+            itemDropHandler.postDelayed(this, 1200);
         }
     };
 
@@ -119,19 +151,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             nanu.foodItemForEating = foodItemForEating;
             nanu.foodIsNearby = foodIsNearby;
+            nanu.timeDidElapse();
 
-            handler.postDelayed(this, 20);
+            healthBar.setHealthTo(nanu.getCurrentLifePercent());
+
+            updateHandler.postDelayed(this, gameLoopInterval);
         }
     };
 
 
+    /**
+     * Period in milliseconds of the game loop
+     */
 
+    long gameLoopInterval = 20;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
+
+        // Create the Item Generator
+        this.itemGenerator = new ItemGenerator(this);
 
         // Create a View Group
         final RelativeLayout container = new RelativeLayout(this);
@@ -140,45 +181,82 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Set the Activity's window to the View Group
         setContentView(container);
 
-//        View v = new View(this);
+        this.score = 0;
+
+        setupBackground();
+        setupScoreLabel();
+        setupPauseButton();
+        setupHealthBar();
+        setupNanu();
+
+        nanu.setTimeSliceInterval(gameLoopInterval);
+        nanu.resume();
+
+        // Start running tasks
+        updateHandler.post(update);
+        itemDropHandler.post(itemDrop);
+
+    }
+
+    private void setupBackground() {
         ImageView v = new ImageView(this);
         Bitmap im = BitmapFactory.decodeResource(getResources(), R.drawable.background1);
         v.setImageBitmap(im);
         v.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-//        RelativeLayout.LayoutParams backgroundParams = new RelativeLayout.LayoutParams(0, 0);
-//        backgroundParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-//        backgroundParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-//        backgroundParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-//        backgroundParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-//        v.setLayoutParams(backgroundParams);
-
-//        v.setBackgroundColor(Color.RED);
-
         container.addView(v);
-//        v.setOnClickListener(this);
         v.setOnTouchListener(this);
-//        v.setOnDragListener(this);
-        this.background = v;
+    }
 
+    private void setupScoreLabel() {
+        // Setup Score label
+        TextView label = new TextView(this);
+        label.setText(String.valueOf(this.score));
+        label.setTextColor(Color.BLACK);
+        label.setTextSize(30);
+        label.setBackgroundColor(Color.WHITE);
+        label.setGravity(Gravity.CENTER);
+        label.setAlpha(0.5f);
+        this.container.addView(label);
+        this.scoreLabel = label;
 
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(0,200);
+        params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        params.setMargins(0, 140, 0, 0);
+        label.setLayoutParams(params);
+    }
 
-        // Create an Image View
-//        ImageView imv = new ImageView(this);
-//////        imv.setScaleType(ImageView.ScaleType.);
-//////        imv.setBackgroundColor(Color.BLUE);
-//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(250, 250);
-////        // By default, it seems like the bitmap is set to 'scale aspect fill' on the image view
-//        params.addRule(RelativeLayout.CENTER_VERTICAL);
-//        params.addRule(RelativeLayout.CENTER_HORIZONTAL);
-//        imv.setLayoutParams(params);
-//        Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.nanu1);
-//        imv.setImageBitmap(image);
-//        container.addView(imv);
-//        this.imv = imv;
+    private void setupPauseButton() {
+        PauseButton p = new PauseButton(this);
+        p.delegate = this;
 
+        RelativeLayout.LayoutParams pauseButtonParams = new RelativeLayout.LayoutParams(175, 175);
+        pauseButtonParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        pauseButtonParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        pauseButtonParams.setMargins(0, 10, 10, 0);
+        p.setLayoutParams(pauseButtonParams);
+        container.addView(p);
+    }
+
+    private void setupHealthBar() {
+        int h = 120;
+        int w = 500;
+        HealthBar hb = new HealthBar(this);
+        RelativeLayout.LayoutParams healthBarParams = new RelativeLayout.
+                LayoutParams(w, h);
+        healthBarParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        healthBarParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        healthBarParams.setMargins(10, 10, 0, 0);
+        hb.setLayoutParams(healthBarParams);
+        container.addView(hb);
+        this.healthBar = hb;
+    }
+
+    private void setupNanu() {
         Nanu n = new Nanu(this);
-
+        n.delegate = this;
+        this.nanu = n;
 
         RelativeLayout.LayoutParams nanuParams = new RelativeLayout.LayoutParams(250, 250);
         nanuParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
@@ -186,152 +264,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         nanuParams.setMargins(0, 0, 0, 50);
         n.setLayoutParams(nanuParams);
 
-
-
         container.addView(n);
-        this.nanu = n;
-        nanu.delegate = this;
-        n.start();
-
-
-        handler.post(update);
-
-
-        handler2.post(itemDropTest);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//        Timer t = new Timer();
-//        t.schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//
-//                // Need quick access to all box views
-//
-//
-////                Set<View> toRemove = new HashSet<View>();
-////                System.out.println("XXX number of falling items: " + fallingViews.size());
-//
-//
-//
-//
-//
-//
-////                boolean flag = false;
-////                for (View each : fallingViews) {
-////
-////                    // Print it's y coordinate
-//////                    int[] a = new int[2];
-//////                    each.getLocationOnScreen(a);
-//////                    if (a[1] >= 2000) {
-////                        // Schedule the view for removal from the set
-//////                        toRemove.add(each);
-//////                    }
-//////                    System.out.println("XXX y: " + a[1]);
-////
-////                    Rect r1 = nanu.getProximityZone();
-////                    Rect r2 = RectUtility.boundingBox(each);
-////                    if (r1.intersects(r2.left, r2.top, r2.right, r2.bottom)) {
-////                        flag = true;
-////                        break;
-////                    }
-////
-//////                    System.out.println("XXX hi");
-////                }
-//
-////                System.out.println("XXX about to remove a view from the container");
-////                container.removeView(each);
-////                System.out.println("XXX successfully removed a view from the container");
-////                fallingViews.remove(each);
-//
-//
-//
-////
-//
-//
-//            }
-//        }, 0, 100);
-
     }
 
 
-
     @Override
-    public void onClick(View v) {
-
-//        this.nanu.foodIsNearby = !this.nanu.foodIsNearby;
-
-//        System.out.println("XXX  TAP!");
-//
-//
-        // Create a box view
-        final FoodItem box = new FoodItem(this);
-        box.setBackgroundColor(Color.BLUE);
-
-        RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(50, 50);
-        p.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        p.addRule(RelativeLayout.CENTER_HORIZONTAL);
-        box.setLayoutParams(p);
-        box.setId(10);
-
-        this.container.addView(box);
-
-
-        // Get screen height
-        DisplayMetrics display = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(display);
-        int h = display.heightPixels;
-
-        // Schedule an animation
-        ViewPropertyAnimator anim = box.animate().setDuration(5000).setInterpolator(new LinearInterpolator());
-        anim.y(h);
-        anim.withEndAction(new Runnable() {
-            @Override
-            public void run() {
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        container.removeView(box);
-                    }
-                });
-
-
-
-            }
-        });
-
-
-    }
-
-    @Override
-    public void lifeDidChangeBy(int amount) {
-
+    public void lifeReachedZero() {
+        // TODO:
+        // game over functionality
     }
 
     @Override
     public void scoreShouldChangeBy(int amount) {
-
+        score += amount;
+        this.scoreLabel.setText(String.valueOf(score));
     }
 
     @Override
@@ -340,11 +286,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         container.removeView(v);
     }
 
-
     float oldX;
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+
+        // Prevent the Nanu from being moved if isPaused is true.
+        if (isPaused) { return false; }
 
         // Map the Nanu's center to the touch location
 //        nanu.setX(event.getX() - (nanu.getWidth() / 2));
@@ -388,4 +336,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return display.widthPixels;
     }
 
+    private int screenHeight() {
+        DisplayMetrics display = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(display);
+        return display.heightPixels;
+    }
+
+    @Override
+    public void pauseButtonWasTapped(boolean paused) {
+
+        this.isPaused = paused;
+
+        // Pause/Resume non view stuff (like stop the handlers that generate new food, prevent Nanu from being moved)
+        if (paused) {
+            itemDropHandler.removeCallbacks(itemDrop); // stop new items from falling
+            updateHandler.removeCallbacks(update); // pause the game engine loop, for efficiency
+        } else {
+            itemDropHandler.postDelayed(itemDrop, 1000); // we use post delayed here, to prevent the situation where spamming the pause button
+            // caused an item to drop on each resume. But then it's possible to spam the pause button and progress time
+            // without any food falling at all. For now, this is enough.
+            updateHandler.post(update);
+        }
+
+        // Pause/Resume child views
+        int childCount = container.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View someChildView = container.getChildAt(i);
+            if (someChildView instanceof Pausable) {
+                Pausable p = (Pausable) someChildView;
+                if (paused) {
+                    p.pause();
+                } else {
+                    p.resume();
+                }
+            }
+        }
+    }
 }

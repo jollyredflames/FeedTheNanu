@@ -24,7 +24,7 @@
         </activity>
         <activity
             android:name=".DatabaseSavablesAndFuncts.SignUpPage"
-            android:parentActivityName="com.ramsy.GameCentre.GameCentreCommon.LoginPage"
+            android:parentActivityName=".GameCentreCommon.LoginPage"
             android:theme="@style/Theme.AppCompat.Light" />
         <activity
             android:name=".GameCentreCommon.LeaderBoardActivity"
@@ -69,7 +69,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".MemoryMatrix.MemoryMatrixActivity"
+        <activity
+            android:name=".MemoryMatrix.MemoryMatrixActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MemoryMatrixActivity" />
@@ -98,13 +99,21 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="com.ramsy.GameCentre.MemoryMatrix.MemoryMatrixMovingActivity">
+        <activity android:name=".MemoryMatrix.MemoryMatrixMovingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MemoryMatrixMovingActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".FeedTheNanu.NanuPlayground">
+            <intent-filter>
+                <action android:name="android.intent.action.FeedTheNanu.NanuPlayground" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".FeedTheNanu.NanuNewOrSavedActivity"></activity>
     </application>
 
 </manifest>

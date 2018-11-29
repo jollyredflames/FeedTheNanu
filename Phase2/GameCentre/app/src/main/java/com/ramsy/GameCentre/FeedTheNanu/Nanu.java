@@ -43,7 +43,7 @@ import java.util.HashMap;
  */
 
 
-class Nanu extends ImageView {
+class Nanu extends ImageView implements Pausable {
 
     /**
      * This enum encapsulates all the states of the Nanu character.
@@ -82,14 +82,6 @@ class Nanu extends ImageView {
      */
 
     Edible foodItemForEating = null;
-
-
-    /**
-     * time in milliseconds between each texture. Use a smaller number to speed up the Nanu.
-     * Useful for when coffee is consumed.
-     */
-
-    private long speed = 50;
 
 
     /**
@@ -141,13 +133,28 @@ class Nanu extends ImageView {
 
 
     /**
-     * The number of lives the Nanu has.
-     * Eating bad stuff will decrement this number.
-     * Eating some special stuff will increment it.
-     *
+     * The amount of life the Nanu currently has.
+     * Eating bad stuff will decrease this amount.
+     * Eating some special stuff will increase it.
      */
 
-    private int lives = 3;
+    float currentLife;
+
+
+    /**
+     * The maximum life the Nanu can have.
+     */
+
+    static float maxLife = 100f;
+
+    /**
+     * @return The current life as a % of the max life.
+     * This will be a float between 0 and 1 inclusive.
+     */
+
+    float getCurrentLifePercent() {
+        return currentLife / Nanu.maxLife;
+    }
 
 
     /**
@@ -162,6 +169,7 @@ class Nanu extends ImageView {
     Nanu(Context context) {
         super(context);
 
+        this.currentLife = Nanu.maxLife;
         Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.nanu1);
         this.setImageBitmap(image);
 
@@ -171,6 +179,7 @@ class Nanu extends ImageView {
         this.loadLipLickingTextures();
         this.loadChewingTextures();
 
+
     }
 
 
@@ -179,7 +188,7 @@ class Nanu extends ImageView {
      * Call start at any later time to resume without any loss of continuity in the state machine
      */
 
-    void pause() {
+    public void pause() {
 
         handler.removeCallbacks(update);
     }
@@ -210,6 +219,81 @@ class Nanu extends ImageView {
     private int chewsRequired = 1;
 
 
+    /**
+     * The amount of time in milliseconds a fully fed Nanu can last without food
+     * until it's life reaches 0.
+     * This property is used to to quickly tweak the functionality that decreases the Nanu's life as time passes,
+     * without having to change anything else.
+     */
+
+
+    private float endurance = 20000f;
+
+
+    /**
+     * Calculates and stores the amount that the Nanu's life needs to decrease by in each interval of time.
+     * Needs to be called once, passing in the period of the update cycle.
+     * The equation is maxLife / (endurance / interval)
+     * The result is stored in amountLifeChangesByOverTime to avoid subsequent calculation.
+     * @param interval the period in milliseconds of the update loop (game loop) that will call timeDidElapse()
+     */
+
+    void setTimeSliceInterval(float interval) {
+        this.amountLifeChangesByOverTime = -(Nanu.maxLife / (endurance / interval));
+    }
+
+    /**
+     * The amount that the Nanu's life changes by with each unit of time.
+     * Calculated by the setTimeSliceInterval method, and stored here to avoid subsequent calculation
+     */
+
+    private float amountLifeChangesByOverTime;
+
+
+    /**
+     * Updates the Nanu's current life to change by amountLifeChangesOverTime.
+     * This method needs to be called in the game loop, and not Nanu's handler that manages animation,
+     * as that handler is affected by changes to the animationInterval property, by virtue of having coffee.
+     * Whereas the game loop will have a constant period.
+     */
+
+    void timeDidElapse() {
+        this.changeLifeBy(this.amountLifeChangesByOverTime);
+    }
+
+
+    /**
+     * Change the Nanu's current life by amount.
+     * This method ensures the current life is bounded by 0 and Nanu's max life.
+     * Calls a delegate method if life reaches 0.
+     * @param amount The amount to change the Nanu's current life by.
+     */
+
+
+    private void changeLifeBy(float amount) {
+        this.currentLife += amount;
+
+        if (this.currentLife > Nanu.maxLife) {
+            this.currentLife = Nanu.maxLife;
+        }
+
+        if (this.currentLife < 0) {
+            this.currentLife = 0;
+        }
+
+        if (this.currentLife == 0) {
+            // Call a delegate method
+            this.delegate.lifeReachedZero();
+        }
+    }
+
+
+    /**
+     * time in milliseconds between each texture. Use a smaller number to speed up the Nanu.
+     * Useful for when coffee is consumed.
+     */
+
+    private long animationInterval = 50;
 
     Handler handler = new Handler();
 
@@ -420,7 +504,7 @@ class Nanu extends ImageView {
 
 
             // Recursion
-            handler.postDelayed(this, speed);
+            handler.postDelayed(this, animationInterval);
         }
     };
 
@@ -430,21 +514,10 @@ class Nanu extends ImageView {
      * Starts the animation system, essentially making the Nanu 'active'
      */
 
-    void start() {
+    public void resume() {
         // Start a new timer that controls which texture to display
         handler.post(update);
 
-    }
-
-
-    /**
-     * Return the number of lives (read only)
-     * So the game activity can set up a label that displays it.
-     * @return number of lives
-     */
-
-    int getLives() {
-        return this.lives;
     }
 
 
@@ -463,11 +536,18 @@ class Nanu extends ImageView {
 
         // Alert delegate if life changes (passing in the amount it changed by)
         // Alert delegate if the score should change (pass in the amount to change the score by)
-        // No need to alert delegate if the speed changes, as that is used only in this class.
+        // No need to alert delegate if the animationInterval changes, as that is used only in this class.
 
         // TODO:
         delegate.aboutToEat(edible);
+        delegate.scoreShouldChangeBy(edible.effectOnScore());
 
+        this.changeLifeBy(edible.effectOnLife());
+
+//        // Speed changing functionality
+//        if (edible.effectOnSpeed() != 1) {
+//            this.speed /= edible.effectOnSpeed();
+//        }
 
 
 

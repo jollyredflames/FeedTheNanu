@@ -3,15 +3,23 @@ package com.ramsy.GameCentre.FeedTheNanu.DropItems;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
+import com.ramsy.GameCentre.FeedTheNanu.DropItem;
 import com.ramsy.GameCentre.FeedTheNanu.Edible;
 import com.ramsy.GameCentre.R;
 
-public class Spider extends android.support.v7.widget.AppCompatImageView implements Edible {
+public class Spider extends DropItem implements Edible {
 
-    Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.spider);
+    static Bitmap texture;
+
     public Spider(Context context){
         super(context);
-        this.setImageBitmap(this.image);
+
+        if (Spider.texture == null) {
+            Spider.texture = BitmapFactory.decodeResource(getResources(), R.drawable.spider);
+        }
+        this.setImageBitmap(Spider.texture);
+
 //        this.setMinimumHeight(150);
 //        this.setMaxHeight(150);
     }
@@ -19,7 +27,7 @@ public class Spider extends android.support.v7.widget.AppCompatImageView impleme
 
     @Override
     public int effectOnLife() {
-        return -1;
+        return -10;
     }
 
     @Override

@@ -3,26 +3,27 @@ package com.ramsy.GameCentre.FeedTheNanu.DropItems;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
-
+import com.ramsy.GameCentre.FeedTheNanu.DropItem;
 import com.ramsy.GameCentre.FeedTheNanu.Edible;
 import com.ramsy.GameCentre.R;
 
+public class Donut extends DropItem implements Edible{
 
-public class Donut extends android.support.v7.widget.AppCompatImageView implements Edible{
-
-    Bitmap image;
+    static Bitmap texture;
 
     public Donut(Context context){
         super(context);
-        this.image = BitmapFactory.decodeResource(getResources(), R.drawable.donut);
-        this.setImageBitmap(this.image);
+
+        if (Donut.texture == null) {
+            Donut.texture = BitmapFactory.decodeResource(getResources(), R.drawable.donut);
+        }
+        this.setImageBitmap(Donut.texture);
 
     }
 
     @Override
     public int effectOnLife() {
-        return 1;
+        return 10;
     }
 
     @Override
