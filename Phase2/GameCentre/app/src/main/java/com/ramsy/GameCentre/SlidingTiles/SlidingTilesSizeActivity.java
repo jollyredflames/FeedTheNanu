@@ -102,7 +102,7 @@ public class SlidingTilesSizeActivity extends AppCompatActivity {
                 openGallery();
                 }
                 else{
-                    Intent t = new Intent(this, MemoryMatrixActivity.class);
+                    Intent t = new Intent(this, SlidingTileGame.class);
                     image = null;
                     t.putExtra("size", this.size);
                     t.putExtra("slot", this.slot);
