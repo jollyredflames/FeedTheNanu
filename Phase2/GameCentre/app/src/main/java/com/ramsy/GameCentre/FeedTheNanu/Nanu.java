@@ -475,6 +475,8 @@ class Nanu extends ImageView implements Pausable {
         delegate.aboutToEat(edible);
         delegate.scoreShouldChangeBy(edible.effectOnScore());
 
+        this.currentLife += edible.effectOnLife();
+
         if (edible.effectOnSpeed() != 1) {
             this.speed /= edible.effectOnSpeed();
 
