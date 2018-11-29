@@ -1,18 +1,19 @@
 package com.ramsy.GameCentre.MemoryMatrix;
 
-import android.view.View;
-
 public class Block {
     private int x;
     private int y;
-    private View view;
+    private int id;
     private boolean right = true;
     private boolean down = true;
     private int height;
     private int width;
+    public Block(int id){
+        this.id = id;
+    }
 
-    public Block(View v, int x, int y, int width, int height){
-        this.view = v;
+    public Block(int id, int x, int y, int width, int height){
+        this.id = id;
         this.x = x;
         this.y =y;
         this.width = width;
@@ -69,18 +70,18 @@ public class Block {
         this.y = y;
     }
 
-    public View getView() {
-        return view;
+    public int getId() {
+        return this.id;
     }
 
-    public void setView(View view) {
-        this.view = view;
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
     public boolean equals(Object obj) {
-        View compare = (View) obj;
-        return compare.getId() == getView().getId();
+        Block compare = (Block) obj;
+        return compare.getId() == this.getId();
 
     }
 }
