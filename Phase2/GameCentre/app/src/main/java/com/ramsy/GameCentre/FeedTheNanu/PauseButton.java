@@ -9,7 +9,7 @@ import android.widget.RelativeLayout;
 import com.ramsy.GameCentre.R;
 
 /**
- * A class representing a pause / resume button.
+ * A class representing a pause / resume toggle button.
  * This is a subclass of a view group that listens to click gestures,
  * and performs it's own state management internally, and then alerts a delegate if that state is now paused or not.
  * Internal state management is effectively just switching between showing one image or the other.

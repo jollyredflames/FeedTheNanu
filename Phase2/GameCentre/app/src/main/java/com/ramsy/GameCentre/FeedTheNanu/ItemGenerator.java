@@ -8,8 +8,13 @@ import java.util.Random;
 
 public class ItemGenerator {
     //        set up drop so that items have a certain probability of dropping
-    String[] drop = new String[]{"candy", "candy", "p", "cup", "cup", "p","coffee",
-            "d", "d", "p", "d"};
+    String[] drop = new String[]{
+            "candy", "candy",
+            "coffee",
+            "cupcake", "cupcake",
+            "donut", "donut", "donut",
+            "spider", "spider", "spider"
+    };
 
     Context context;
 
@@ -20,21 +25,21 @@ public class ItemGenerator {
 
     public ImageView getItem() {
         Random ran = new Random();
-        int i = ran.nextInt(11);
-        System.out.println(i + "lala");
-        if(drop[i].equals("candy")){
+        int i = ran.nextInt(drop.length);
+
+        if (drop[i].equals("candy")) {
             return new Candy(this.context);
         }
-        else if (drop[i].equals("coffee")){
+        else if (drop[i].equals("coffee")) {
             return new Coffee(this.context);
         }
-        else if (drop[i].equals("cup")){
+        else if (drop[i].equals("cupcake")) {
             return new Cupcake(this.context);
         }
-        else if (drop[i].equals("d")){
+        else if (drop[i].equals("donut")) {
             return new Donut(this.context);
         }
-        else{
+        else {
             return new Spider(this.context);
         }
 

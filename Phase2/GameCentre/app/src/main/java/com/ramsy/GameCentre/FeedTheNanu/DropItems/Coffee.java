@@ -9,11 +9,16 @@ import com.ramsy.GameCentre.R;
 
 public class Coffee extends DropItem implements Edible {
 
-    Bitmap image;
+    static Bitmap texture;
+
     public Coffee(Context context){
         super(context);
-        this.image = BitmapFactory.decodeResource(getResources(), R.drawable.coffee);
-        this.setImageBitmap(this.image);
+
+        if (Coffee.texture == null) {
+            Coffee.texture = BitmapFactory.decodeResource(getResources(), R.drawable.coffee);
+        }
+        this.setImageBitmap(Coffee.texture);
+
 
     }
 
