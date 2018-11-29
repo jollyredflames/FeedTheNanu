@@ -279,7 +279,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     @Override
     public void lifeReachedZero() {
-        
+
     }
 
     @Override

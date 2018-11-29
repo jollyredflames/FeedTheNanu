@@ -188,6 +188,17 @@ class Nanu extends ImageView implements Pausable {
         this.loadLipLickingTextures();
         this.loadChewingTextures();
 
+
+        /*
+        Use the fastingLimit and speed and Nanu's max life
+        to determine how much the life should decrease by in each update cycle
+         */
+
+        this.timeDrivenLifeDecreaseAmount = fastingLimit / speed / maxLife;
+        // coincidentally this is 5000 / 50 which is 100, which is the Nanu's max life.
+        // And 100 / 100 is 1, so life should decrement by 1 in each update cycle.
+
+
     }
 
 
@@ -227,12 +238,34 @@ class Nanu extends ImageView implements Pausable {
     private int chewsRequired = 1;
 
 
+    /**
+     * The amount of time in milliseconds a fully fed Nanu can last without food
+     * until it's life reaches 0.
+     * This property is used to implement functionality that
+     * decreases the Nanu's life as time passes
+     */
+
+
+    private float fastingLimit = 5000f;
+
+
+    /**
+     * The amount that the Nanu's life needs to decrease by in each update cycle.
+     * Calculated in init, so it is not affected by subsequent changes to speed by virtue of
+     * having coffee.
+     */
+
+    private float timeDrivenLifeDecreaseAmount;
+
+
 
     Handler handler = new Handler();
 
     private Runnable update = new Runnable() {
         @Override
         public void run() {
+
+            currentLife -= timeDrivenLifeDecreaseAmount;
 
             // Animation state machine logic goes here
 
