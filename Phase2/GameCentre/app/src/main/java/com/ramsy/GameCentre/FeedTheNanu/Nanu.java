@@ -455,17 +455,6 @@ class Nanu extends ImageView implements Pausable {
 
 
     /**
-     * Return the number of lives (read only)
-     * So the game activity can set up a label that displays it.
-     * @return number of lives
-     */
-
-    int getLives() {
-        return this.lives;
-    }
-
-
-    /**
      * Process the eating of an Edible item.
      * The Game Activity or other controller needs to call this method, passing in
      * the Edible to be eaten. It's the responsibility of that class to ensure the item
