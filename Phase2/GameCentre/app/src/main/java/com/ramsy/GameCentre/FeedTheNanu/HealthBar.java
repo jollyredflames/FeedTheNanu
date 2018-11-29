@@ -8,7 +8,6 @@ import com.ramsy.GameCentre.R;
 
 public class HealthBar extends RelativeLayout {
     View health;
-    int time;
 
 
     HealthBar(Context context){
@@ -23,7 +22,6 @@ public class HealthBar extends RelativeLayout {
 
         health = new View(context);
         health.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-        this.time = 1500;
 //        this.setBackgroundColor(getResources().getColor(R.color.app_button1));
         setHealthTo(1f);
         this.addView(health);
@@ -32,8 +30,11 @@ public class HealthBar extends RelativeLayout {
 
     }
 
-    // health bar need to have been laid out before this method is called
+
     public void setHealthTo(float f){
+
+        // health bar need to have been laid out before this method is called
+        //precondition, float has to be between 0 and 1 inclusive
         int width = this.getWidth();
         this.health.setX((width * f) - width);
     }
