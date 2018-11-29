@@ -85,14 +85,6 @@ class Nanu extends ImageView implements Pausable {
 
 
     /**
-     * time in milliseconds between each texture. Use a smaller number to speed up the Nanu.
-     * Useful for when coffee is consumed.
-     */
-
-    private long speed = 50;
-
-
-    /**
      * Holds the current state. Starts at idling.
      */
 
@@ -146,8 +138,7 @@ class Nanu extends ImageView implements Pausable {
      * Eating some special stuff will increase it.
      */
 
-
-    private float currentLife;
+    float currentLife;
 
 
     /**
@@ -187,16 +178,6 @@ class Nanu extends ImageView implements Pausable {
         this.loadMouthClosingTextures();
         this.loadLipLickingTextures();
         this.loadChewingTextures();
-
-
-        /*
-        Use the fastingLimit and speed and Nanu's max life
-        to determine how much the life should decrease by in each update cycle
-         */
-
-        this.timeDrivenLifeDecreaseAmount = fastingLimit / speed / maxLife;
-        // coincidentally this is 5000 / 50 which is 100, which is the Nanu's max life.
-        // And 100 / 100 is 1, so life should decrement by 1 in each update cycle.
 
 
     }
@@ -241,31 +222,84 @@ class Nanu extends ImageView implements Pausable {
     /**
      * The amount of time in milliseconds a fully fed Nanu can last without food
      * until it's life reaches 0.
-     * This property is used to implement functionality that
-     * decreases the Nanu's life as time passes
+     * This property is used to to quickly tweak the functionality that decreases the Nanu's life as time passes,
+     * without having to change anything else.
      */
 
 
-    private float fastingLimit = 5000f;
+    private float endurance = 20000f;
 
 
     /**
-     * The amount that the Nanu's life needs to decrease by in each update cycle.
-     * Calculated in init, so it is not affected by subsequent changes to speed by virtue of
-     * having coffee.
+     * Calculates and stores the amount that the Nanu's life needs to decrease by in each interval of time.
+     * Needs to be called once, passing in the period of the update cycle.
+     * The equation is maxLife / (endurance / interval)
+     * The result is stored in amountLifeChangesByOverTime to avoid subsequent calculation.
+     * @param interval the period in milliseconds of the update loop (game loop) that will call timeDidElapse()
      */
 
-    private float timeDrivenLifeDecreaseAmount;
+    void setTimeSliceInterval(float interval) {
+        this.amountLifeChangesByOverTime = -(Nanu.maxLife / (endurance / interval));
+    }
+
+    /**
+     * The amount that the Nanu's life changes by with each unit of time.
+     * Calculated by the setTimeSliceInterval method, and stored here to avoid subsequent calculation
+     */
+
+    private float amountLifeChangesByOverTime;
 
 
+    /**
+     * Updates the Nanu's current life to change by amountLifeChangesOverTime.
+     * This method needs to be called in the game loop, and not Nanu's handler that manages animation,
+     * as that handler is affected by changes to the animationInterval property, by virtue of having coffee.
+     * Whereas the game loop will have a constant period.
+     */
+
+    void timeDidElapse() {
+        this.changeLifeBy(this.amountLifeChangesByOverTime);
+    }
+
+
+    /**
+     * Change the Nanu's current life by amount.
+     * This method ensures the current life is bounded by 0 and Nanu's max life.
+     * Calls a delegate method if life reaches 0.
+     * @param amount The amount to change the Nanu's current life by.
+     */
+
+
+    private void changeLifeBy(float amount) {
+        this.currentLife += amount;
+
+        if (this.currentLife > Nanu.maxLife) {
+            this.currentLife = Nanu.maxLife;
+        }
+
+        if (this.currentLife < 0) {
+            this.currentLife = 0;
+        }
+
+        if (this.currentLife == 0) {
+            // Call a delegate method
+            this.delegate.lifeReachedZero();
+        }
+    }
+
+
+    /**
+     * time in milliseconds between each texture. Use a smaller number to speed up the Nanu.
+     * Useful for when coffee is consumed.
+     */
+
+    private long animationInterval = 50;
 
     Handler handler = new Handler();
 
     private Runnable update = new Runnable() {
         @Override
         public void run() {
-
-            currentLife -= timeDrivenLifeDecreaseAmount;
 
             // Animation state machine logic goes here
 
@@ -470,7 +504,7 @@ class Nanu extends ImageView implements Pausable {
 
 
             // Recursion
-            handler.postDelayed(this, speed);
+            handler.postDelayed(this, animationInterval);
         }
     };
 
@@ -502,31 +536,18 @@ class Nanu extends ImageView implements Pausable {
 
         // Alert delegate if life changes (passing in the amount it changed by)
         // Alert delegate if the score should change (pass in the amount to change the score by)
-        // No need to alert delegate if the speed changes, as that is used only in this class.
+        // No need to alert delegate if the animationInterval changes, as that is used only in this class.
 
         // TODO:
         delegate.aboutToEat(edible);
         delegate.scoreShouldChangeBy(edible.effectOnScore());
 
-        this.currentLife += edible.effectOnLife();
+        this.changeLifeBy(edible.effectOnLife());
 
-        if (this.currentLife > Nanu.maxLife) {
-            this.currentLife = Nanu.maxLife;
-        }
-
-        if (this.currentLife < 0) {
-            this.currentLife = 0;
-        }
-
-        if (this.currentLife == 0) {
-            // Call a delegate method
-            this.delegate.lifeReachedZero();
-        }
-
-        // Speed changing functionality
-        if (edible.effectOnSpeed() != 1) {
-            this.speed /= edible.effectOnSpeed();
-        }
+//        // Speed changing functionality
+//        if (edible.effectOnSpeed() != 1) {
+//            this.speed /= edible.effectOnSpeed();
+//        }
 
 
 
