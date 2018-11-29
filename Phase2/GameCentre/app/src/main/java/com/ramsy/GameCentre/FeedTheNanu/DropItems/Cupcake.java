@@ -11,10 +11,14 @@ import com.ramsy.GameCentre.R;
 
 public class Cupcake extends DropItem implements Edible{
 
-    static Bitmap texture = BitmapFactory.decodeResource(getResources(), R.drawable.cupcake);
+    static Bitmap texture;
 
     public Cupcake(Context context){
         super(context);
+
+        if (Cupcake.texture == null) {
+            Cupcake.texture = BitmapFactory.decodeResource(getResources(), R.drawable.cupcake);
+        }
         this.setImageBitmap(Cupcake.texture);
 
     }
