@@ -1,5 +1,7 @@
 package com.ramsy.slidingtiles;
 
+import android.content.Context;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;

@@ -6,126 +6,124 @@ import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class MemoryMatrixManager implements View.OnClickListener {
-    private RelativeLayout container;
-    private Set<Integer> clickableID = new HashSet<>();
+public class MemoryMatrixManager implements Iterable<Block> {
+    private Set<Integer> clickableID;
     private Set<Integer> mustBeClicked;
-    private static int numToBeClicked;
+    private int numToBeClicked;
     private int undo = 5;
     private int hp = 5;
-    private int currentClicked;
     private int correctClick = 0;
-    private int resetDelay = 5000;
     private boolean canClick = false;
     private Set<Integer> correctClicks = new HashSet<>();
     private ArrayList<Integer> wrongClicks = new ArrayList<>();
+    private ArrayList<Block> blocksToHighLight;
 
-    public MemoryMatrixManager(RelativeLayout container, Set<Integer> clickableID,int numTileX,int numTileY,int badIndex) {
-        this.container = container;
+    public MemoryMatrixManager(ArrayList<Block> blocksToHighLight ,Set<Integer> clickableID,int badIndex) {
         this.clickableID = clickableID;
-        this.numToBeClicked = (int) Math.ceil(numTileX*numTileY*0.25);
-        MemoryMatrixRandomizer randomer = new MemoryMatrixRandomizer(clickableID,numToBeClicked,badIndex);
+        this.numToBeClicked = (int) Math.ceil(blocksToHighLight.size()*0.25);
+        MemoryMatrixRandomizer randomer = new MemoryMatrixRandomizer(clickableID, numToBeClicked, badIndex);
         mustBeClicked = randomer.randomizer();
-        this.go();
-        this.resetColor();
+        this.blocksToHighLight = blocksToHighLight;
     }
 
-
-
-    @Override
-    public void onClick(View v) {
-        checkTileCorrect(v);
-    }
-
-    public void go() {
-        Timer t = new Timer();
-        t.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                for (Integer i :mustBeClicked) {
-                    container.getChildAt(i+2).setBackgroundColor(Color.YELLOW);
-                }
-                t.cancel();
-            }
-        }, 1000, 1000);
-    }
-
-    public void resetColor() {
-        Timer t = new Timer();
-        t.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                for (Integer i :mustBeClicked) {
-                    container.getChildAt(i+2).setBackgroundColor(Color.GRAY);
-                }
-                t.cancel();
-                canClick = true;
-            }
-        }, resetDelay, 1000);
-    }
-
-    public void checkTileCorrect(View v) {
-        if (mustBeClicked.contains(v.getId())) {
-            if (!correctClicks.contains(v.getId())) {
-                v.setBackgroundColor(Color.GREEN);
+    public boolean checkTileCorrect(int ID) {
+        if (mustBeClicked.contains(ID)) {
+            if (!correctClicks.contains(ID)) {
                 correctClick++;
-                correctClicks.add(v.getId());
+                correctClicks.add(ID);
+                return true;
             }
+            return true;
+        } else {
+            wrongClicks.add(ID);
         }
-        else {
-            v.setBackgroundColor(Color.RED);
-            wrongClicks.add(v.getId());
-        }
+        return false;
     }
-    public void loseHP(){
+
+    public void setCanClick(boolean yes){
+        this.canClick = yes;
+    }
+
+    public void loseHP() {
         hp--;
     }
-    public void gainHP(){
+
+    public void gainHP() {
         hp++;
     }
 
-    public int calculateScore(int prevScore){
+    public int calculateScore(int prevScore) {
         return 0;
     }
     //10*(m*n)^2
 
-    public int calculateScore(){
+    public int calculateScore() {
         return 0;
     }
 
-    public boolean isGameComplete () {
+    public boolean isGameComplete() {
         return correctClick == mustBeClicked.size();
     }
 
-    public boolean getClick () {
+    public boolean getClick() {
         return canClick;
     }
 
-    public void setUpUndo () {
+
+    public boolean setUpUndo() {
         if (undo <= 0) {
-            return;
+            return false;
         }
         if (wrongClicks.size() == 0) {
-            return;
+            return false;
         }
+        return true;
+    }
+
+    public int performUndo() {
         this.gainHP();
         undo--;
 
         int index = wrongClicks.size() - 1;
         int item = wrongClicks.get(index);
-        container.getChildAt(item + 2).setBackgroundColor(Color.GRAY);
-        wrongClicks.remove(wrongClicks.size()-1);
+        wrongClicks.remove(wrongClicks.size() - 1);
+        return item;
     }
 
 
-//    public void setUpQuit() {
-//        // save dimensions
-//        // save number of undos
-//        // score
-//    }
+    @Override
+    public Iterator iterator() {
+        return new ClassListIterator();
+    }
+
+
+    private class ClassListIterator implements Iterator<Block> {
+        /**
+         * The index of the next item in the class list.
+         */
+        int nextIndex = 0;
+
+        @Override
+        public boolean hasNext() {
+            return nextIndex != blocksToHighLight.size();
+        }
+
+        @Override
+        public Block next() {
+            Block result = blocksToHighLight.get(nextIndex);
+            nextIndex++;
+            return result;
+        }
+    }
+
+    public Set<Integer> getMustBeClicked(){
+        return mustBeClicked;
+    }
+
 }
