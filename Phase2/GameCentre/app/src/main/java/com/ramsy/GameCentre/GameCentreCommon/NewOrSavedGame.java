@@ -62,6 +62,8 @@ public class NewOrSavedGame extends AppCompatActivity {
         Intent currentIntent = getIntent();
         this.gameName = currentIntent.getStringExtra("GAME_NAME");
 
+        System.out.println("XXX GAME_NAME is " + gameName);
+
 
 
         Button newGame = findViewById(R.id.newGame);
@@ -103,6 +105,8 @@ public class NewOrSavedGame extends AppCompatActivity {
 
                 }
                 else if(gameName.equals("FeedTheNanu")){
+                    System.out.println("XXX should start a feed the nanu game");
+
                     newActivity = new Intent(this, MainActivity.class);
                 }
                 else {

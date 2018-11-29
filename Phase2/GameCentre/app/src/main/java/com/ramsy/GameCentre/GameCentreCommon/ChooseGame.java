@@ -51,7 +51,7 @@ public class ChooseGame extends AppCompatActivity {
      * game is selected by the user.
      */
     public void setMemoryOnClickListener(){
-        this.nanu.setOnClickListener((v)-> {
+        this.memory.setOnClickListener((v)-> {
             Intent tmp = new Intent(this, NewOrSavedGame.class);
             tmp.putExtra("GAME_NAME", "MemoryMatrix");
             startActivity(tmp);
@@ -65,7 +65,7 @@ public class ChooseGame extends AppCompatActivity {
      * game is selected by the user.
      */
     public void setSlidingOnClickListener(){
-        this.nanu.setOnClickListener((v) -> {
+        this.sliding.setOnClickListener((v) -> {
             Intent tmp = new Intent(this, NewOrSavedGame.class);
             tmp.putExtra("GAME_NAME", "SlidingTiles");
             startActivity(tmp);
