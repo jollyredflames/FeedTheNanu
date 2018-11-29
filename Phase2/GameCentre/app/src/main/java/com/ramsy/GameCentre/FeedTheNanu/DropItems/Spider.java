@@ -10,10 +10,11 @@ import com.ramsy.GameCentre.R;
 
 public class Spider extends DropItem implements Edible {
 
-    Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.spider);
+    static Bitmap texture = BitmapFactory.decodeResource(getResources(), R.drawable.spider);
+
     public Spider(Context context){
         super(context);
-        this.setImageBitmap(this.image);
+        this.setImageBitmap(Spider.texture);
 //        this.setMinimumHeight(150);
 //        this.setMaxHeight(150);
     }

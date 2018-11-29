@@ -11,12 +11,11 @@ import com.ramsy.GameCentre.R;
 
 public class Candy extends DropItem implements Edible {
 
-    Bitmap image;
+    static Bitmap texture = BitmapFactory.decodeResource(getResources(), R.drawable.candy);
 
     public Candy(Context context){
         super(context);
-        this.image = BitmapFactory.decodeResource(getResources(), R.drawable.candy);
-        this.setImageBitmap(this.image);
+        this.setImageBitmap(Candy.texture);
 
     }
 

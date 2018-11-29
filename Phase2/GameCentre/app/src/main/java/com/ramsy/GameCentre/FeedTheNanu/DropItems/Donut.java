@@ -11,12 +11,11 @@ import com.ramsy.GameCentre.R;
 
 public class Donut extends DropItem implements Edible{
 
-    Bitmap image;
+    static Bitmap texture = BitmapFactory.decodeResource(getResources(), R.drawable.donut);
 
     public Donut(Context context){
         super(context);
-        this.image = BitmapFactory.decodeResource(getResources(), R.drawable.donut);
-        this.setImageBitmap(this.image);
+        this.setImageBitmap(Donut.texture);
 
     }
 
