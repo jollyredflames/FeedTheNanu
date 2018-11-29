@@ -8,6 +8,8 @@ import android.widget.Button;
 
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.FirebaseFuncts;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.User;
+import com.ramsy.GameCentre.FeedTheNanu.MainActivity;
+import com.ramsy.GameCentre.MemoryMatrix.MemoryMatrixActivity;
 import com.ramsy.GameCentre.SlidingTiles.SlidingTilesSizeActivity;
 import com.ramsy.GameCentre.R;
 
@@ -45,13 +47,22 @@ public class NewOrSavedGame extends AppCompatActivity {
      */
 
     Button[] group;
-    //TODO: GAMENAME MUST BE PASSED
-    String gameName = "SlidingTiles";
+    String gameName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_game_page);
         meUser = FirebaseFuncts.getUser();
+
+
+        //assign gamename to the value that is from an intent
+        // value for sliding tiles game is "SlidingTiles"
+        // value for feed the nanu is "FeedTheNanu"
+        Intent currentIntent = getIntent();
+        this.gameName = currentIntent.getStringExtra("GAME_NAME");
+
+
+
         Button newGame = findViewById(R.id.newGame);
         Button savedGames = findViewById(R.id.savedGames);
         this.group = new Button[] {newGame, savedGames};
@@ -82,8 +93,22 @@ public class NewOrSavedGame extends AppCompatActivity {
             else {
                 group[1].setBackgroundColor(getColor(R.color.app_button1));
                 group[0].setBackgroundColor(getColor(R.color.app_button));
-                Intent tmp = new Intent(this, SlidingTilesSizeActivity.class);
-                startActivity(tmp);
+
+                Intent newActivity;
+
+
+                if (gameName.equals("SlidingTiles")){
+                    newActivity = new Intent(this, SlidingTilesSizeActivity.class);
+
+                }
+                else if(gameName.equals("FeedTheNanu")){
+                    newActivity = new Intent(this, MainActivity.class);
+                }
+                else {
+                    newActivity = new Intent(this, MemoryMatrixActivity.class);
+                }
+                startActivity(newActivity);
+
             }
 
 
@@ -97,8 +122,9 @@ public class NewOrSavedGame extends AppCompatActivity {
         group[1].setOnClickListener((V) ->{
             group[0].setBackgroundColor(getColor(R.color.app_button1));
             group[1].setBackgroundColor(getColor(R.color.app_button));
-            Intent tmp = new Intent(this, SavedGamesActivity.class);
-            startActivity(tmp);
+//            Intent tmp = new Intent(this, SavedGamesActivity.class);
+//            startActivity(tmp);
+            //TODO: NEED TO INTENT TO THE CORRECT SAVED GAMES ACTIVITY
         });
     }
 
