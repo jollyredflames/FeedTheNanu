@@ -63,6 +63,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageView background;
     ItemGenerator itemGenerator;
     final int padding = 100;
+    HealthBar hb;
+    int healthBarW;
+    int healthBarH;
 
 
 
@@ -254,6 +257,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         p.setLayoutParams(pauseButtonParams);
         container.addView(p);
 
+        this.healthBarH = screenHeight()/15;
+        this.healthBarW = screenWidth()/3;
+        hb = new HealthBar(this, 1f,healthBarW, healthBarH );
+        RelativeLayout.LayoutParams healthBarParams = new RelativeLayout.
+                LayoutParams(healthBarW, this.healthBarH);
+        healthBarParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        healthBarParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        healthBarParams.setMargins(10, 10, 0, 0);
+        hb.setLayoutParams(healthBarParams);
+        container.addView(hb);
+
+
+
+
 
 
         // Create an Image View
@@ -289,8 +306,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         handler.post(update);
         handler2.post(itemDropTest);
-
-
 
 
 
@@ -374,6 +389,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void lifeDidChangeBy(int amount) {
+        // call method in healthbar
 
     }
 

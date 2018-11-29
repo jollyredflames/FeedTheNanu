@@ -2,51 +2,34 @@ package com.ramsy.GameCentre.FeedTheNanu;
 import android.content.Context;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.os.Handler;
-import java.util.logging.LogRecord;
+import com.ramsy.GameCentre.R;
 
 
 public class HealthBar extends RelativeLayout {
     View health;
-    int barWidth;
-    int barHeight;
     int time;
-    Handler handle = new Handler();
-    Runnable decreaseByTime = new Runnable() {
-        @Override
-        public void run() {
-            //decrease heath
-            decreaseHealth();
-            handle.postDelayed(this, time);
-        }
-    };
 
-    HealthBar(Context context){
+
+    HealthBar(Context context, float percent, int width, int height){
 
         super(context);
         health = new View(context);
-        this.addView(health);
+        health.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         this.time = 1500;
-        this.barHeight = this.getHeight();
-        this.barWidth = this.getWidth();
-        handle.post(decreaseByTime);
+        this.setBackgroundColor(getResources().getColor(R.color.app_button1));
+        setHealthTo(percent, width, height);
+        this.addView(health);
 
     }
 
 
-    void decreaseHealth(){
-        int healthValue = health.getWidth();
-        RelativeLayout.LayoutParams h = new LayoutParams(healthValue - barWidth/10, barHeight);
-        health.setLayoutParams(h);
-
-    };
-
-    void increaseHealth(){
-        int healthValue = health.getWidth();
-        RelativeLayout.LayoutParams h = new LayoutParams(healthValue + barWidth/10, barHeight);
-        health.setLayoutParams(h);
-
+    public void setHealthTo(float f, int barHeight, int barWidth){
+        System.out.println(barHeight + "nanu nanu height");
+        System.out.println(barWidth + "nanu nanu width");
+        RelativeLayout.LayoutParams h = new LayoutParams(Math.round(barWidth * f), barHeight);
+        this.health.setLayoutParams(h);
     }
+
 
 
 }
