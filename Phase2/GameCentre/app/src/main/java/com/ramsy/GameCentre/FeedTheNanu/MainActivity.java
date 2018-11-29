@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             nanu.foodItemForEating = foodItemForEating;
             nanu.foodIsNearby = foodIsNearby;
 
-            hb.setHealthTo(nanu.getCurrentLifePercent(), healthBarH, healthBarW);
+            hb.setHealthTo(nanu.getCurrentLifePercent());
 
             updateHandler.postDelayed(this, 20);
         }
@@ -248,7 +248,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
         this.healthBarH = screenHeight()/15;
         this.healthBarW = screenWidth()/3;
-        hb = new HealthBar(this, 1f,healthBarW, healthBarH );
+        hb = new HealthBar(this);
         RelativeLayout.LayoutParams healthBarParams = new RelativeLayout.
                 LayoutParams(healthBarW, this.healthBarH);
         healthBarParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);

@@ -16,7 +16,7 @@ public class NanuPlayground extends AppCompatActivity {
         healthBarW = screenWidth()/3;
         healthBarH = screenHeight()/15;
         RelativeLayout container = new RelativeLayout(this);
-        hb = new HealthBar(this, 1f, healthBarH, healthBarW);
+        hb = new HealthBar(this);
         RelativeLayout.LayoutParams healthBarParams = new RelativeLayout.
                 LayoutParams(healthBarW, healthBarH);
         healthBarParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
@@ -26,7 +26,7 @@ public class NanuPlayground extends AppCompatActivity {
         container.addView(hb);
         setContentView(container);
 
-        hb.setHealthTo(0.7f, healthBarW, healthBarH);
+        hb.setHealthTo(0.5f);
 
     }
 
