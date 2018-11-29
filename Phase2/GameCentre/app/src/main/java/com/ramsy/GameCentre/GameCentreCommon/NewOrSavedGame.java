@@ -89,7 +89,7 @@ public class NewOrSavedGame extends AppCompatActivity {
                 Intent newActivity;
 
 
-                if(gameName.equals("SlidingTiles")){
+                if (gameName.equals("SlidingTiles")){
                     newActivity = new Intent(this, SlidingTilesSizeActivity.class);
 
                 }
