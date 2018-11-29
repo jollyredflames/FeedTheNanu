@@ -1,6 +1,5 @@
 package com.ramsy.GameCentre.GameCentreCommon;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,9 +11,39 @@ import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.User;
 import com.ramsy.GameCentre.SlidingTiles.SlidingTilesSizeActivity;
 import com.ramsy.GameCentre.R;
 
+
+/**
+ * The activity that displays 3 buttons:
+ * New Game
+ * Saved Games
+ * Log Out
+ */
+
 public class NewOrSavedGame extends AppCompatActivity {
-    Context context;
+
+    /*
+    TODO:
+    Generalizing NewOrSavedGame activity
+
+    After selecting which of the 3 games to play (Sliding Tiles, Feed The Nanu, or Memory Matrix),
+    the user should be taken to an activity that looks just like this one, but with tailored functionality.
+    For example, the New Game button should start the game that was chosen in the previous activity.
+    Alternatively, we could go to this activity first, and then pick a game after. But it would mean we'd have to show
+    all saved games if saved games is tapped, and right now it is set to show only 3. So let's go with the first design,
+    which also makes more semantic sense.
+
+     */
+
+
+
+
+
     private User meUser;
+
+    /**
+     * References to the New Game button and Saved Games button, in that order
+     */
+
     Button[] group;
     //TODO: GAMENAME MUST BE PASSED
     String gameName = "SlidingTiles";
@@ -50,10 +79,12 @@ public class NewOrSavedGame extends AppCompatActivity {
                     NewGameDialog newGameDialog = new NewGameDialog();
                     newGameDialog.show(getSupportFragmentManager(),"over ride saved");
             }
-            else{group[1].setBackgroundColor(getColor(R.color.app_button1));
+            else {
+                group[1].setBackgroundColor(getColor(R.color.app_button1));
                 group[0].setBackgroundColor(getColor(R.color.app_button));
                 Intent tmp = new Intent(this, SlidingTilesSizeActivity.class);
-                startActivity(tmp);}
+                startActivity(tmp);
+            }
 
 
         });

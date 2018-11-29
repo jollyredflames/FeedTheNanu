@@ -114,6 +114,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".FeedTheNanu.NanuNewOrSavedActivity"></activity>
+        <activity android:name=".GameCentreCommon.NewOrSavedGame">
+            <intent-filter>
+                <action android:name="android.intent.action.GameCentreCommon.NewOrSavedGame" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>
