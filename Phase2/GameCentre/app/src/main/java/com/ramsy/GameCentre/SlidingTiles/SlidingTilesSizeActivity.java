@@ -19,8 +19,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
- * check if the user wants to play with pictures or tiles and then take them to the game
+ * The activity where you choose the board size for the new game, and whether to play a
+ * Sliding Tiles game with a picture or numbers. Then take the user to the game.
  */
+
 public class SlidingTilesSizeActivity extends AppCompatActivity {
     String bg;
     int size;
