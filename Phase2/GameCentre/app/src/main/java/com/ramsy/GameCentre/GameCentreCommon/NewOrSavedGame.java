@@ -15,7 +15,7 @@ import com.ramsy.GameCentre.R;
 
 
 /**
- * The activity that displays 3 buttons:
+ * The activity that allow users to choose to start a new game or a save game
  * New Game
  * Saved Games
  * Log Out
@@ -58,7 +58,7 @@ public class NewOrSavedGame extends AppCompatActivity {
         //assign gamename to the value that is from an intent
         // value for sliding tiles game is "SlidingTiles"
         // value for feed the nanu is "FeedTheNanu"
-        // value for memory tile is "MemoryTile"
+        // value for memory tile is "MemoryMatrix"
         Intent currentIntent = getIntent();
         this.gameName = currentIntent.getStringExtra("GAME_NAME");
 
