@@ -278,6 +278,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
 
     @Override
+    public void lifeReachedZero() {
+        
+    }
+
+    @Override
     public void scoreShouldChangeBy(int amount) {
         score += amount;
         this.scoreLabel.setText(String.valueOf(score));
