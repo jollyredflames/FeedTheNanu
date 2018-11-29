@@ -131,9 +131,18 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         }
     };
 
+    float delta;
+
     Runnable update = new Runnable() {
         @Override
         public void run() {
+
+            // Why does this line cause the Nanu to miss food.
+            // I think it's because it somehow causes this update method to become slow.
+            // But how?
+
+
+            nanu.timeDidElapse();
 
             boolean foodIsNearby = false;
             Edible foodItemForEating = null;
@@ -170,10 +179,16 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
             hb.setHealthTo(nanu.getCurrentLifePercent());
 
-            updateHandler.postDelayed(this, 20);
+            updateHandler.postDelayed(this, gameLoopInterval);
         }
     };
 
+
+    /**
+     * Period in milliseconds of the game loop
+     */
+
+    long gameLoopInterval = 20;
 
 
     @Override
@@ -217,6 +232,10 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         setupPauseButton();
 
         setupNanu();
+
+        nanu.setTimeSliceInterval(gameLoopInterval);
+
+
         nanu.resume();
 
         // Start running tasks
