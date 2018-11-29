@@ -33,12 +33,7 @@ public class NewOrSavedGame extends AppCompatActivity {
     Alternatively, we could go to this activity first, and then pick a game after. But it would mean we'd have to show
     all saved games if saved games is tapped, and right now it is set to show only 3. So let's go with the first design,
     which also makes more semantic sense.
-
      */
-
-
-
-
 
     private User meUser;
 
@@ -54,16 +49,12 @@ public class NewOrSavedGame extends AppCompatActivity {
         setContentView(R.layout.activity_choose_game_page);
         meUser = FirebaseFuncts.getUser();
 
-
         //assign gamename to the value that is from an intent
         // value for sliding tiles game is "SlidingTiles"
         // value for feed the nanu is "FeedTheNanu"
         // value for memory tile is "MemoryMatrix"
         Intent currentIntent = getIntent();
         this.gameName = currentIntent.getStringExtra("GAME_NAME");
-
-
-
         Button newGame = findViewById(R.id.newGame);
         Button savedGames = findViewById(R.id.savedGames);
         this.group = new Button[] {newGame, savedGames};
@@ -98,7 +89,7 @@ public class NewOrSavedGame extends AppCompatActivity {
                 Intent newActivity;
 
 
-                if (gameName.equals("SlidingTiles")){
+                if(gameName.equals("SlidingTiles")){
                     newActivity = new Intent(this, SlidingTilesSizeActivity.class);
 
                 }
