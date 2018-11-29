@@ -12,7 +12,7 @@ public class ItemGenerator {
             "candy", "candy",
             "coffee",
             "cupcake", "cupcake",
-            "donut", "donut", "donut",
+            "spider", "donut", "donut",
             "spider", "spider", "spider"
     };
 
