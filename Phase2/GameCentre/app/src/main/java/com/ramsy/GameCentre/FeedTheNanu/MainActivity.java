@@ -19,6 +19,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import com.ramsy.GameCentre.R;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener, NanuDelegate, PauseButtonDelegate {
 
@@ -60,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Nanu nanu;
     RelativeLayout container;
     ImageView background;
+    ItemGenerator itemGenerator;
+    final int padding = 100;
 
 
 
@@ -73,7 +76,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void run() {
             // Create a box view
-            final FoodItem box = new FoodItem(MainActivity.this);
+//            final FoodItem box = new FoodItem(MainActivity.this);
+            DropItem box = (DropItem)itemGenerator.getItem();
+            box.setId(10);
+
+
 
 //            box.setBackgroundColor(Color.BLUE);
 
@@ -82,15 +89,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             box.setY(-150);
             p.addRule(RelativeLayout.CENTER_HORIZONTAL);
             box.setLayoutParams(p);
-            box.setId(10);
+
+            Random random = new Random();
+            int dropWidth = 125;
+            float positionX = random.nextInt(screenWidth() - padding * 2 - dropWidth) + padding;
+            box.setX(positionX);
+//            p.addRule(RelativeLayout.CENTER_HORIZONTAL);
+//            box.setId(10);
 
             container.addView(box);
 
 
-            // Get screen height
-            DisplayMetrics display = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getMetrics(display);
-            int h = display.heightPixels;
+
 
             // Schedule an animation
 //            ViewPropertyAnimator anim = box.animate().setDuration(5000).setInterpolator(new LinearInterpolator());
@@ -195,6 +205,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_main);
 
+        this.itemGenerator = new ItemGenerator(this);
         // Create a View Group
         final RelativeLayout container = new RelativeLayout(this);
         this.container = container;

@@ -18,14 +18,14 @@ import android.widget.ImageView;
  * as the Pausable implementations here require it.
  */
 
-abstract class DropItem extends ImageView implements Pausable {
+public abstract class DropItem extends ImageView implements Pausable {
 
     // Whoa, so abstract prevents it from being instantiated, but it can still define an init
     // that can be called as super(...) from a subclass.
 
-    ObjectAnimator animator;
+    public ObjectAnimator animator;
 
-    DropItem(Context context) {
+    public DropItem(Context context) {
         super(context);
     }
 

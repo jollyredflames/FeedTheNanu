@@ -18,24 +18,24 @@ public class ItemGenerator {
     }
 
 
-    public ImageView chooseItem(Context con) {
+    public ImageView getItem() {
         Random ran = new Random();
         int i = ran.nextInt(11);
         System.out.println(i + "lala");
         if(drop[i].equals("candy")){
-            return new Candy(con);
+            return new Candy(this.context);
         }
         else if (drop[i].equals("coffee")){
-            return new Coffee(con);
+            return new Coffee(this.context);
         }
         else if (drop[i].equals("cup")){
-            return new Cupcake(con);
+            return new Cupcake(this.context);
         }
         else if (drop[i].equals("d")){
-            return new Donut(con);
+            return new Donut(this.context);
         }
         else{
-            return new Spider(con);
+            return new Spider(this.context);
         }
 
     }

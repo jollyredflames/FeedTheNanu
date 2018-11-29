@@ -5,10 +5,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 
+import com.ramsy.GameCentre.FeedTheNanu.DropItem;
 import com.ramsy.GameCentre.FeedTheNanu.Edible;
 import com.ramsy.GameCentre.R;
 
-public class Cupcake extends android.support.v7.widget.AppCompatImageView implements Edible{
+public class Cupcake extends DropItem implements Edible{
 
     Bitmap image;
 
