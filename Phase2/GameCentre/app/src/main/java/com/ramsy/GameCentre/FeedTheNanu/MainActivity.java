@@ -19,10 +19,9 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import com.ramsy.GameCentre.R;
-
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener, NanuDelegate {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener, NanuDelegate, PauseButtonDelegate {
 
     // TODO:
     // - Lock to portrait orientation only (app wide?)
@@ -86,7 +85,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            box.setBackgroundColor(Color.BLUE);
 
             RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(125, 125);
-
 //            p.addRule(RelativeLayout.);
             box.setY(-150);
 //            p.addRule(RelativeLayout.CENTER_HORIZONTAL);
@@ -95,13 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Random random = new Random();
             int dropWidth = 125;
             float positionX = random.nextInt(screenWidth() - padding * 2 - dropWidth) + padding;
-
             box.setX(positionX);
-
-
-
-
-            box.setY(-150);
 //            p.addRule(RelativeLayout.CENTER_HORIZONTAL);
 //            box.setId(10);
 
@@ -152,7 +144,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 }
             });
-
 
             box.animator = anim;
             anim.start();
@@ -214,13 +205,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_main);
 
-
         this.itemGenerator = new ItemGenerator(this);
-
-
-
-
-
         // Create a View Group
         final RelativeLayout container = new RelativeLayout(this);
         this.container = container;
@@ -248,16 +233,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        v.setOnDragListener(this);
         this.background = v;
 
-        // Create pause resume toggle button
-        View pauseButton = new View(this);
-        pauseButton.setBackgroundColor(Color.BLUE);
-        pauseButton.setX(100);
-        pauseButton.setY(100);
-        pauseButton.setOnClickListener(this);
+//        // Create pause resume toggle button
+//        View pauseButton = new View(this);
+//        pauseButton.setBackgroundColor(Color.BLUE);
+//        pauseButton.setX(100);
+//        pauseButton.setY(100);
+//        pauseButton.setOnClickListener(this);
+//
+//        RelativeLayout.LayoutParams pauseButtonParams = new RelativeLayout.LayoutParams(100, 100);
+//        pauseButton.setLayoutParams(pauseButtonParams);
+//        container.addView(pauseButton);
 
-        RelativeLayout.LayoutParams pauseButtonParams = new RelativeLayout.LayoutParams(100, 100);
-        pauseButton.setLayoutParams(pauseButtonParams);
-        container.addView(pauseButton);
+        PauseButton p = new PauseButton(this);
+        p.delegate = this;
+
+        RelativeLayout.LayoutParams pauseButtonParams = new RelativeLayout.LayoutParams(175, 175);
+        pauseButtonParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        pauseButtonParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        pauseButtonParams.setMargins(0, 10, 10, 0);
+        p.setLayoutParams(pauseButtonParams);
+        container.addView(p);
 
 
 
@@ -371,40 +366,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    boolean isPaused = false;
 
     @Override
     public void onClick(View v) {
-
-        // Pause non view stuff (like stop the handlers that generate new food, prevent Nanu from being moved)
-        if (!isPaused) {
-            handler2.removeCallbacks(itemDropTest); // stop new items from falling
-            handler.removeCallbacks(update); // pause the game engine loop, for efficiency
-        } else {
-            handler2.postDelayed(itemDropTest, 1000); // we use post delayed here, to prevent the situation where spamming the pause button
-            // caused an item to drop on each resume. But then it's possible to spam the pause button and progress time
-            // without any food falling at all. For now, this is enough.
-            handler.post(update);
-        }
-
-
-
-        // Pause child views
-        int childCount = container.getChildCount();
-        for (int i = 0; i < childCount; i++) {
-            View someChildView = container.getChildAt(i);
-            if (someChildView instanceof Pausable) {
-                Pausable p = (Pausable) someChildView;
-                if (!isPaused) {
-                    p.pause();
-                } else {
-                    p.resume();
-                }
-            }
-        }
-
-        // Flip the isPaused flag
-        isPaused = !isPaused;
 
     }
 
@@ -427,9 +391,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     float oldX;
 
+    boolean isPaused = false;
+
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-
 
         // Prevent the Nanu from being moved if isPaused is true.
         if (isPaused) { return false; }
@@ -482,4 +447,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return display.heightPixels;
     }
 
+    @Override
+    public void pauseButtonWasTapped(boolean paused) {
+
+        this.isPaused = paused;
+
+        // Pause/Resume non view stuff (like stop the handlers that generate new food, prevent Nanu from being moved)
+        if (paused) {
+            handler2.removeCallbacks(itemDropTest); // stop new items from falling
+            handler.removeCallbacks(update); // pause the game engine loop, for efficiency
+        } else {
+            handler2.postDelayed(itemDropTest, 1000); // we use post delayed here, to prevent the situation where spamming the pause button
+            // caused an item to drop on each resume. But then it's possible to spam the pause button and progress time
+            // without any food falling at all. For now, this is enough.
+            handler.post(update);
+        }
+
+        // Pause/Resume child views
+        int childCount = container.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View someChildView = container.getChildAt(i);
+            if (someChildView instanceof Pausable) {
+                Pausable p = (Pausable) someChildView;
+                if (paused) {
+                    p.pause();
+                } else {
+                    p.resume();
+                }
+            }
+        }
+    }
 }
