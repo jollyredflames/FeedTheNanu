@@ -75,10 +75,6 @@ public class NewOrSavedGame extends AppCompatActivity {
 
     }
 
-//    @Override
-//    public void onBackPressed() {
-//
-//    }
 
     /**
      * if the user has 3 saved already, it will send them to the load save activity to delete a save
@@ -101,6 +97,7 @@ public class NewOrSavedGame extends AppCompatActivity {
 
 
                 if (gameName.equals("SlidingTiles")){
+                    System.out.println("XXX Should start sliding tiles size activity");
                     newActivity = new Intent(this, SlidingTilesSizeActivity.class);
 
                 }
@@ -112,6 +109,7 @@ public class NewOrSavedGame extends AppCompatActivity {
                 else {
                     newActivity = new Intent(this, MemoryMatrixActivity.class);
                 }
+
                 startActivity(newActivity);
 
             }

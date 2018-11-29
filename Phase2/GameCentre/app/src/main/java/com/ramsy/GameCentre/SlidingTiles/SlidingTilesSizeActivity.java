@@ -37,9 +37,15 @@ public class SlidingTilesSizeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        System.out.println("XXX hello 1");
+
         new FirebaseFuncts(LoginPage.uid);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_game_size2);
+
+        System.out.println("XXX hello 2");
+
         meUser = FirebaseFuncts.getUser();
         np = findViewById(R.id.numberPicker);
         next = findViewById(R.id.four);

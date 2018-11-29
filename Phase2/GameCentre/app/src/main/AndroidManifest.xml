@@ -122,6 +122,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".GameCentreCommon.ChooseGame"></activity>
+        <activity android:name=".SlidingTiles.SlidingTilesSizeActivity"></activity>
     </application>
 
 </manifest>
