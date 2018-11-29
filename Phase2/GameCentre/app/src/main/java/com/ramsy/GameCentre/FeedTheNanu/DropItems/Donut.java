@@ -3,8 +3,6 @@ package com.ramsy.GameCentre.FeedTheNanu.DropItems;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
-
 import com.ramsy.GameCentre.FeedTheNanu.DropItem;
 import com.ramsy.GameCentre.FeedTheNanu.Edible;
 import com.ramsy.GameCentre.R;

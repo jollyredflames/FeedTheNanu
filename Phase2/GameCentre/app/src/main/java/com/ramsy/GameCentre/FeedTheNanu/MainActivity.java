@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 //            p.addRule(RelativeLayout.);
             box.setY(-150);
-            p.addRule(RelativeLayout.CENTER_HORIZONTAL);
+//            p.addRule(RelativeLayout.CENTER_HORIZONTAL);
             box.setLayoutParams(p);
 
             Random random = new Random();

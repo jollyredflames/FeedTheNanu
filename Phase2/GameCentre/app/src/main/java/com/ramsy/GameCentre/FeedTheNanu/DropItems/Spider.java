@@ -3,7 +3,6 @@ package com.ramsy.GameCentre.FeedTheNanu.DropItems;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
 import com.ramsy.GameCentre.FeedTheNanu.DropItem;
 import com.ramsy.GameCentre.FeedTheNanu.Edible;
 import com.ramsy.GameCentre.R;
@@ -14,8 +13,6 @@ public class Spider extends DropItem implements Edible {
     public Spider(Context context){
         super(context);
         this.setImageBitmap(this.image);
-//        this.setMinimumHeight(150);
-//        this.setMaxHeight(150);
     }
 
 
