@@ -141,13 +141,29 @@ class Nanu extends ImageView implements Pausable {
 
 
     /**
-     * The number of lives the Nanu has.
-     * Eating bad stuff will decrement this number.
-     * Eating some special stuff will increment it.
-     *
+     * The amount of life the Nanu currently has.
+     * Eating bad stuff will decrease this amount.
+     * Eating some special stuff will increase it.
      */
 
-    private int lives = 3;
+
+    private float currentLife;
+
+
+    /**
+     * The maximum life the Nanu can have.
+     */
+
+    static float maxLife = 100f;
+
+    /**
+     * @return The current life as a % of the max life.
+     * This will be a float between 0 and 1 inclusive.
+     */
+
+    float getCurrentLifePercent() {
+        return currentLife / Nanu.maxLife;
+    }
 
 
     /**
@@ -162,6 +178,7 @@ class Nanu extends ImageView implements Pausable {
     Nanu(Context context) {
         super(context);
 
+        this.currentLife = Nanu.maxLife;
         Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.nanu1);
         this.setImageBitmap(image);
 
@@ -468,6 +485,11 @@ class Nanu extends ImageView implements Pausable {
         // TODO:
         delegate.aboutToEat(edible);
         delegate.scoreShouldChangeBy(edible.effectOnScore());
+
+        if (edible.effectOnSpeed() != 1) {
+            this.speed /= edible.effectOnSpeed();
+
+        }
 
 
 

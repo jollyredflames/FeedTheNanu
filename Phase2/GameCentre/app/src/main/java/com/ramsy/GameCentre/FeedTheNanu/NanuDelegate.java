@@ -9,12 +9,6 @@ package com.ramsy.GameCentre.FeedTheNanu;
 interface NanuDelegate {
 
     /**
-     * @param amount The amount life changed by
-     */
-
-    void lifeDidChangeBy(int amount);
-
-    /**
      * @param amount The amount the score should change by
      */
 
