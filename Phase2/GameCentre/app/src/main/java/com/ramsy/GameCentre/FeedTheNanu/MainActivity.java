@@ -58,6 +58,10 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     RelativeLayout container;
     ItemGenerator itemGenerator;
     final int padding = 100;
+    HealthBar hb;
+    int healthBarW;
+    int healthBarH;
+
     int score;
     TextView scoreLabel;
 
@@ -239,6 +243,21 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         pauseButtonParams.setMargins(0, 10, 10, 0);
         p.setLayoutParams(pauseButtonParams);
         container.addView(p);
+
+        this.healthBarH = screenHeight()/15;
+        this.healthBarW = screenWidth()/3;
+        hb = new HealthBar(this, 1f,healthBarW, healthBarH );
+        RelativeLayout.LayoutParams healthBarParams = new RelativeLayout.
+                LayoutParams(healthBarW, this.healthBarH);
+        healthBarParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        healthBarParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        healthBarParams.setMargins(10, 10, 0, 0);
+        hb.setLayoutParams(healthBarParams);
+        container.addView(hb);
+
+
+
+
     }
 
     private void setupNanu() {
