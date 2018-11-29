@@ -24,24 +24,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     // - Lock to portrait orientation only (app wide?)
     // - Disable status bar
 
-    // - Have an interface that requires conforming classes to have a method that returns an ObjectAnimator.
-    // - Have all the drop items (which are already subclasses of ImageView, in order to conform to Edible)
-    // conform to this interface as well. So when a pause button is pressed, we loop over all views in the hierarchy,
-    // and if the cast to the interface type succeeds, we get the animator object, and call pause / resume on it.
-
-    // Instead of it being a method, make it a property.
-    // Assign that property in the method that creates the new view, and a new animator object.
-
-    // Have a Pausible interface with a pause and resume method.
-    // Classes confrom to the Pausible interface by implementing that method.
-    // So we don't even need to have the client grab the animator and pause / resume it.
-    // That way we can have the Nanu use it too, and it will implement it differently as it has no animator object.
-    // So we can pause everything in the hieracrchy in one fell swoop.
-    // So the food items need to have a property that stores their animator object.
-    // And the method that creates them and their animation, needs to be working with a type such that that property
-    // is visible to the compiler.
-    // So don't work with them there as a Pausible, but perhaps as a Fallable instead?
-
     /*
     Note: Java interfaces evidently cannot contain attributes, so either make an abstract subclass of ImageView
     that provides the new attribute. Or have interface getAnimator and setAnimator methods,
@@ -58,9 +40,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     RelativeLayout container;
     ItemGenerator itemGenerator;
     final int padding = 100;
-    HealthBar hb;
-    int healthBarW;
-    int healthBarH;
+
+    HealthBar healthBar;
 
     int score;
     TextView scoreLabel;
@@ -75,28 +56,34 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     Runnable itemDrop = new Runnable() {
         @Override
         public void run() {
-            // Create a box view
-//            final FoodItem box = new FoodItem(MainActivity.this);
-            DropItem box = (DropItem)itemGenerator.getItem();
-            box.setId(10);
 
+            /*
+             The food items need to have a property that stores their animator object.
+             That's why we made them all subclass DropItem, which provides that item, and implements Pausable.
+             And the method that creates them and their animation (here), needs to be working with a type such that
+             that property is visible to the compiler (case them as a DropItem).
+             */
 
+            // Vend an item
+            DropItem newItem = (DropItem)itemGenerator.getItem();
+            newItem.setId(10);
 
-            RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(125, 125);
-            box.setLayoutParams(p);
+            int w = 125;
+            int h = 125;
+            RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(w, h);
+            newItem.setLayoutParams(p);
 
+            // Set X position so the left edges and right edges of the items can only get so close to the screen edges.
             Random random = new Random();
-            int dropWidth = 125;
-            float positionX = random.nextInt(screenWidth() - padding * 2 - dropWidth) + padding;
-            box.setX(positionX);
-            box.setY(-150);
+            float x = random.nextInt(screenWidth() - padding * 2 - w) + padding;
+            newItem.setX(x);
+            newItem.setY(-(h + 25)); // an extra 25 pixels just for good measure.
+
+            container.addView(newItem);
 
 
-            container.addView(box);
-
-
-            // Trying a pausible animation
-            ObjectAnimator anim = ObjectAnimator.ofFloat(box, "y", screenHeight());
+            // Create a new animation
+            ObjectAnimator anim = ObjectAnimator.ofFloat(newItem, "y", screenHeight());
             anim.setDuration(5000);
             anim.setInterpolator(null);
             anim.addListener(new Animator.AnimatorListener() {
@@ -107,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    container.removeView(box);
+                    container.removeView(newItem);
                 }
 
                 @Override
@@ -121,28 +108,16 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 }
             });
 
-            box.animator = anim;
+            newItem.animator = anim;
             anim.start();
-
-            // But now, how to store all these animations so we can pause them later?
-
 
             itemDropHandler.postDelayed(this, 1200);
         }
     };
 
-    float delta;
-
     Runnable update = new Runnable() {
         @Override
         public void run() {
-
-            // Why does this line cause the Nanu to miss food.
-            // I think it's because it somehow causes this update method to become slow.
-            // But how?
-
-
-            nanu.timeDidElapse();
 
             boolean foodIsNearby = false;
             Edible foodItemForEating = null;
@@ -176,8 +151,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
             nanu.foodItemForEating = foodItemForEating;
             nanu.foodIsNearby = foodIsNearby;
+            nanu.timeDidElapse();
 
-            hb.setHealthTo(nanu.getCurrentLifePercent());
+            healthBar.setHealthTo(nanu.getCurrentLifePercent());
 
             updateHandler.postDelayed(this, gameLoopInterval);
         }
@@ -208,34 +184,12 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         this.score = 0;
 
         setupBackground();
-
-        // Setup Score label
-        TextView label = new TextView(this);
-        label.setText(String.valueOf(this.score));
-        label.setTextColor(Color.BLACK);
-        label.setTextSize(30);
-        label.setBackgroundColor(Color.WHITE);
-        label.setGravity(Gravity.CENTER);
-        label.setAlpha(0.5f);
-        this.container.addView(label);
-//        this.scoreLabel = label;
-
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(0,200);
-        params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        params.setMargins(0, 140, 0, 0);
-        label.setLayoutParams(params);
-        this.scoreLabel = label;
-
-
+        setupScoreLabel();
         setupPauseButton();
-
+        setupHealthBar();
         setupNanu();
 
         nanu.setTimeSliceInterval(gameLoopInterval);
-
-
         nanu.resume();
 
         // Start running tasks
@@ -253,6 +207,25 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         v.setOnTouchListener(this);
     }
 
+    private void setupScoreLabel() {
+        // Setup Score label
+        TextView label = new TextView(this);
+        label.setText(String.valueOf(this.score));
+        label.setTextColor(Color.BLACK);
+        label.setTextSize(30);
+        label.setBackgroundColor(Color.WHITE);
+        label.setGravity(Gravity.CENTER);
+        label.setAlpha(0.5f);
+        this.container.addView(label);
+        this.scoreLabel = label;
+
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(0,200);
+        params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        params.setMargins(0, 140, 0, 0);
+        label.setLayoutParams(params);
+    }
 
     private void setupPauseButton() {
         PauseButton p = new PauseButton(this);
@@ -264,21 +237,20 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         pauseButtonParams.setMargins(0, 10, 10, 0);
         p.setLayoutParams(pauseButtonParams);
         container.addView(p);
+    }
 
-        this.healthBarH = screenHeight()/15;
-        this.healthBarW = screenWidth()/3;
-        hb = new HealthBar(this);
+    private void setupHealthBar() {
+        int h = 120;
+        int w = 500;
+        HealthBar hb = new HealthBar(this);
         RelativeLayout.LayoutParams healthBarParams = new RelativeLayout.
-                LayoutParams(healthBarW, this.healthBarH);
+                LayoutParams(w, h);
         healthBarParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         healthBarParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         healthBarParams.setMargins(10, 10, 0, 0);
         hb.setLayoutParams(healthBarParams);
         container.addView(hb);
-
-
-
-
+        this.healthBar = hb;
     }
 
     private void setupNanu() {
@@ -298,7 +270,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     @Override
     public void lifeReachedZero() {
-
+        // TODO:
+        // game over functionality
     }
 
     @Override
