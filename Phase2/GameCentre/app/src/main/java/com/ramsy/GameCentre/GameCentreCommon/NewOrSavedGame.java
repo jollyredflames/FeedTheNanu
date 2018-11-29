@@ -64,10 +64,10 @@ public class NewOrSavedGame extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onBackPressed() {
-
-    }
+//    @Override
+//    public void onBackPressed() {
+//
+//    }
 
     /**
      * if the user has 3 saved already, it will send them to the load save activity to delete a save
