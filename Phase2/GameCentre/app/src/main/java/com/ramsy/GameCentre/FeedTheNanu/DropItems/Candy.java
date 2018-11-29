@@ -15,7 +15,7 @@ public class Candy extends DropItem implements Edible {
 
     public Candy(Context context){
         super(context);
-        
+
         if (Candy.texture == null) {
             Candy.texture = BitmapFactory.decodeResource(getResources(), R.drawable.candy);
         }
