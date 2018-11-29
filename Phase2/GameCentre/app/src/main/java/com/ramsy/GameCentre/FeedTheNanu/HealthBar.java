@@ -26,7 +26,7 @@ public class HealthBar extends RelativeLayout {
     public void setHealthTo(float f, int barHeight, int barWidth){
         System.out.println(barHeight + "nanu nanu height");
         System.out.println(barWidth + "nanu nanu width");
-        RelativeLayout.LayoutParams h = new LayoutParams(Math.round(barWidth * f), barHeight);
+        RelativeLayout.LayoutParams h = new LayoutParams(Math.round(barHeight * f), barWidth);
         this.health.setLayoutParams(h);
     }
 

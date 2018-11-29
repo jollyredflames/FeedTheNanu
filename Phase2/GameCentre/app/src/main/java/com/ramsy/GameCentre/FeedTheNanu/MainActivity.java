@@ -168,6 +168,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             nanu.foodItemForEating = foodItemForEating;
             nanu.foodIsNearby = foodIsNearby;
 
+            hb.setHealthTo(nanu.getCurrentLifePercent(), healthBarH, healthBarW);
+
             updateHandler.postDelayed(this, 20);
         }
     };
