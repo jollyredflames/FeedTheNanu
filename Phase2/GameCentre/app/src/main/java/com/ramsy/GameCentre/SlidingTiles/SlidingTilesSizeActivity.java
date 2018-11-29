@@ -12,7 +12,6 @@ import android.widget.NumberPicker;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.FirebaseFuncts;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.User;
 import com.ramsy.GameCentre.GameCentreCommon.LoginPage;
-import com.ramsy.GameCentre.MemoryMatrix.MemoryMatrixActivity;
 import com.ramsy.GameCentre.R;
 
 import java.io.FileNotFoundException;
@@ -102,7 +101,7 @@ public class SlidingTilesSizeActivity extends AppCompatActivity {
                 openGallery();
                 }
                 else{
-                    Intent t = new Intent(this, SlidingTileGame.class);
+                    Intent t = new Intent(this, SlidingTilesGameActivity.class);
                     image = null;
                     t.putExtra("size", this.size);
                     t.putExtra("slot", this.slot);
@@ -134,7 +133,7 @@ public class SlidingTilesSizeActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Intent t = new Intent(this, MemoryMatrixActivity.class);
+            Intent t = new Intent(this, SlidingTilesGameActivity.class);
             t.putExtra("size", this.size);
             t.putExtra("slot", 0);
             startActivity(t);
