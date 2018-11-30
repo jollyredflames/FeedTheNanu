@@ -31,6 +31,12 @@ public class ChooseGame extends AppCompatActivity {
 
     }
 
+
+    @Override
+    public void onBackPressed() {
+
+    }
+
     /**
      * function to set listener to the feed the nanu button, so that once the button is clicked,
      * the newOrSavedGame page would show up, with extra information indicating that a feed the nanu
