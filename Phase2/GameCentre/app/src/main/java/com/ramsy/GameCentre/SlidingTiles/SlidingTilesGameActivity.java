@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.FirebaseFuncts;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.SaveState;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.User;
+import com.ramsy.GameCentre.GameCentreCommon.ChooseGame;
 import com.ramsy.GameCentre.GameCentreCommon.FinishedGameActivity;
 import com.ramsy.GameCentre.GameCentreCommon.NewOrSavedGame;
 
@@ -550,8 +551,9 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
         this.save();
 //        this.finish();
 
-        Intent n = new Intent(this, NewOrSavedGame.class);
-        n.putExtra("GAME_NAME", "SlidingTiles");
+//        Intent n = new Intent(this, NewOrSavedGame.class);
+//        n.putExtra("GAME_NAME", "SlidingTiles");
+        Intent n = new Intent(this, ChooseGame.class);
         startActivity(n);
 
 
@@ -570,7 +572,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
         // stop autosaving
         this.stopAutoSaving();
 
-        // delete slot?
+        meUser.deleteGame("SlidingTiles", slot);
 
         // Transition to finish screen activity in 1 second.
         Intent n = new Intent(this, FinishedGameActivity.class);

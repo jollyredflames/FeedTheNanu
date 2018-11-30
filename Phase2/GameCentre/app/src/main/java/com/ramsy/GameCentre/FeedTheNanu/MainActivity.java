@@ -220,8 +220,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     private void save() {
         // Save logic here
+        System.out.println("XXX hello from the save handler");
         SaveState s = new SaveState(score, nanu.currentLife);
-
         // Throw this to the backend function
         meUser.saveGame("FeedTheNanu", s, this.slot);
     }
@@ -265,6 +265,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         // Retrieve Slot Number from Intent
         Bundle b = getIntent().getExtras();
         this.slot = b.getInt("slot");
+
+        System.out.println("XXX this is the slot to save into: " + slot);
 
         SaveState save = meUser.getGame(gameName, slot);
 
@@ -470,18 +472,23 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         we will also call this method ourselves in lifeDidReachZero and onBackPressed
          */
 
+        // Do a save
+        this.save();
+
         this.isPaused = paused;
 
         // Pause/Resume non view stuff (like stop the handlers that generate new food, prevent Nanu from being moved)
         if (paused) {
             itemDropHandler.removeCallbacks(itemDrop); // stop new items from falling
             updateHandler.removeCallbacks(update); // pause the game engine loop, for efficiency
+            saveHandler.removeCallbacks(autoSave);
             System.out.println("XXX Just paused all handlers");
         } else {
             itemDropHandler.postDelayed(itemDrop, 1000); // we use post delayed here, to prevent the situation where spamming the pause button
             // caused an item to drop on each resume. But then it's possible to spam the pause button and progress time
             // without any food falling at all. For now, this is enough.
             updateHandler.post(update);
+            saveHandler.post(autoSave);
         }
 
         // Pause/Resume child views
