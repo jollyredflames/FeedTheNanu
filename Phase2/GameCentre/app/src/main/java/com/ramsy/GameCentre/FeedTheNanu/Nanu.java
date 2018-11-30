@@ -306,12 +306,38 @@ class Nanu extends ImageView implements Pausable {
 
 
     /**
+     * The normal animation interval, so we know what interval to return to
+     * after a boost item (coffee) wears off.
+     */
+
+
+    private long normalAnimationInterval = 50;
+
+
+    /**
      * Whether the Nanu is boosted by a coffee or not.
      */
 
     private boolean boosted = false;
 
+
+    /**
+     * The amount of time in milliseconds that the effects of a boost item (coffee) last for.
+     */
+
+    private long boostDuration = 5000;
+
     Handler handler = new Handler();
+
+    Handler coolDownHandler = new Handler();
+
+    private Runnable coolDown = new Runnable() {
+        @Override
+        public void run() {
+            animationInterval = normalAnimationInterval;
+            boosted = false;
+        }
+    };
 
     private Runnable update = new Runnable() {
         @Override
@@ -564,10 +590,10 @@ class Nanu extends ImageView implements Pausable {
         this.changeLifeBy(edible.effectOnLife());
 
         // Speed changing functionality
-        if this.animationInterval
-        if (edible.effectOnSpeed() != 1) {
+        if (!this.boosted && edible.effectOnSpeed() != 1) {
+            this.boosted = true;
             this.animationInterval /= edible.effectOnSpeed();
-
+            this.coolDownHandler.postDelayed(coolDown, boostDuration);
         }
 
 
