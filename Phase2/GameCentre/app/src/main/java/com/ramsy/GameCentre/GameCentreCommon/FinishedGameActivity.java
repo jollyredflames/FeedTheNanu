@@ -24,10 +24,14 @@ public class FinishedGameActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String gameScore = intent.getExtras().getString("gameScore");
         String gameName = intent.getExtras().getString("gameName");
+        //String gameIdentifier = intent.getExtras().getString("gameIdentifier");
         TextView scoreText = findViewById(R.id.score);
         scoreText.setText(gameScore);
         User meUser = FirebaseFuncts.getUser();
+//        GlobalLeaderBoard glb = FirebaseFuncts.getGlobalLeaderBoard();
         meUser.addScore(gameName, gameScore);
+//        meUser = FirebaseFuncts.getUser();
+//        Toast.makeText(this, glb.getGameGlobalLeaderBoard(gameName).toString() + meUser.getUsername(), Toast.LENGTH_LONG).show();
         //scoreText.setText("9000");
 
         Button button = findViewById(R.id.leaderboardbutton);
@@ -37,6 +41,7 @@ public class FinishedGameActivity extends AppCompatActivity {
                 Intent pullLeaderBoard = new Intent (v.getContext(), LeaderBoardActivity.class);
                 pullLeaderBoard.putExtra("lastScore", gameScore);
                 pullLeaderBoard.putExtra("lastGame", gameName);
+                pullLeaderBoard.putExtra("gameIdentifier", "SlidingTiles");
                 startActivity(pullLeaderBoard);
             }
         });
