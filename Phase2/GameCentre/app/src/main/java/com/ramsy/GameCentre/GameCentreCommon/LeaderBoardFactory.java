@@ -9,7 +9,7 @@ public class LeaderBoardFactory {
         if (gameName.equals("SlidingTiles")){
             return new LeaderBoardSlidingTiles();
         }
-        if (gameName.equals("FeedThenanu")){
+        if (gameName.equals("FeedTheNanu")){
             return new LeaderBoardFeedTheNanu();
         }
         if (gameName.equals("MemoryMatrix")){
