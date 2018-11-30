@@ -126,18 +126,29 @@ public class MemoryMatrixManager implements Iterable<Block> {
         return new ClassListIterator();
     }
 
-
+    /**
+     * this allows you to iterate over the blocks in this class,
+     * used by the activities to know which views and such needs to update
+     */
     private class ClassListIterator implements Iterator<Block> {
         /**
          * The index of the next item in the class list.
          */
         int nextIndex = 0;
 
+        /**
+         *
+         * @return true if there are more blocks to iterate over else return false
+         */
         @Override
         public boolean hasNext() {
             return nextIndex != blocksToHighLight.size();
         }
 
+        /**
+         *
+         * @return the next block in this manager class
+         */
         @Override
         public Block next() {
             Block result = blocksToHighLight.get(nextIndex);
@@ -166,15 +177,13 @@ public class MemoryMatrixManager implements Iterable<Block> {
         return String.valueOf(score);
     }
 
-
+    /**
+     * makes a save state for the memory matrix game which will save whenever the uses clicks on
+     * the tiles and tries to undo and or quit
+     */
     public void save(){
         boolean difficulty;
-        if (this.y == 0){
-            difficulty = true;
-        }
-        else{
-            difficulty = false;
-        }
+        difficulty = this.y == 0;
         SaveState save = new SaveState(difficulty);
         save.setNumY(y);
         save.setNumX(x);

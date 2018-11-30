@@ -3,10 +3,8 @@ package com.ramsy.GameCentre.GameCentreCommon;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.FirebaseFuncts;
@@ -27,7 +25,16 @@ public class LeaderBoardAndroidController implements Button.OnClickListener{
     private String lastScore;
     private boolean showScore;
 
-
+    /**
+     * Constructor for LeaderBoardAndroidController which sets the views beautifully with the scores.
+     * @param container where to display the scores
+     * @param position fragment position (which page of the leaderboard are you on)
+     * @param gameName which game we are looking at
+     * @param scroll contains textviews in which scores and usernames will be held
+     * @param height height of an individual row in scroll
+     * @param lastGame Name of the last game you played
+     * @param lastScore score of your last game
+     */
     public LeaderBoardAndroidController(RelativeLayout container,int position,String gameName,RelativeLayout scroll,int height,String lastGame,String lastScore){
         meUser = FirebaseFuncts.getUser();
         this.lastScore = lastScore;
@@ -53,6 +60,10 @@ public class LeaderBoardAndroidController implements Button.OnClickListener{
         lastScoreTextView();
     }
 
+    /**
+     * Gets the globalleaderboard or private leaderboard on tap
+     * @param v the "update" button that is clicked.
+     */
     @Override
     public void onClick(View v){
         controller.setGlobal(!controller.getIsGlobal());
@@ -71,24 +82,36 @@ public class LeaderBoardAndroidController implements Button.OnClickListener{
         upDateButton();
     }
 
+    /**
+     * Bolds the title text view and centers the text.
+     */
     public void setLeaderBoardTextView(){
         TextView v = (TextView) container.getChildAt(0);
         LeaderBoardModel.generateTextViewDesign(v,controller.leaderBoardTextView());
         LeaderBoardModel.makeTextViewBold(v);
     }
 
+    /**
+     * Bolds all usernames
+     */
     public void setTextForUserNames(){
         TextView v = (TextView) container.getChildAt(1);
         LeaderBoardModel.generateTextViewDesign(v,controller.userNameTextView());
         LeaderBoardModel.makeTextViewBold(v);
     }
 
+    /**
+     * bolds all scores
+     */
     public void setTextForScores(){
         TextView v = (TextView) container.getChildAt(2);
         LeaderBoardModel.generateTextViewDesign(v,controller.scoresTextView());
         LeaderBoardModel.makeTextViewBold(v);
     }
 
+    /**
+     * Runs through all the scrollable and adds appropriate scores in relevant indexes
+     */
     public void updateUserNameAndScoreTextViews(){
         TextView v;
         int smallHeight = 0;
@@ -106,6 +129,9 @@ public class LeaderBoardAndroidController implements Button.OnClickListener{
         }
     }
 
+    /**
+     * Gets the globalleaderboard or private leaderboard on tap
+     */
     public void upDateButton(){
         Button b = (Button) container.getChildAt(4);
         if(controller.getIsGlobal()){
@@ -116,6 +142,9 @@ public class LeaderBoardAndroidController implements Button.OnClickListener{
         }
     }
 
+    /**
+     * The very last element in the scroller shows your score
+     */
     public void lastScoreTextView(){
         TextView t = (TextView) container.getChildAt(5);
         if(showScore){
