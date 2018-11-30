@@ -135,7 +135,9 @@ public class SlidingTilesSizeActivity extends AppCompatActivity {
             }
             Intent t = new Intent(this, SlidingTilesGameActivity.class);
             t.putExtra("size", this.size);
-            t.putExtra("slot", 0);
+//            t.putExtra("slot", 0);
+            int slot = meUser.correctSlot("SlidingTiles");
+            t.putExtra("slot", slot);
             startActivity(t);
         }
     }
