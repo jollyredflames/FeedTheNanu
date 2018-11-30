@@ -121,8 +121,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".GameCentreCommon.ChooseGame"></activity>
-        <activity android:name=".SlidingTiles.SlidingTilesSizeActivity"></activity>
+        <activity android:name=".GameCentreCommon.ChooseGame" />
+        <activity android:name=".SlidingTiles.SlidingTilesSizeActivity" />
+        <activity android:name=".MemoryMatrix.ChooseMemoryMatrixGameType"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 
 </manifest>

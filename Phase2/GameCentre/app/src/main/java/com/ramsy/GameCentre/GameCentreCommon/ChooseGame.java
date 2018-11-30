@@ -1,8 +1,8 @@
 package com.ramsy.GameCentre.GameCentreCommon;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 
 import com.ramsy.GameCentre.R;
@@ -47,7 +47,7 @@ public class ChooseGame extends AppCompatActivity {
 
     /**
      * function to set listener to the memory matrix button, so that once the button is clicked,
-     * the newOrSacedGame page would show up, with extra information indicating that a memory matrix
+     * the newOrSavedGame page would show up, with extra information indicating that a memory matrix
      * game is selected by the user.
      */
     public void setMemoryOnClickListener(){
