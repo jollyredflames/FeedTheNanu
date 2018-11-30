@@ -540,6 +540,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
 //        this.finish();
 
         Intent n = new Intent(this, NewOrSavedGame.class);
+        n.putExtra("GAME_NAME", "SlidingTiles");
         startActivity(n);
 
 
