@@ -568,6 +568,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
         String s = String.valueOf(this.size);
 
         n.putExtra("gameName", s + "x" + s);
+        n.putExtra("gameIdentifier", "SlidingTiles");
 
 
         new Timer().schedule(new TimerTask() {
