@@ -16,7 +16,7 @@ public class FirebaseFuncts {
 
     /**
      * Constructor for singletons meUser and leaderboard.
-     * Allows asyncrounous call to happen in background without making others worry about it.
+     * Allows asynchronous call to happen in background without making others worry about it.
      * @param userUID
      */
     public FirebaseFuncts(String userUID){
@@ -92,7 +92,7 @@ public class FirebaseFuncts {
     }
 
     /**
-     * Once the asyncronous call hears back from the database, set globalLeaderBoard to its value.
+     * Once the asynchronous call hears back from the database, set globalLeaderBoard to its value.
      * @param thisUser the User returned from Firebase
      */
     private static void setUser(User thisUser){

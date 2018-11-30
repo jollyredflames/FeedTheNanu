@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:theme="@style/ActionBar"
-    tools:context=".SignUpPage">
+    tools:context="com.ramsy.GameCentre.DatabaseSavablesAndFuncts.SignUpPage">
 
     <TextView
         android:id="@+id/signup_container"

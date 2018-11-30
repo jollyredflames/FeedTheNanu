@@ -372,7 +372,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
             return;
         }
 
-        if (v.getId() == -1) {
+        if (v.getId() == (int)-1) {
             this.undo(this.defaultUndoAmount);
             return;
         }
@@ -418,7 +418,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
     }
 
     private void pauseTapped() {
-        if (this.pauseButton.getText() == "Pause") {
+        if (this.pauseButton.getText().equals("Pause")) {
             // Pause the game
             this.pauseButton.setText("Resume");
             this.slidingTileGame.pause();
@@ -465,6 +465,9 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
         meUser.saveGame("SlidingTiles", s, slot);
 
     }
+
+    //TODO:check for == should be equals()
+    // TODO: use refactoring for views
 
     void undo(int i) {
         // When the undoView is tapped, it'll call this function with i being the default number of moves to undo (3).
@@ -637,6 +640,8 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
 
         // Increment Button
         TextView incrementButton = new TextView(this);
+
+
         incrementButton.setText("+");
         incrementButton.setTextColor(Color.BLACK);
         incrementButton.setBackgroundColor(Color.WHITE);
@@ -670,8 +675,9 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
         // Add it below the pause button
         int i = this.container.indexOfChild(this.pauseButton);
         this.container.addView(con, i);
+    }
 
-
+    void setUpTextButton(TextView view, String text, Color textColor, Color background, int id, boolean listener, Gravity gravity){
 
     }
 
