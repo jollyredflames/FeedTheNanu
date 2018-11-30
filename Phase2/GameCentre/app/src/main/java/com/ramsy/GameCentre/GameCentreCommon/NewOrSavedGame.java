@@ -9,9 +9,9 @@ import android.widget.Button;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.FirebaseFuncts;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.User;
 import com.ramsy.GameCentre.FeedTheNanu.MainActivity;
-import com.ramsy.GameCentre.MemoryMatrix.MemoryMatrixActivity;
-import com.ramsy.GameCentre.SlidingTiles.SlidingTilesSizeActivity;
+import com.ramsy.GameCentre.MemoryMatrix.ChooseMemoryMatrixGameType;
 import com.ramsy.GameCentre.R;
+import com.ramsy.GameCentre.SlidingTiles.SlidingTilesSizeActivity;
 
 
 /**
@@ -99,7 +99,7 @@ public class NewOrSavedGame extends AppCompatActivity {
                     newActivity = new Intent(this, MainActivity.class);
                 }
                 else {
-                    newActivity = new Intent(this, MemoryMatrixActivity.class);
+                    newActivity = new Intent(this, ChooseMemoryMatrixGameType.class);
                 }
 
                 startActivity(newActivity);

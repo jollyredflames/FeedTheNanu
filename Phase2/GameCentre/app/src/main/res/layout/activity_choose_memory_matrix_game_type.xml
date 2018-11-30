@@ -9,7 +9,6 @@
     tools:context="com.ramsy.GameCentre.MemoryMatrix.ChooseMemoryMatrixGameType">
 
     <TextView
-        android:id="@+id/pickGameText"
         android:layout_width="0dp"
         android:layout_height="83dp"
         android:layout_marginStart="50dp"
@@ -26,7 +25,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/nonmoving_game_button"
         android:layout_width="134dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -40,7 +38,6 @@
         app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
     <Button
-        android:id="@+id/moving_game_button"
         android:layout_width="134dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

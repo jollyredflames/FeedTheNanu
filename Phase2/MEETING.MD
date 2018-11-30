@@ -22,3 +22,8 @@ LeaderBoard --> Alex and Rebecca
 # Meeting 4: November 5, 2018
 Refining, finishing touches, and making sure activities are linked to each other.
 
+#Meeting 5: November 17, 2018 --ONLY Alex and Sarthak (Mini-Meeting)
+Figuring out what to refactor
+Assigning responsibility for Memory Game
+Setting Deadlines
+

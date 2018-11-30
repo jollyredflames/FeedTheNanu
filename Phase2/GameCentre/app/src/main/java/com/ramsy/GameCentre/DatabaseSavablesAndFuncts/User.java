@@ -40,9 +40,9 @@ public class User {
         mDatabase.keepSynced(true);
         this.email = email;
         this.username = username;
-        this.myScores = myScores;
+        User.myScores = myScores;
         this.meUserID = meUserID;
-        this.savedGames = savedGames;
+        User.savedGames = savedGames;
     }
 
     /**
@@ -90,7 +90,7 @@ public class User {
      * @param myScores
      */
     public void setMyScores(HashMap<String, ArrayList<String>> myScores) {
-        this.myScores = myScores;
+        User.myScores = myScores;
     }
 
     /**
@@ -144,7 +144,7 @@ public class User {
      * @param savedGames : A list of all the saved games of this user.
      */
     public void setTheSavedGames(HashMap<String, ArrayList<SaveState>> savedGames) {
-        this.savedGames = savedGames;
+        User.savedGames = savedGames;
     }
 
     /**

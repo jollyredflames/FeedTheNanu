@@ -1,10 +1,8 @@
 package com.ramsy.GameCentre.MemoryMatrix;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
@@ -12,6 +10,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -45,7 +44,7 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
         undo.setOnClickListener(this);
         undo.setText("Undo");
         undo.setBackgroundColor(Color.YELLOW);
-        undo.setId((int) (-2));
+        undo.setId(-2);
         container.addView(undo);
         RelativeLayout.LayoutParams other = new RelativeLayout.LayoutParams(200, 100);
         other.addRule(RelativeLayout.ALIGN_PARENT_TOP);
@@ -53,7 +52,7 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
         Button gameInfo = new Button(this);
         gameInfo.setText("Game Info");
         gameInfo.setBackgroundColor(Color.BLUE);
-        gameInfo.setId((int) -999);
+        gameInfo.setId(-999);
         container.addView(gameInfo);
         RelativeLayout.LayoutParams other1 = new RelativeLayout.LayoutParams(200, 100);
         other1.addRule(RelativeLayout.ALIGN_PARENT_TOP);
@@ -61,7 +60,7 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
         gameInfo.setLayoutParams(other1);
         Button quit = new Button(this);
         quit.setText("Quit");
-        quit.setId((int) -500);
+        quit.setId(-500);
         quit.setBackgroundColor(Color.GREEN);
         quit.setOnClickListener(this);
         container.addView(quit);
@@ -147,14 +146,14 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == (int) -500) {
+        if (v.getId() == -500) {
             //person.se
             // tUpQuit();
 //            Intent pullChooseGameActivity = new Intent (this, NewOrSavedGame.class);
 //            startActivity(pullChooseGameActivity);
 //            return;
         }
-        if (v.getId() == (int) -2) {
+        if (v.getId() == -2) {
             if (person.setUpUndo()) {
                 container.getChildAt(person.performUndo() + 2).setBackgroundColor(Color.GRAY);
             }

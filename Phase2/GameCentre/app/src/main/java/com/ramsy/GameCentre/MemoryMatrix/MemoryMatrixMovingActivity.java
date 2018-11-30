@@ -1,7 +1,6 @@
 package com.ramsy.GameCentre.MemoryMatrix;
 
 import android.app.Activity;
-import android.app.Person;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,9 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
-
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -47,7 +44,7 @@ public class MemoryMatrixMovingActivity extends Activity implements View.OnClick
         undo.setOnClickListener(this);
         undo.setText("Undo");
         undo.setBackgroundColor(Color.YELLOW);
-        undo.setId((int) (-2));
+        undo.setId(-2);
         test.addView(undo);
         RelativeLayout.LayoutParams other = new RelativeLayout.LayoutParams(200, 100);
         other.addRule(RelativeLayout.ALIGN_PARENT_TOP);
@@ -55,7 +52,7 @@ public class MemoryMatrixMovingActivity extends Activity implements View.OnClick
         Button gameInfo = new Button(this);
         gameInfo.setText("Game Info");
         gameInfo.setBackgroundColor(Color.BLUE);
-        gameInfo.setId((int) -999);
+        gameInfo.setId(-999);
         test.addView(gameInfo);
         RelativeLayout.LayoutParams other1 = new RelativeLayout.LayoutParams(200, 100);
         other1.addRule(RelativeLayout.ALIGN_PARENT_TOP);
@@ -63,7 +60,7 @@ public class MemoryMatrixMovingActivity extends Activity implements View.OnClick
         gameInfo.setLayoutParams(other1);
         Button quit = new Button(this);
         quit.setText("Quit");
-        quit.setId((int) -500);
+        quit.setId(-500);
         quit.setBackgroundColor(Color.GREEN);
         quit.setOnClickListener(this);
         test.addView(quit);
@@ -119,12 +116,12 @@ public class MemoryMatrixMovingActivity extends Activity implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == (int) -500) {
+        if (v.getId() == -500) {
             Intent pullChooseGameActivity = new Intent (this, MemoryMatrixMovingActivity.class);
             startActivity(pullChooseGameActivity);
             return;
         }
-        if (v.getId() == (int) -2) {
+        if (v.getId() == -2) {
             if (person.setUpUndo()) {
                 test.getChildAt(person.performUndo()).setBackgroundColor(Color.GRAY);
             }

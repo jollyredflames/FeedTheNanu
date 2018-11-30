@@ -40,13 +40,13 @@ public class LeaderBoardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_leader_board);
         //Intent intent = getIntent();
         //userUID = intent.getExtras().getString("uniqueID");
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         lastGame = getIntent().getExtras().getString("lastGame");
         lastScore = getIntent().getExtras().getString("lastScore");
@@ -88,40 +88,7 @@ public class LeaderBoardActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             LeaderBoardView frag = new LeaderBoardView();
-            String game = "";
-            switch (position) {
-                case 0:
-                    game = "2x2";
-                    break;
-                case 1:
-                    game = "3x3";
-                    break;
-                case 2:
-                    game = "4x4";
-                    break;
-                case 3:
-                    game = "5x5";
-                    break;
-                case 4:
-                    game = "6x6";
-                    break;
-                case 5:
-                    game = "7x7";
-                    break;
-                case 6:
-                    game = "8x8";
-                    break;
-                case 7:
-                    game = "9x9";
-                    break;
-                case 8:
-                    game = "10x10";
-                    break;
-            }
             Bundle bundle = new Bundle();
-            bundle.putString("lastScore", lastScore);
-            bundle.putString("currentGame", game);
-            bundle.putBoolean("showTheirScore", lastGame.equals(game));
             frag.setArguments(bundle);
             return frag;
         }
