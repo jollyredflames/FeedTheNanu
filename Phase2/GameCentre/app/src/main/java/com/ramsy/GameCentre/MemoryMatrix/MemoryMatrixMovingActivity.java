@@ -183,7 +183,7 @@ public class MemoryMatrixMovingActivity extends Activity implements View.OnClick
                 meUser.deleteGame("MemoryMatrix",person.getSlot());
                 Intent finishedGame = new Intent(this,FinishedGameActivity.class);
                 finishedGame.putExtra("gameIdentifier","MemoryMatrix");
-                finishedGame.putExtra("gameScore","100");
+                finishedGame.putExtra("gameScore",person.getScore());
                 finishedGame.putExtra("gameName","Hard");
                 startActivity(finishedGame);
             }

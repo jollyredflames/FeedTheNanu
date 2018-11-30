@@ -229,7 +229,7 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
                 meUser.deleteGame("MemoryMatrix",person.getSlot());
                 Intent finishedGame = new Intent(this,FinishedGameActivity.class);
                 finishedGame.putExtra("gameIdentifier","MemoryMatrix");
-                finishedGame.putExtra("gameScore","100");
+                finishedGame.putExtra("gameScore",person.getScore());
                 finishedGame.putExtra("gameName","Easy");
                 startActivity(finishedGame);
             }

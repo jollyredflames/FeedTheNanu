@@ -162,6 +162,10 @@ public class MemoryMatrixManager implements Iterable<Block> {
         this.y = y;
     }
 
+    public String getScore(){
+        return String.valueOf(score);
+    }
+
 
     public void save(){
         boolean difficulty;
