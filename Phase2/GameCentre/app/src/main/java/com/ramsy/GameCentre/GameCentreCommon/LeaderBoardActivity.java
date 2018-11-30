@@ -55,7 +55,7 @@ public class LeaderBoardActivity extends AppCompatActivity {
         lastScore = getIntent().getExtras().getString("lastScore");
         gameIdentifier = getIntent().getExtras().getString("gameIdentifier");
         LeaderBoardFactory factory = new LeaderBoardFactory();
-        game = factory.getGame(gameIdentifier);
+        this.game = factory.getGame(gameIdentifier);
     }
     //create three icon bar on the top
     @Override
@@ -105,7 +105,7 @@ public class LeaderBoardActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return game.numberTabs();
+            return 9;
         }
     }
 }

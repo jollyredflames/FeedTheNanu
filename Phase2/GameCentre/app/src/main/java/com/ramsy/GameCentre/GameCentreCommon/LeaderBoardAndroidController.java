@@ -30,13 +30,15 @@ public class LeaderBoardAndroidController implements Button.OnClickListener{
         this.container = container;
         String USERNAME = meUser.getUsername();
         this.scrollView =scroll;
-        this.height = height;
+        this.height = 50;
         meUser = FirebaseFuncts.getUser();
         leaderBoard = FirebaseFuncts.getGlobalLeaderBoard();
         this.controller = new LeaderBoardController(gameName,USERNAME,position);
         LeaderBoardGeneralGame hi = controller.getGame();
         int pos = controller.getPosition();
-        controller.setScores(leaderBoard.getGameGlobalLeaderBoard(hi.currentTabForDatabase(pos)));
+        String value = hi.currentTabForDatabase(pos);
+        ArrayList<String> temp = leaderBoard.getGameGlobalLeaderBoard(value);
+        controller.setScores(temp);
 //        ArrayList<String> alex = new ArrayList<>();
 //        alex.add("12345 nani");
 //        alex.add("167 yuh");
@@ -63,7 +65,8 @@ public class LeaderBoardAndroidController implements Button.OnClickListener{
         else{
             LeaderBoardGeneralGame hi = controller.getGame();
             int pos = controller.getPosition();
-            controller.setScores(meUser.getScoreList(hi.currentTabForDatabase(pos)));
+            ArrayList<String> temp = meUser.getScoreList(hi.currentTabForDatabase(pos));
+            controller.setScores(temp);
         }
         updateUserNameAndScoreTextViews();
         upDateButton();
@@ -100,6 +103,7 @@ public class LeaderBoardAndroidController implements Button.OnClickListener{
         for(;x< scrollView.getChildCount();x++){
             v = (TextView) scrollView.getChildAt(x);
             v.getLayoutParams().height = smallHeight;
+            v.setText("---");
         }
     }
 
