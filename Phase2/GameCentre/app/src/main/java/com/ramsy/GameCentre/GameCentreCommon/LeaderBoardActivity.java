@@ -88,40 +88,7 @@ public class LeaderBoardActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             LeaderBoardView frag = new LeaderBoardView();
-            String game = "";
-            switch (position) {
-                case 0:
-                    game = "2x2";
-                    break;
-                case 1:
-                    game = "3x3";
-                    break;
-                case 2:
-                    game = "4x4";
-                    break;
-                case 3:
-                    game = "5x5";
-                    break;
-                case 4:
-                    game = "6x6";
-                    break;
-                case 5:
-                    game = "7x7";
-                    break;
-                case 6:
-                    game = "8x8";
-                    break;
-                case 7:
-                    game = "9x9";
-                    break;
-                case 8:
-                    game = "10x10";
-                    break;
-            }
             Bundle bundle = new Bundle();
-            bundle.putString("lastScore", lastScore);
-            bundle.putString("currentGame", game);
-            bundle.putBoolean("showTheirScore", lastGame.equals(game));
             frag.setArguments(bundle);
             return frag;
         }
