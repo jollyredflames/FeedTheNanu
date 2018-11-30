@@ -55,6 +55,19 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     boolean isPaused = false;
 
+    /**
+     * The time interval in milliseconds between food item drops.
+     */
+
+    long itemDropInterval = 1200;
+
+
+    /**
+     * The time it takes in milliseconds for a falling food item to reach the bottom.
+     */
+
+    long itemDropDuration = 5000;
+
 
     Handler updateHandler = new Handler();
     Handler itemDropHandler = new Handler();
@@ -100,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
             // Create a new animation
             ObjectAnimator anim = ObjectAnimator.ofFloat(newItem, "y", screenHeight());
-            anim.setDuration(5000);
+            anim.setDuration(itemDropDuration);
             anim.setInterpolator(null);
             anim.addListener(new Animator.AnimatorListener() {
                 @Override
@@ -127,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             newItem.animator = anim;
             anim.start();
 
-            itemDropHandler.postDelayed(this, 1200);
+            itemDropHandler.postDelayed(this, itemDropInterval);
         }
     };
 
@@ -424,6 +437,26 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
     /**
+     * Method to increase the rate of food item falls and their animation speed
+     */
+
+    @Override
+    public void didGetBoosted() {
+//        itemDropInterval /= 2;
+//        itemDropDuration /= 2;
+    }
+
+    /**
+     * Method to set the rate of food item falls and their animation speed back to normal
+     */
+
+    @Override
+    public void boostWoreOff() {
+//        itemDropInterval *= 2;
+//        itemDropDuration *= 2;
+    }
+
+    /**
      * Method to end game when nanu's life reach zero, bring users to the FinishGameActivity when
      * Game is over.
      */
@@ -432,14 +465,17 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         // game over functionality
         pauseButtonWasTapped(true);
 
+
+        // Delete the saved game
         meUser.deleteGame(gameName, slot);
+
 
         String s = "" + this.score;
         Intent tmp = new Intent(this, FinishedGameActivity.class);
         tmp.putExtra("gameName", "FeedTheNanu");
-        tmp.putExtra("gameScore",
-                s);
+        tmp.putExtra("gameScore", s);
         tmp.putExtra("gameIdentifier", "FeedTheNanu");
+        tmp.putExtra("slot", slot);
         startActivity(tmp);
 
     }

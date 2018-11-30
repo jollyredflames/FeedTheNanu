@@ -8,6 +8,22 @@ package com.ramsy.GameCentre.FeedTheNanu;
 
 interface NanuDelegate {
 
+
+    /**
+     * Called when the Nanu consumed a boost item (coffee)
+     */
+
+    void didGetBoosted();
+
+
+    /**
+     * Called when the effects of a boost item (coffee) wear off
+     */
+
+    void boostWoreOff();
+
+
+
     /**
      * Called when the Nanu's life reaches 0
      */
