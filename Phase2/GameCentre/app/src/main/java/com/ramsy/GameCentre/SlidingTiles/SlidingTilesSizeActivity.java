@@ -89,9 +89,12 @@ public class SlidingTilesSizeActivity extends AppCompatActivity {
      */
     public void SetupNextListener(){
         this.next.setOnClickListener((V) ->{
+            System.out.println("XXX Hello 0");
             this.next.setBackgroundColor(getColor(R.color.app_button));
             this.size = this.np.getValue();
+            System.out.println("XXX Hello 1");
             this.slot = meUser.correctSlot("SlidingTiles");
+            System.out.println("XXX Hello 2");
             if (this.bg != null) {
                 if(bg.equals("p")){
                 openGallery();
