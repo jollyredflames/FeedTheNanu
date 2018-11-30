@@ -29,7 +29,13 @@ public class LeaderBoardController implements Iterable<String>{
     private int position;
 
 
-
+    /**
+     *
+     * @param game a string game that will be turned into a general game using the
+     *             leaderboard factory
+     * @param userName  a username to be used for the private leader board
+     * @param position  the current fragment you are on
+     */
     public LeaderBoardController(String game,String userName,int position){
         LeaderBoardFactory factory = new LeaderBoardFactory();
         this.game = factory.getGame(game);
@@ -37,47 +43,60 @@ public class LeaderBoardController implements Iterable<String>{
         this.position = position;
     }
 
-    public String topLeaderBoardTextView(){
-        return game.displayLeaderBoard(position);
-    }
-
+    /**
+     *
+     * @return the string that should be displayed for scores text view
+     */
     public String scoresTextView(){
         return "Scores:";
     }
 
+    /**
+     *
+     * @return the string that should be display for the username text view
+     */
     public String userNameTextView(){
         return "Usernames:";
     }
 
+    /**
+     *
+     * @return a string of the current leader boards name
+     */
     public String leaderBoardTextView(){
         return game.displayLeaderBoard(position);
     }
 
-
+    /**
+     *
+     * @param newScore set the scores array list to the new score array list
+     */
    public void setScores(ArrayList<String> newScore){
         scores = newScore;
    }
 
+    /**
+     *
+     * @param isGlobal set the global leader board to public if true and priavte
+     *                 if false
+     */
    public void setGlobal(boolean isGlobal){
         this.isGlobal = isGlobal;
    }
 
+    /**
+     * @return true is the leader board is in public mode and false
+     *                      if the leader board is in private mode
+     */
    public boolean getIsGlobal(){
         return isGlobal;
    }
 
-   public String getButtonText(){
-        if (isGlobal){
-            return "View \nYour Scores";
-        }
-        return "View \nPublic Scores";
-   }
 
-   public String getLastScoreText(int value){
-        return "Your score was: \n"+String.valueOf(value);
-   }
-
-
+    /**
+     *
+     * @return a iterator of the leader board
+     */
     @Override
     public Iterator iterator() {
         return new LeaderBoardIterator();
@@ -90,11 +109,19 @@ public class LeaderBoardController implements Iterable<String>{
         private int nextIndex = 0;
         private boolean name = true;
 
+        /**
+         *
+         * @return true if there are still more strings to display in the leader board
+         */
         @Override
         public boolean hasNext() {
             return nextIndex != scores.size();
         }
 
+        /**
+         *
+         * @return the next string in the leader board
+         */
         @Override
         public String next() {
             String current = scores.get(nextIndex);
@@ -118,10 +145,18 @@ public class LeaderBoardController implements Iterable<String>{
         }
     }
 
+    /**
+     *
+     * @return the game that is being displayed on the leader board
+     */
     public LeaderBoardGeneralGame getGame(){
         return game;
     }
 
+    /**
+     *
+     * @return the position of this fragment in the leader board
+     */
     public int getPosition(){
         return position;
     }

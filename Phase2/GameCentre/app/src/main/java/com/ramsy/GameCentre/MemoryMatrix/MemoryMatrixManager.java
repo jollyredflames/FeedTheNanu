@@ -30,7 +30,7 @@ public class MemoryMatrixManager implements Iterable<Block> {
     public MemoryMatrixManager(ArrayList<Block> blocksToHighLight ,Set<Integer> clickableID,int badIndex,int life,int numUndo,int slot,int score,int x,int y) {
         meUser = FirebaseFuncts.getUser();
         this.clickableID = clickableID;
-        this.numToBeClicked = (int) Math.ceil(blocksToHighLight.size()*0.25);
+        this.numToBeClicked = (int) Math.ceil(blocksToHighLight.size()*0.35);
         MemoryMatrixRandomizer randomer = new MemoryMatrixRandomizer(clickableID, numToBeClicked, badIndex);
         mustBeClicked = randomer.randomizer();
         this.blocksToHighLight = blocksToHighLight;
