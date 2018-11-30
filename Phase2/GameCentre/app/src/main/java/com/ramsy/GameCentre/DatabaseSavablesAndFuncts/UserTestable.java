@@ -27,23 +27,6 @@ public class UserTestable {
     }
 
     /**
-     * Return a USer with all attributes
-     * @param username
-     * @param email
-     * @param meUserID
-     * @param myScores
-     * @param savedGames
-     */
-    public UserTestable(String username, String email, String meUserID, HashMap<String, ArrayList<String>> myScores, HashMap<String, ArrayList<SaveState>> savedGames) {
-        //mDatabase.keepSynced(true);
-        this.email = email;
-        this.username = username;
-        UserTestable.myScores = myScores;
-        this.meUserID = meUserID;
-        UserTestable.savedGames = savedGames;
-    }
-
-    /**
      * Return this user's username
      * @return username
      */
