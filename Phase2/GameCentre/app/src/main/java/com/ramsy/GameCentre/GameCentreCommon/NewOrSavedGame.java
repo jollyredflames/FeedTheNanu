@@ -81,6 +81,9 @@ public class NewOrSavedGame extends AppCompatActivity {
 
                 Log.e("check", "meuser not null, inner if block reached");
                 NewGameDialog newGameDialog = new NewGameDialog();
+                Bundle importantInfo = new Bundle();
+                importantInfo.putString("gameName", gameName);
+                newGameDialog.setArguments(importantInfo);
                 newGameDialog.show(getSupportFragmentManager(),"over ride saved");
             }
             else {
