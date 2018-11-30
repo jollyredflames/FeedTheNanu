@@ -10,8 +10,11 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.FirebaseFuncts;
+import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.SaveState;
+import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.User;
+import com.ramsy.GameCentre.GameCentreCommon.ChooseGame;
 import com.ramsy.GameCentre.GameCentreCommon.FinishedGameActivity;
 
 import java.util.ArrayList;
@@ -37,17 +40,29 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
     private ArrayList<Block> clicker = new ArrayList<>();
     int badIndex;
     private MemoryMatrixManager person;
+    private User meUser = FirebaseFuncts.getUser();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Bundle bundle = getIntent().getExtras();
-        int tempNumTileX = bundle.getInt("X");
-        int tempNumTileY = bundle.getInt("Y");
-        numTileX = tempNumTileX;
-        numTileY = tempNumTileY;
-        int life = bundle.getInt("life");
-        int numUndo = bundle.getInt("numUndo");
         int slot = bundle.getInt("slot");
-        int score = bundle.getInt("score");
+        SaveState thisSave = meUser.getGame("MemoryMatrix", slot);
+        int life;
+        int numUndo;
+        int score;
+        if (thisSave == null){
+            numTileX = 3;
+            numTileY = 3;
+            life = 5;
+            numUndo = 5;
+            score = 0;
+        } else{
+            life = thisSave.getLife();
+            numUndo = thisSave.getNumUndo();
+            score = thisSave.getScore();
+            numTileX = thisSave.getNumX();
+            numTileY = thisSave.getNumY();
+        }
+
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setInstanceVariables();
@@ -161,14 +176,14 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == (int)-500) {
+        if (v.getId() == -500) {
             //person.se
             // tUpQuit();
 //            Intent pullChooseGameActivity = new Intent (this, NewOrSavedGame.class);
 //            startActivity(pullChooseGameActivity);
 //            return;
         }
-        if (v.getId() == (int)-2) {
+        if (v.getId() == -2) {
             if (person.setUpUndo()) {
                 container.getChildAt(person.performUndo() + 2).setBackgroundColor(Color.GRAY);
             }
@@ -182,15 +197,12 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
             if (person.isGameComplete()) {
                 Intent newGame = new Intent(this,MemoryMatrixActivity.class);
                 if(numTileY == numTileX){
-                    numTileX++;
+                    person.setX(numTileX+1);
                 }
                 else{
-                    numTileY++;
+                    person.setY(numTileY+1);
                 }
-                newGame.putExtra("X", numTileX);
-                newGame.putExtra("Y",numTileY);
-                newGame.putExtra("life",person.getLife());
-                newGame.putExtra("numUndo",person.getNumUndo());
+                person.save();
                 int slot = person.getSlot();
                 newGame.putExtra("slot",slot);
                 newGame.putExtra("score",0);
@@ -246,5 +258,12 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
                 t.cancel();
             }
         }, resetDelay, 500);
+    }
+
+    @Override
+    public void onBackPressed() {
+        person.save();
+        Intent goToChoose = new Intent(this, ChooseGame.class);
+        startActivity(goToChoose);
     }
 }

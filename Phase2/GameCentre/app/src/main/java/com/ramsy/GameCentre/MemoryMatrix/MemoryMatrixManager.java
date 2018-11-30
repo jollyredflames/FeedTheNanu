@@ -156,6 +156,14 @@ public class MemoryMatrixManager implements Iterable<Block> {
         return slot;
     }
 
+    public void setX(int x){
+        this.x = x;
+    }
+
+    public void setY(int y){
+        this.y = y;
+    }
+
 
     public void save(){
         SaveState save = new SaveState();
@@ -170,7 +178,7 @@ public class MemoryMatrixManager implements Iterable<Block> {
         else{
             save.setDifficulty(false);
         }
-        meUser.saveGame("MemoryMatrix",(SaveState)save,slot);
+        meUser.saveGame("MemoryMatrix", save,slot);
     }
 
 }
