@@ -37,79 +37,79 @@ public class NewOrSavedGame extends AppCompatActivity {
 
     private User meUser;
 
-    /**
-     * References to the New Game button and Saved Games button, in that order
-     */
 
-    Button[] group;
+    Button newGameButton;
+    Button savedGamesButton;
+    Button logOutButton;
+
     String gameName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_game_page);
         meUser = FirebaseFuncts.getUser();
 
-        //assign gamename to the value that is from an intent
-        // value for sliding tiles game is "SlidingTiles"
-        // value for feed the nanu is "FeedTheNanu"
-        // value for memory tile is "MemoryMatrix"
         Intent currentIntent = getIntent();
-
-        System.out.println("XXX HELLOOOOOOOOO");
         this.gameName = currentIntent.getStringExtra("GAME_NAME");
-        Button newGame = findViewById(R.id.newGame);
-        Button savedGames = findViewById(R.id.savedGames);
-        this.group = new Button[] {newGame, savedGames};
+
+        this.newGameButton = findViewById(R.id.newGame);
+        this.savedGamesButton = findViewById(R.id.savedGames);
+        this.logOutButton = findViewById(R.id.LogOutButton);
+
         setupNewGameListener();
         setupSavedGamesListener();
         setupLogOutListener();
 
+
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        // Unhighlight all buttons
+        savedGamesButton.setBackgroundColor(getColor(R.color.app_button1));
+        newGameButton.setBackgroundColor(getColor(R.color.app_button1));
+        logOutButton.setBackgroundColor(getColor(R.color.app_button1));
+    }
 
     /**
      * if the user has 3 saved already, it will send them to the load save activity to delete a save
      * otherwise they will continue to the game options activity
      */
     private void setupNewGameListener(){
-        group[0].setOnClickListener((V) ->{
-            meUser = FirebaseFuncts.getUser();
-
-            System.out.println("XXX " + gameName);
+        this.newGameButton.setOnClickListener((V) ->{
 
             if (meUser.getTheNumberSaved(gameName) == 3){
-
-                Log.e("check", "meuser not null, inner if block reached");
                 NewGameDialog newGameDialog = new NewGameDialog();
+                Bundle importantInfo = new Bundle();
+                importantInfo.putString("gameName", gameName);
+                newGameDialog.setArguments(importantInfo);
                 newGameDialog.show(getSupportFragmentManager(),"over ride saved");
-            }
-            else {
-                group[1].setBackgroundColor(getColor(R.color.app_button1));
-                group[0].setBackgroundColor(getColor(R.color.app_button));
+            } else {
+                savedGamesButton.setBackgroundColor(getColor(R.color.app_button1));
+                newGameButton.setBackgroundColor(getColor(R.color.app_button));
 
                 Intent newActivity;
-
-                if (gameName == null) {
-                    System.out.println("XXX OMG game name was null");
-                }
-
-
                 if (gameName.equals("SlidingTiles")){
                     newActivity = new Intent(this, SlidingTilesSizeActivity.class);
-
                 }
-                else if(gameName.equals("FeedTheNanu")){
+                else if (gameName.equals("FeedTheNanu")) {
                     int slot = meUser.correctSlot("FeedTheNanu");
                     newActivity = new Intent(this, MainActivity.class);
                     newActivity.putExtra("slot", slot);
-                }
-                else {
+                } else {
                     newActivity = new Intent(this, ChooseMemoryMatrixGameType.class);
                 }
                 startActivity(newActivity);
-
             }
-
 
         });
     }
@@ -118,9 +118,9 @@ public class NewOrSavedGame extends AppCompatActivity {
      * take the user to the saved game activity
      */
     private void setupSavedGamesListener(){
-        group[1].setOnClickListener((V) ->{
-            group[0].setBackgroundColor(getColor(R.color.app_button1));
-            group[1].setBackgroundColor(getColor(R.color.app_button));
+        savedGamesButton.setOnClickListener((V) ->{
+            newGameButton.setBackgroundColor(getColor(R.color.app_button1));
+            savedGamesButton.setBackgroundColor(getColor(R.color.app_button));
             Intent tmp = new Intent(this, SavedGamesActivity.class);
             // Put the game name in the intent
             tmp.putExtra("GAME_NAME", gameName);
@@ -132,8 +132,7 @@ public class NewOrSavedGame extends AppCompatActivity {
      * log the user out of the game
      */
     private void setupLogOutListener(){
-        Button savedGames = findViewById(R.id.LogOutButton);
-        savedGames.setOnClickListener((V) ->{
+        logOutButton.setOnClickListener((V) ->{
             LoginPage.signUserOut();
             Intent n = new Intent(this, LoginPage.class);
             startActivity(n);

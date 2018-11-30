@@ -33,6 +33,7 @@ public class SavedGamesActivity extends AppCompatActivity {
     Button[] group= new Button[3];
     String gameName;
     Intent newActivity;
+    int correctSlot;
 
     /**
      * defined all buttons and set the screen
@@ -41,6 +42,8 @@ public class SavedGamesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_saved_games);
         meUser = FirebaseFuncts.getUser();
         slot1 = findViewById(R.id.slot1);
@@ -65,24 +68,25 @@ public class SavedGamesActivity extends AppCompatActivity {
         setSlot();
 
 
-
-
         // set up the Intent to avoud all the duplicated code
         if (gameName == null) {
             System.out.println("XXX OMG game name was null");
         }
         else if(gameName.equals("SlidingTiles")){
+            this.correctSlot = meUser.correctSlot("SlidingTiles");
             this.newActivity = new Intent(this, SlidingTilesGameActivity.class);
         }
         else if(gameName.equals("FeedTheNanu")){
-            int slot = meUser.correctSlot("FeedTheNanu");
+            this.correctSlot = meUser.correctSlot("FeedTheNanu");
             this.newActivity = new Intent(this, MainActivity.class);
         }
         else {
             // TODO: Change this to the Memory Matrix game
-            int slot = meUser.correctSlot("FeedTheNanu");
+            this.correctSlot = meUser.correctSlot("MemoryMatrix");
             this.newActivity = new Intent(this, MainActivity.class);
         }
+
+        this.newActivity.putExtra("slot", this.correctSlot);
     }
 
 
@@ -140,6 +144,9 @@ public class SavedGamesActivity extends AppCompatActivity {
 
     private void setupDelete1Listener() {
         delete1.setOnClickListener((V) -> {
+            if (gameName == null) {
+                System.out.println("XXX OMG game name was null");
+            }
             meUser.deleteGame(gameName,0);
             ss = meUser.getSavedGamesForGameName(gameName);
             setSlot();
@@ -152,6 +159,9 @@ public class SavedGamesActivity extends AppCompatActivity {
 
     private void setupDelete2Listener() {
         delete2.setOnClickListener((V) -> {
+            if (gameName == null) {
+                System.out.println("XXX OMG game name was null");
+            }
             meUser.deleteGame(gameName, 1);
             ss = meUser.getSavedGamesForGameName(gameName);
             setSlot();
@@ -165,6 +175,9 @@ public class SavedGamesActivity extends AppCompatActivity {
 
     private void setupDelete3Listener() {
         delete3.setOnClickListener((V) -> {
+            if (gameName == null) {
+                System.out.println("XXX OMG game name was null");
+            }
             meUser.deleteGame(gameName,2);
             ss = meUser.getSavedGamesForGameName(gameName);
             setSlot();

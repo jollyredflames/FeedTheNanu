@@ -269,8 +269,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         SaveState save = meUser.getGame(gameName, slot);
 
         if (save != null) {
-
-            System.out.println("XXX score: " + save.score + " life: " + save.currentLife);
             this.score = save.score;
             this.nanu.currentLife = save.currentLife;
             this.healthBar.setHealthTo(nanu.currentLife);
