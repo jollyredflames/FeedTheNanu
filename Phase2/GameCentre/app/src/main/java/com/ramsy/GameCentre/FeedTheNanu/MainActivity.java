@@ -18,6 +18,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ramsy.GameCentre.GameCentreCommon.FinishedGameActivity;
+import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.FirebaseFuncts;
+import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.SaveState;
+import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.User;
 import com.ramsy.GameCentre.R;
 import java.util.Random;
 
@@ -54,6 +57,15 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     Handler updateHandler = new Handler();
     Handler itemDropHandler = new Handler();
+    Handler saveHandler = new Handler();
+
+    Runnable autoSave = new Runnable() {
+        @Override
+        public void run() {
+            save();
+            saveHandler.postDelayed(this, saveInterval);
+        }
+    };
 
 
     Runnable itemDrop = new Runnable() {
@@ -154,11 +166,29 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
             nanu.foodItemForEating = foodItemForEating;
             nanu.foodIsNearby = foodIsNearby;
+
+
+            /*
+            This next line can eventually call a delegate method,
+            which we had set to call the pauseButtonWasTapped(true) method,
+            But it wasn't actually stopping this handler,
+            Because the call to stop it is made within the scope of the handler itself.
+            The pause button taps worked because that code wasn't running within the context of the handler.
+            What's more is, only the itemDrop handler was stopped, which makes sense because
+            we weren't trying to stop it from within its own context.
+            So, keep the delegate method as a chance to call normal pausing functionality,
+            But then have a method that returns true if the Nanu is still alive,
+            And only schedule the next run if the Nanu is still alive.
+             */
+
             nanu.timeDidElapse();
+
 
             healthBar.setHealthTo(nanu.getCurrentLifePercent());
 
-            updateHandler.postDelayed(this, gameLoopInterval);
+            if (!nanu.currentLifeIsZero()) {
+                updateHandler.postDelayed(this, gameLoopInterval);
+            }
         }
     };
 
@@ -169,15 +199,51 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     long gameLoopInterval = 20;
 
+    /**
+     * Period in milliseconds to save the game automatically
+     */
+
+    long saveInterval = 5000;
 
 
+    /**
+     * The slot number to save in.
+     * Retrieved from the Intent.
+     */
+
+    int slot;
 
 
+    /**
+     * Saves the game
+     */
+
+    private void save() {
+        // Save logic here
+        Save s = new Save(score, nanu.currentLife);
+
+        // Throw this to the backend function
+        meUser.saveGame("FeedTheNanu", (SaveState) s, this.slot);
+    }
+
+    /**
+     * The user that is currently logged in.
+     */
+
+    private User meUser;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Grab the user
+        this.meUser = FirebaseFuncts.getUser();
+
+        // Retrieve Slot Number from Intent
+        Bundle b = getIntent().getExtras();
+        this.slot = b.getInt("slot");
+
 
         // Create the Item Generator
         this.itemGenerator = new ItemGenerator(this);
@@ -203,6 +269,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         // Start running tasks
         updateHandler.post(update);
         itemDropHandler.post(itemDrop);
+        saveHandler.postDelayed(autoSave, saveInterval);
 
     }
 
@@ -290,6 +357,12 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         container.addView(n);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        pauseButtonWasTapped(true); // to stop the handlers
+
+    }
 
     @Override
     public void lifeReachedZero() {
@@ -324,7 +397,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     public boolean onTouch(View v, MotionEvent event) {
 
         // Prevent the Nanu from being moved if isPaused is true.
-        if (isPaused) { return false;}
+        if (isPaused) { return false; }
 
         // Map the Nanu's center to the touch location
 //        nanu.setX(event.getX() - (nanu.getWidth() / 2));
@@ -377,12 +450,18 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     @Override
     public void pauseButtonWasTapped(boolean paused) {
 
+        /*
+        While this is the delegate method called by the Pause Button,
+        we will also call this method ourselves in lifeDidReachZero and onBackPressed
+         */
+
         this.isPaused = paused;
 
         // Pause/Resume non view stuff (like stop the handlers that generate new food, prevent Nanu from being moved)
         if (paused) {
             itemDropHandler.removeCallbacks(itemDrop); // stop new items from falling
             updateHandler.removeCallbacks(update); // pause the game engine loop, for efficiency
+            System.out.println("XXX Just paused all handlers");
         } else {
             itemDropHandler.postDelayed(itemDrop, 1000); // we use post delayed here, to prevent the situation where spamming the pause button
             // caused an item to drop on each resume. But then it's possible to spam the pause button and progress time

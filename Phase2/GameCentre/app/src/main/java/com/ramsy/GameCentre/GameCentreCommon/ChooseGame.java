@@ -33,7 +33,7 @@ public class ChooseGame extends AppCompatActivity {
 
     /**
      * function to set listener to the feed the nanu button, so that once the button is clicked,
-     * the newOrSacedGame page would show up, with extra information indicating that a feed the nanu
+     * the newOrSavedGame page would show up, with extra information indicating that a feed the nanu
      * game is selected by the user.
      */
     public void setNanuOnClickListener(){
@@ -69,7 +69,6 @@ public class ChooseGame extends AppCompatActivity {
             Intent tmp = new Intent(this, NewOrSavedGame.class);
             tmp.putExtra("GAME_NAME", "SlidingTiles");
             startActivity(tmp);
-
         });
     }
 }

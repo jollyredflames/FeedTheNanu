@@ -1,6 +1,7 @@
 package com.ramsy.GameCentre.MemoryMatrix;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -10,6 +11,8 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.ramsy.GameCentre.GameCentreCommon.FinishedGameActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,8 +28,8 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
     private int vertSpacerWidth;
     private int horSpacerWidth;
     private int horSpacerHeight;
-    private int numTileX = 3;
-    private int numTileY = 3;
+    private int numTileX;
+    private int numTileY;
     private DisplayMetrics displayMetrics;
     private Set<Integer> underID = new HashSet<>();
     private Set<Integer> rightID = new HashSet<>();
@@ -36,6 +39,12 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
     private MemoryMatrixManager person;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        numTileX = getIntent().getExtras().getInt("X");
+        numTileY = getIntent().getExtras().getInt("Y");
+        int life = getIntent().getExtras().getInt("life");
+        int numUndo = getIntent().getExtras().getInt("numUndo");
+        int slot = getIntent().getExtras().getInt("slot");
+        String score = getIntent().getExtras().getString("score");
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setInstanceVariables();
@@ -139,21 +148,21 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
             }
         }
         badIndex = Collections.min(underID);
-        person = new MemoryMatrixManager(clicker,clickable, badIndex);
+        person = new MemoryMatrixManager(clicker,clickable, badIndex,life,numUndo,slot,score,numTileX,numTileX);
         go();
         resetColor();
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == -500) {
+        if (v.getId() == (int)-500) {
             //person.se
             // tUpQuit();
 //            Intent pullChooseGameActivity = new Intent (this, NewOrSavedGame.class);
 //            startActivity(pullChooseGameActivity);
 //            return;
         }
-        if (v.getId() == -2) {
+        if (v.getId() == (int)-2) {
             if (person.setUpUndo()) {
                 container.getChildAt(person.performUndo() + 2).setBackgroundColor(Color.GRAY);
             }
@@ -165,12 +174,20 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
         if(person.checkTileCorrect(v.getId())){
             v.setBackgroundColor(Color.GREEN);
             if (person.isGameComplete()) {
-                Toast.makeText(this, "Correct tiles selected", Toast.LENGTH_LONG).show();
+                Intent newGame = new Intent(this,MemoryMatrixActivity.class);
+                startActivity(newGame);
             }
             return;
         }
         else{
             v.setBackgroundColor(Color.RED);
+            if (person.gameOver()){
+                Intent finishedGame = new Intent(this,FinishedGameActivity.class);
+                finishedGame.putExtra("gameIdentifier","MemoryMatrix");
+                finishedGame.putExtra("gameScore","100");
+                finishedGame.putExtra("gameName","Easy");
+                startActivity(finishedGame);
+            }
         }
     }
 

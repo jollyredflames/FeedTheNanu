@@ -258,6 +258,7 @@ class Nanu extends ImageView implements Pausable {
      */
 
     void timeDidElapse() {
+        System.out.println("XXX Hello from the time did elapse method");
         this.changeLifeBy(this.amountLifeChangesByOverTime);
     }
 
@@ -287,6 +288,14 @@ class Nanu extends ImageView implements Pausable {
         }
     }
 
+    /**
+     * Returns true if the Nanu's current life is above 0; false if it is 0.
+     * @return if the Nanu's current life is zero.
+     */
+
+    boolean currentLifeIsZero() {
+        return this.currentLife == 0;
+    }
 
     /**
      * time in milliseconds between each texture. Use a smaller number to speed up the Nanu.

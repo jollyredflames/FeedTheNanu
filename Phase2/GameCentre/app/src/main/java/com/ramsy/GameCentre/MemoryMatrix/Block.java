@@ -82,6 +82,5 @@ public class Block {
     public boolean equals(Object obj) {
         Block compare = (Block) obj;
         return compare.getId() == this.getId();
-
     }
 }

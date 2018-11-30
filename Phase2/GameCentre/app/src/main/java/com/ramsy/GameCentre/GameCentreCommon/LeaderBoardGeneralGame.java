@@ -1,8 +1,12 @@
 package com.ramsy.GameCentre.GameCentreCommon;
 
-public interface LeaderBoardGeneralGame {
-    int numberTabs();
-    String currentTabForDatabase(int position);
-    String displayLeaderBoard(int position);
+public abstract class LeaderBoardGeneralGame {
+    int numberTabs = 9;
+    String currentTabForDatabase(int position){
+        return "";
+    }
+    String displayLeaderBoard(int position){
+        return "";
+    }
 }
 

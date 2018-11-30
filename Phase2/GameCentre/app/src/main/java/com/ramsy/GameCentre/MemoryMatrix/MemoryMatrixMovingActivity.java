@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.ramsy.GameCentre.GameCentreCommon.FinishedGameActivity;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -35,6 +37,11 @@ public class MemoryMatrixMovingActivity extends Activity implements View.OnClick
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        numBalls = getIntent().getExtras().getInt("numBlocks");
+        int life = getIntent().getExtras().getInt("life");
+        int numUndo = getIntent().getExtras().getInt("numUndo");
+        int slot = getIntent().getExtras().getInt("slot");
+        String score = getIntent().getExtras().getString("score");
         setInstanceVariables();
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -80,7 +87,7 @@ public class MemoryMatrixMovingActivity extends Activity implements View.OnClick
             Block block1 = new Block(i+3, 500, 500, dim, dim);
             blocks.add(block1);
         }
-        person = new MemoryMatrixManager(blocks,clickableID,0);
+        person = new MemoryMatrixManager(blocks,clickableID,0,life,numUndo,slot,score,blocks.size(),0);
         collisionDetecter = new CollisionDetecter(screenWidth,screenHeight);
         go();
         resetColor();
@@ -133,7 +140,11 @@ public class MemoryMatrixMovingActivity extends Activity implements View.OnClick
         if(person.checkTileCorrect(v.getId())){
             v.setBackgroundColor(Color.GREEN);
             if (person.isGameComplete()) {
-                Toast.makeText(this, "Correct tiles selected", Toast.LENGTH_LONG).show();
+                Intent finishedGame = new Intent(this,FinishedGameActivity.class);
+                finishedGame.putExtra("gameIdentifier","MemoryMatrix");
+                finishedGame.putExtra("gameScore","100");
+                finishedGame.putExtra("gameName","Hard");
+                startActivity(finishedGame);
             }
             return;
         }

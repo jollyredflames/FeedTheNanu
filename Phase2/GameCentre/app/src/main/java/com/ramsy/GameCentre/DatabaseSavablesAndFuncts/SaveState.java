@@ -43,7 +43,9 @@ public class SaveState {
         this.localTime = LocalDateTime.now().toString();
     }
 
-    SaveState(){}
+    public SaveState(){
+        this.localTime = LocalDateTime.now().toString();
+    }
 
     public ArrayList<Point> getPositionMap() {
         return positionMap;

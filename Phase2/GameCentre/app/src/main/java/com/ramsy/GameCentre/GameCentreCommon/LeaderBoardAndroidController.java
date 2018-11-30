@@ -30,7 +30,7 @@ public class LeaderBoardAndroidController implements Button.OnClickListener{
         this.container = container;
         String USERNAME = meUser.getUsername();
         this.scrollView =scroll;
-        this.height = 50;
+        this.height = height;
         meUser = FirebaseFuncts.getUser();
         leaderBoard = FirebaseFuncts.getGlobalLeaderBoard();
         this.controller = new LeaderBoardController(gameName,USERNAME,position);
@@ -97,7 +97,7 @@ public class LeaderBoardAndroidController implements Button.OnClickListener{
         for(String s:controller){
             v = (TextView) scrollView.getChildAt(x);
             LeaderBoardModel.generateTextViewDesign(v,s);
-            v.getLayoutParams().height =height;
+            v.getLayoutParams().height = height;
             x++;
         }
         for(;x< scrollView.getChildCount();x++){
