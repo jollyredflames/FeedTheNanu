@@ -13,10 +13,12 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ramsy.GameCentre.GameCentreCommon.ChooseGame;
 import com.ramsy.GameCentre.GameCentreCommon.FinishedGameActivity;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.FirebaseFuncts;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.SaveState;
@@ -47,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     final int padding = 100;
 
     HealthBar healthBar;
-
+    ImageView backButton;
     int score;
     TextView scoreLabel;
 
@@ -242,21 +244,36 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
         // Create the Item Generator
         this.itemGenerator = new ItemGenerator(this);
+
+
 
         // Create a View Group
         final RelativeLayout container = new RelativeLayout(this);
         this.container = container;
 
+
+
+
+
+
+
+
+
+
         // Set the Activity's window to the View Group
         setContentView(container);
-
         setupBackground();
         setupScoreLabel();
         setupPauseButton();
+        setupBackButton();
+        setBackButtonListener();
         setupHealthBar();
         setupNanu();
+
 
         // Grab the user
         this.meUser = FirebaseFuncts.getUser();
@@ -496,5 +513,26 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 }
             }
         }
+    }
+
+
+    public void setupBackButton(){
+        // set up a new back button
+        ImageView backIcon = new ImageView(this);
+        Bitmap im = BitmapFactory.decodeResource(getResources(), R.drawable.back);
+        RelativeLayout.LayoutParams backParams = new RelativeLayout.LayoutParams(100, 100);
+        backIcon.setLayoutParams(backParams);
+        backIcon.setX(screenWidth()/2);
+        backIcon.setY(10);
+        this.backButton = backIcon;
+        container.addView(backButton);
+    }
+
+    public void setBackButtonListener(){
+        this.backButton.setOnClickListener((v)->{
+            pauseButtonWasTapped(true);
+            Intent tmp = new Intent(this, ChooseGame.class);
+            startActivity(tmp);
+        });
     }
 }
