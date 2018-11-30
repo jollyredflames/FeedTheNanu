@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     Runnable autoSave = new Runnable() {
         @Override
         public void run() {
-            save();
+//            save();
             saveHandler.postDelayed(this, saveInterval);
         }
     };
@@ -223,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         Save s = new Save(score, nanu.currentLife);
 
         // Throw this to the backend function
-        meUser.saveGame("FeedTheNanu", (SaveState) s, this.slot);
+//        meUser.saveGame("FeedTheNanu", (SaveState) s, this.slot);
     }
 
     /**
@@ -241,8 +241,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         this.meUser = FirebaseFuncts.getUser();
 
         // Retrieve Slot Number from Intent
-        Bundle b = getIntent().getExtras();
-        this.slot = b.getInt("slot");
+//        Bundle b = getIntent().getExtras();
+//        this.slot = b.getInt("slot");
 
 
         // Create the Item Generator
@@ -369,7 +369,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         // TODO:
         // game over functionality
         pauseButtonWasTapped(true);
-        String s = "" + this.score;
+        int sc = this.score;
+        System.out.println(sc + "Nanu score xxxx");
+        String s = "" + sc;
         Intent tmp = new Intent(this, FinishedGameActivity.class);
         tmp.putExtra("gameName", "FeedTheNanu");
         tmp.putExtra("gameScore",

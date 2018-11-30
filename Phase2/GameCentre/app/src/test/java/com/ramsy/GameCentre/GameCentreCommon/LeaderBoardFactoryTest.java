@@ -9,7 +9,6 @@ public class LeaderBoardFactoryTest {
      * testing LeaderBoatdFactory and make sure that the method getgame return the correct class
      * based on the input string. also test if null is return if the input string is not valid.
      */
-
     @Test
     public void getGame() {
         String inputOne = "SlidingTiles";
