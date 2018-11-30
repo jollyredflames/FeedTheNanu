@@ -24,7 +24,7 @@ public class FinishedGameActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String gameScore = intent.getExtras().getString("gameScore");
         String gameName = intent.getExtras().getString("gameName");
-        //String gameIdentifier = intent.getExtras().getString("gameIdentifier");
+        String gameIdentifier = intent.getExtras().getString("gameIdentifier");
         TextView scoreText = findViewById(R.id.score);
         scoreText.setText(gameScore);
         User meUser = FirebaseFuncts.getUser();
@@ -41,7 +41,7 @@ public class FinishedGameActivity extends AppCompatActivity {
                 Intent pullLeaderBoard = new Intent (v.getContext(), LeaderBoardActivity.class);
                 pullLeaderBoard.putExtra("lastScore", gameScore);
                 pullLeaderBoard.putExtra("lastGame", gameName);
-                pullLeaderBoard.putExtra("gameIdentifier", "SlidingTiles");
+                pullLeaderBoard.putExtra("gameIdentifier", gameIdentifier);
                 startActivity(pullLeaderBoard);
             }
         });
