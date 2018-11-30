@@ -1,16 +1,13 @@
 package com.ramsy.GameCentre.GameCentreCommon;
 
-public class LeaderBoardMemoryMatrix implements LeaderBoardGeneralGame {
-    @Override
-    public int numberTabs(){
-        return 2;
-    }
+public class LeaderBoardMemoryMatrix extends LeaderBoardGeneralGame {
+    int numberTabs = 2;
     public String currentTabForDatabase(int position){
         if(position == 0){
-            return "MemoryMatrixEasy";
+            return "Easy";
         }
         else{
-            return "MemoryMatrixHard";
+            return "Hard";
         }
 
     }

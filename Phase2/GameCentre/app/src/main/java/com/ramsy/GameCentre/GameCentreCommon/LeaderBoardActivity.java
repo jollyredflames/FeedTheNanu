@@ -47,15 +47,15 @@ public class LeaderBoardActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
         lastGame = getIntent().getExtras().getString("lastGame");
         lastScore = getIntent().getExtras().getString("lastScore");
         gameIdentifier = getIntent().getExtras().getString("gameIdentifier");
         LeaderBoardFactory factory = new LeaderBoardFactory();
         this.game = factory.getGame(gameIdentifier);
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = findViewById(R.id.container);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
     }
     //create three icon bar on the top
     @Override
@@ -78,7 +78,8 @@ public class LeaderBoardActivity extends AppCompatActivity {
             startActivity(pullSignIn);
         }
        else if (id == R.id.action_newgame) {
-           Intent pullNewGame = new Intent (this, NewOrSavedGame.class);
+           Intent pullNewGame = new Intent (this, ChooseGame.class);
+
            startActivity(pullNewGame);
        }
         return super.onOptionsItemSelected(item);
@@ -105,7 +106,13 @@ public class LeaderBoardActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 9;
+            if(gameIdentifier.equals("SlidingTiles")){
+                return 9;
+            }
+            else if(gameIdentifier.equals("MemoryMatrix")){
+                return 2;
+            }
+            return 1;
         }
     }
 }
