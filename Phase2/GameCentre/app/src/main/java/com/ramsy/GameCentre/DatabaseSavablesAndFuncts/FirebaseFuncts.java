@@ -75,6 +75,7 @@ public class FirebaseFuncts {
 
     /**
      * Fire an asyncronous call to set the Leaderboard from Firebase
+     * @param uid is a String unique to this User
      */
     private static void setFirebaseUser(String uid){
         Log.e("FBFUNCTS: ", "setFirebase was run");

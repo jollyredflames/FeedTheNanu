@@ -43,10 +43,19 @@ public class SignUpPage extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
     }
 
+    /**
+     * Run when user clicks sign-in. Calls method to check all fields and make user if appropriate
+     * @param view the "sign-up" button
+     */
     public void sendSignUp (View view) {
         firebaseCheckUserNameExists(((EditText)findViewById(R.id.username_field)).getText().toString());
     }
 
+    /**
+     * Long series of ifs which make sure no user errors in text fields filled (ex. incorrect email, short password, etc.)
+     * Also makes sure the Username has not already been taken
+     * @param usernameExists boolean representing whether username has been taken or not.
+     */
     public void checkInput(boolean usernameExists){
         EditText username_field = findViewById(R.id.username_field);
         EditText email_field = findViewById(R.id.email_field);
@@ -99,6 +108,11 @@ public class SignUpPage extends AppCompatActivity {
         }
     }
 
+    /**
+     * Checks whether the current name has been taken by another user. Ensures names are unique.
+     * Once we hear back from database, about whether username is taken, check the rest of the fields.
+     * @param username String representing what user wants to be called.
+     */
     public void firebaseCheckUserNameExists(String username){
         mDatabase.child("users").orderByChild("username").equalTo(username).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -115,7 +129,12 @@ public class SignUpPage extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * Run when all ifs are satisfied. Calls Database and sets new user with email and password
+     * @param userID string username this user wants to be called
+     * @param emailID string email of user
+     * @param password string password of user
+     */
     public void createUser(String userID, String emailID, String password){
         final String username = userID;
         final String email = emailID;
@@ -142,13 +161,23 @@ public class SignUpPage extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Creates user object to represent this user.
+     * @param username what to call this user
+     * @param emailID String emailid of this user
+     * @param refUser unique string to represent user in database
+     */
     private void setUsernameAndInitialize(String username, String emailID, FirebaseUser refUser){
         User newUser = new User(username, emailID, refUser.getUid(), new HashMap<String, ArrayList<String>>(), new HashMap<String, ArrayList<SaveState>>());
         String uid = refUser.getUid();
         mDatabase.child("users").child(uid).setValue(newUser);
     }
 
-
+    /**
+     * Once sign-up button is pressed, either show user a pop-up describing problem preventing account creation. Else log the user in.
+     * @param uname FirebaseUser object to represent user in database
+     * @param e Optional argument parameter to describe error if one occurred.
+     */
     public void updateUI(FirebaseUser uname, Exception e){
         //Method invoked with null if login unsuccessful, else with FirebaseUser instance
         if (e != null){
