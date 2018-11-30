@@ -33,6 +33,7 @@ public class SavedGamesActivity extends AppCompatActivity {
     Button[] group= new Button[3];
     String gameName;
     Intent newActivity;
+    int correctSlot;
 
     /**
      * defined all buttons and set the screen
@@ -65,24 +66,25 @@ public class SavedGamesActivity extends AppCompatActivity {
         setSlot();
 
 
-
-
         // set up the Intent to avoud all the duplicated code
         if (gameName == null) {
             System.out.println("XXX OMG game name was null");
         }
         else if(gameName.equals("SlidingTiles")){
+            this.correctSlot = meUser.correctSlot("SlidingTiles");
             this.newActivity = new Intent(this, SlidingTilesGameActivity.class);
         }
         else if(gameName.equals("FeedTheNanu")){
-            int slot = meUser.correctSlot("FeedTheNanu");
+            this.correctSlot = meUser.correctSlot("FeedTheNanu");
             this.newActivity = new Intent(this, MainActivity.class);
         }
         else {
             // TODO: Change this to the Memory Matrix game
-            int slot = meUser.correctSlot("FeedTheNanu");
+            this.correctSlot = meUser.correctSlot("MemoryMatrix");
             this.newActivity = new Intent(this, MainActivity.class);
         }
+
+        this.newActivity.putExtra("slot", this.correctSlot);
     }
 
 
