@@ -68,7 +68,7 @@ public class SavedGamesActivity extends AppCompatActivity {
         setSlot();
 
 
-        // set up the Intent to avoud all the duplicated code
+        // set up the Intent to avoid all the duplicated code
         if (gameName == null) {
             System.out.println("XXX OMG game name was null");
         }
@@ -100,10 +100,8 @@ public class SavedGamesActivity extends AppCompatActivity {
                 each.setBackgroundColor(getColor(R.color.app_theme));
             }
             slot1.setBackgroundColor(getColor(R.color.app_button));
-            startActivity(newActivity);
             newActivity.putExtra("slot", 0);
             startActivity(newActivity);
-
         });
     }
 
