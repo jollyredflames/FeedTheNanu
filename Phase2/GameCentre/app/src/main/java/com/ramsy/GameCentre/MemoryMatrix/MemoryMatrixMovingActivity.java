@@ -41,7 +41,7 @@ public class MemoryMatrixMovingActivity extends Activity implements View.OnClick
         int life = getIntent().getExtras().getInt("life");
         int numUndo = getIntent().getExtras().getInt("numUndo");
         int slot = getIntent().getExtras().getInt("slot");
-        String score = getIntent().getExtras().getString("score");
+        int score = getIntent().getExtras().getInt("score");
         setInstanceVariables();
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
