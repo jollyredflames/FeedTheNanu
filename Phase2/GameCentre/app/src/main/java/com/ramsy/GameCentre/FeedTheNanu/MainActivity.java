@@ -331,16 +331,19 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         label.setLayoutParams(params);
     }
 
-
+    /**
+     * set up the BackButton on the screen, set it size smaller than pauseButton for aesthetic and
+     * place it in the right position
+     */
     public void setupBackButton(){
         // set up a new back button
         ImageView backIcon = new ImageView(this);
         Bitmap im = BitmapFactory.decodeResource(getResources(), R.drawable.back);
         backIcon.setImageBitmap(im);
-        RelativeLayout.LayoutParams backParams = new RelativeLayout.LayoutParams(100, 100);
+        RelativeLayout.LayoutParams backParams = new RelativeLayout.LayoutParams(130, 130);
         backParams.addRule(RelativeLayout.LEFT_OF, this.pauseButton.getId());
 //        backParams.addRule(RelativeLayout., );
-        backParams.setMargins(0, 10, 0, 0);
+        backParams.setMargins(0, 20, 0, 0);
         backIcon.setLayoutParams(backParams);
 //        backIcon.setX(screenWidth()/2);
 //        backIcon.setY(10);
@@ -348,7 +351,10 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         container.addView(backButton);
     }
 
-
+    /**
+     * Set up backButtonListener so that once the backbutton is clicked, it takes the user back to the
+     * chooseGame page.
+     */
     public void setBackButtonListener() {
         this.backButton.setOnClickListener((v)->{
             pauseButtonWasTapped(true);
@@ -356,16 +362,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             startActivity(tmp);
         });
     }
-
-
-
-//    public void setBackButtonListener() {
-//
-//        this.backButton.setOnClickListener((v)->{
-//            pauseButtonWasTapped(true);
-//            Intent tmp = new Intent(this, ChooseGame.class);
-//            startActivity(tmp);
-//        });
 
 
     /**
@@ -419,13 +415,18 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         container.addView(n);
     }
 
+    /**
+     * disable the back button on the phone
+     */
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        pauseButtonWasTapped(true); // to stop the handlers
 
     }
 
+    /**
+     * Method to end game when nanu's life reach zero, bring users to the FinishGameActivity when
+     * Game is over.
+     */
     @Override
     public void lifeReachedZero() {
         // TODO:
@@ -434,27 +435,37 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         String s = "" + this.score;
         Intent tmp = new Intent(this, FinishedGameActivity.class);
         tmp.putExtra("gameName", "FeedTheNanu");
-        tmp.putExtra("gameScore",
-                s);
+        tmp.putExtra("gameScore", s);
         tmp.putExtra("gameIdentifier", "FeedTheNanu");
         startActivity(tmp);
 
     }
 
+    /**
+     * Method update the score label to the current score
+     * @param amount The amount the score should change by
+     */
     @Override
     public void scoreShouldChangeBy(int amount) {
         score += amount;
         this.scoreLabel.setText(String.valueOf(score));
     }
 
+    /**
+     * Method to remove the edible item when the Nanu creature eats it, such that it
+     * appears to the users that the creature had the food in its mouth.
+     * @param item The Edible that is about to be eaten.
+     */
     @Override
     public void aboutToEat(Edible item) {
         View v = (View) item;
         container.removeView(v);
     }
 
+    /**
+     * Method contains logic that moves the nanu creature
+     */
     float oldX;
-
     @Override
     public boolean onTouch(View v, MotionEvent event) {
 
@@ -496,27 +507,33 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         return true;
     }
 
-
+    /**
+     * method to return the width of the screen
+     * @return width of the screen
+     */
     private int screenWidth() {
         DisplayMetrics display = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(display);
         return display.widthPixels;
     }
 
+    /**
+     * method to return to height of the screen
+     * @return height of the screen
+     */
     private int screenHeight() {
         DisplayMetrics display = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(display);
         return display.heightPixels;
     }
 
+    /**
+     * While this is the delegate method called by the Pause Button,
+     * we will also call this method ourselves in lifeDidReachZero and onBackPressed
+     * @param paused true if the button has just been set to paused, false if the button has just been set to resumed.
+     */
     @Override
     public void pauseButtonWasTapped(boolean paused) {
-
-        /*
-        While this is the delegate method called by the Pause Button,
-        we will also call this method ourselves in lifeDidReachZero and onBackPressed
-         */
-
         // Do a save
         this.save();
 
