@@ -93,6 +93,10 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
         int size = b.getInt("size");
         int slot = b.getInt("slot");
         Bitmap image = SlidingTilesSizeActivity.image;
+        SlidingTilesSizeActivity.image = null;
+
+
+
         SaveState save = meUser.getGame(gameName, slot);
 
         System.out.println("XXX  size" + String.valueOf(size));
