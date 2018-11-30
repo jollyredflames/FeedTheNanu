@@ -287,15 +287,17 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         container.addView(n);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        pauseButtonWasTapped(true);
+
+    }
 
     @Override
     public void lifeReachedZero() {
         // TODO:
         // game over functionality
-        System.out.println("XXX Game Over");
-
-        // Need to dispatch this code
-        // This didn't fix the problem.
         pauseButtonWasTapped(true);
 
 
