@@ -86,13 +86,11 @@ public class MemoryMatrixManager implements Iterable<Block> {
         life++;
     }
 
-    public int calculateScore(int prevScore) {
-        return 0;
-    }
-    //10*(m*n)^2
-
-    public int calculateScore() {
-        return 0;
+    public void calculateScore() {
+        int newScore = 4*x+4*y+score;
+        newScore = newScore - 4*wrongClicks.size();
+        this.score = newScore;
+        save();
     }
 
     public boolean isGameComplete() {
@@ -179,6 +177,7 @@ public class MemoryMatrixManager implements Iterable<Block> {
         save.setScore(score);
         save.setLife(life);
         save.setNumUndo(numUndo);
+        save.setScore(score);
         if(y == 0){
             save.setDifficulty(true);
         }
