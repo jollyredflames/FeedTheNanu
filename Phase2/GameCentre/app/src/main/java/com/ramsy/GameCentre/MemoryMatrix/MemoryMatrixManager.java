@@ -71,7 +71,7 @@ public class MemoryMatrixManager implements Iterable<Block> {
         return false;
     }
     public boolean gameOver(){
-        return this.life == 0;
+        return this.life <= 0;
     }
 
     public void setCanClick(boolean yes){
