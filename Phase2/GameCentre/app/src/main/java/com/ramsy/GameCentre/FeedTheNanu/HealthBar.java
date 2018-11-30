@@ -24,7 +24,6 @@ public class HealthBar extends RelativeLayout {
 
         health = new View(context);
         health.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-//        this.setBackgroundColor(getResources().getColor(R.color.app_button1));
         setHealthTo(1f);
         this.addView(health);
 
