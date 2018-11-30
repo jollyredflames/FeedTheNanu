@@ -54,6 +54,7 @@ public class SlidingTilesSizeActivity extends AppCompatActivity {
         SetupNumberListener();
         SetupNextListener();
 
+
     }
 
     /**
@@ -132,6 +133,7 @@ public class SlidingTilesSizeActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
             Intent t = new Intent(this, SlidingTilesGameActivity.class);
             t.putExtra("size", this.size);
 //            t.putExtra("slot", 0);

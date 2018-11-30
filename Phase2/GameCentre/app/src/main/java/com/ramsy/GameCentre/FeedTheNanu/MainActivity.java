@@ -13,10 +13,12 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ramsy.GameCentre.GameCentreCommon.ChooseGame;
 import com.ramsy.GameCentre.GameCentreCommon.FinishedGameActivity;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.FirebaseFuncts;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.SaveState;
@@ -41,14 +43,13 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     So just don't make it abstract then.
      */
 
-
     Nanu nanu;
     RelativeLayout container;
     ItemGenerator itemGenerator;
     final int padding = 100;
-
+    PauseButton pauseButton;
     HealthBar healthBar;
-
+    ImageView backButton;
     int score;
     TextView scoreLabel;
 
@@ -243,21 +244,36 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
         // Create the Item Generator
         this.itemGenerator = new ItemGenerator(this);
+
+
 
         // Create a View Group
         final RelativeLayout container = new RelativeLayout(this);
         this.container = container;
 
+
+
+
+
+
+
+
+
+
         // Set the Activity's window to the View Group
         setContentView(container);
-
         setupBackground();
         setupScoreLabel();
         setupPauseButton();
+        setupBackButton();
+        setBackButtonListener();
         setupHealthBar();
         setupNanu();
+
 
         // Grab the user
         this.meUser = FirebaseFuncts.getUser();
@@ -325,6 +341,43 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         label.setLayoutParams(params);
     }
 
+
+    public void setupBackButton(){
+        // set up a new back button
+        ImageView backIcon = new ImageView(this);
+        Bitmap im = BitmapFactory.decodeResource(getResources(), R.drawable.back);
+        backIcon.setImageBitmap(im);
+        RelativeLayout.LayoutParams backParams = new RelativeLayout.LayoutParams(100, 100);
+        backParams.addRule(RelativeLayout.LEFT_OF, this.pauseButton.getId());
+//        backParams.addRule(RelativeLayout., );
+        backParams.setMargins(0, 10, 0, 0);
+        backIcon.setLayoutParams(backParams);
+//        backIcon.setX(screenWidth()/2);
+//        backIcon.setY(10);
+        this.backButton = backIcon;
+        container.addView(backButton);
+    }
+
+
+    public void setBackButtonListener() {
+        this.backButton.setOnClickListener((v)->{
+            pauseButtonWasTapped(true);
+            Intent tmp = new Intent(this, ChooseGame.class);
+            startActivity(tmp);
+        });
+    }
+
+
+
+//    public void setBackButtonListener() {
+//
+//        this.backButton.setOnClickListener((v)->{
+//            pauseButtonWasTapped(true);
+//            Intent tmp = new Intent(this, ChooseGame.class);
+//            startActivity(tmp);
+//        });
+
+
     /**
      * set up pause button on the top right corner of the game screen
      */
@@ -337,7 +390,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         pauseButtonParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         pauseButtonParams.setMargins(0, 10, 10, 0);
         p.setLayoutParams(pauseButtonParams);
+        p.setId(9);
         container.addView(p);
+        this.pauseButton = p;
     }
 
     /**
@@ -505,4 +560,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             }
         }
     }
+
+
 }
