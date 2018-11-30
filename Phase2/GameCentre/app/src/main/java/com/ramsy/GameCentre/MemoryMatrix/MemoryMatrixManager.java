@@ -22,12 +22,12 @@ public class MemoryMatrixManager implements Iterable<Block> {
     private Set<Integer> correctClicks = new HashSet<>();
     private ArrayList<Integer> wrongClicks = new ArrayList<>();
     private ArrayList<Block> blocksToHighLight;
-    private String score;
+    private int score;
     private int x;
     private int y;
     private User meUser;
 
-    public MemoryMatrixManager(ArrayList<Block> blocksToHighLight ,Set<Integer> clickableID,int badIndex,int life,int numUndo,int slot,String score,int x,int y) {
+    public MemoryMatrixManager(ArrayList<Block> blocksToHighLight ,Set<Integer> clickableID,int badIndex,int life,int numUndo,int slot,int score,int x,int y) {
         meUser = FirebaseFuncts.getUser();
         this.clickableID = clickableID;
         this.numToBeClicked = (int) Math.ceil(blocksToHighLight.size()*0.25);
@@ -40,20 +40,25 @@ public class MemoryMatrixManager implements Iterable<Block> {
         this.score = score;
         this.x = x;
         this.y = y;
+        save();
     }
 
     public boolean checkTileCorrect(int ID) {
+        boolean valid;
         if (mustBeClicked.contains(ID)) {
             if (!correctClicks.contains(ID)) {
                 correctClick++;
                 correctClicks.add(ID);
-                return true;
+                valid = true;
             }
-            return true;
+            valid = true;
+            save();
+            return valid;
         } else {
             wrongClicks.add(ID);
             loseHP();
         }
+        save();
         return false;
     }
     public boolean gameOver(){
@@ -104,6 +109,7 @@ public class MemoryMatrixManager implements Iterable<Block> {
         int index = wrongClicks.size() - 1;
         int item = wrongClicks.get(index);
         wrongClicks.remove(wrongClicks.size() - 1);
+        save();
         return item;
     }
 
@@ -139,7 +145,7 @@ public class MemoryMatrixManager implements Iterable<Block> {
 
 
     public void save(){
-        Save save = new Save();
+        SaveState save = new SaveState();
         save.setNumY(y);
         save.setNumX(x);
         save.setScore(score);

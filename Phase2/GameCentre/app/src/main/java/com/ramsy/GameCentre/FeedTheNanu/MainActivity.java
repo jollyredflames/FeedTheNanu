@@ -243,23 +243,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Grab the user
-        this.meUser = FirebaseFuncts.getUser();
-
-        // Retrieve Slot Number from Intent
-        Bundle b = getIntent().getExtras();
-        this.slot = b.getInt("slot");
-
-
-        SaveState save = meUser.getGame(gameName, slot);
-
-        if (save != null) {
-            System.out.println("XXX the save is not null");
-        } else {
-            System.out.println("XXX the save is null");
-        }
-
-
         // Create the Item Generator
         this.itemGenerator = new ItemGenerator(this);
 
@@ -270,13 +253,30 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         // Set the Activity's window to the View Group
         setContentView(container);
 
-        this.score = 0;
-
         setupBackground();
         setupScoreLabel();
         setupPauseButton();
         setupHealthBar();
         setupNanu();
+
+        // Grab the user
+        this.meUser = FirebaseFuncts.getUser();
+
+        // Retrieve Slot Number from Intent
+        Bundle b = getIntent().getExtras();
+        this.slot = b.getInt("slot");
+
+        SaveState save = meUser.getGame(gameName, slot);
+
+        if (save != null) {
+            this.score = save.score;
+            this.nanu.currentLife = save.currentLife;
+            this.healthBar.setHealthTo(nanu.currentLife);
+            this.scoreLabel.setText(String.valueOf(score));
+        } else {
+            this.score = 0;
+        }
+
 
         nanu.setTimeSliceInterval(gameLoopInterval);
         nanu.resume();
@@ -349,7 +349,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 LayoutParams(w, h);
         healthBarParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         healthBarParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        healthBarParams.setMargins(10, 10, 0, 0);
+        healthBarParams.setMargins(10, 20, 0, 0);
         hb.setLayoutParams(healthBarParams);
         container.addView(hb);
         this.healthBar = hb;

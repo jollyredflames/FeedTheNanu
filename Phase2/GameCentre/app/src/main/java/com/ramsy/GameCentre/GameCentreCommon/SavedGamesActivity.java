@@ -11,6 +11,8 @@ import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.SaveState;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.User;
 import com.ramsy.GameCentre.FeedTheNanu.MainActivity;
 import com.ramsy.GameCentre.MemoryMatrix.ChooseMemoryMatrixGameType;
+import com.ramsy.GameCentre.MemoryMatrix.MemoryMatrixActivity;
+import com.ramsy.GameCentre.MemoryMatrix.MemoryMatrixMovingActivity;
 import com.ramsy.GameCentre.R;
 import com.ramsy.GameCentre.SlidingTiles.SlidingTilesGameActivity;
 import com.ramsy.GameCentre.SlidingTiles.SlidingTilesSizeActivity;
@@ -30,6 +32,8 @@ public class SavedGamesActivity extends AppCompatActivity {
     User meUser;
     Button[] group= new Button[3];
     String gameName;
+    Intent newActivity;
+    int correctSlot;
 
     /**
      * defined all buttons and set the screen
@@ -38,6 +42,8 @@ public class SavedGamesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_saved_games);
         meUser = FirebaseFuncts.getUser();
         slot1 = findViewById(R.id.slot1);
@@ -56,12 +62,33 @@ public class SavedGamesActivity extends AppCompatActivity {
         Intent currentIntent = getIntent();
         this.gameName = currentIntent.getStringExtra("GAME_NAME");
 
-
+        //get the gamelist from meuser using the GAME_NAME passed in
         ss = meUser.getSavedGamesForGameName(gameName);
         tv.setText("Select Game");
         setSlot();
 
+
+        // set up the Intent to avoud all the duplicated code
+        if (gameName == null) {
+            System.out.println("XXX OMG game name was null");
+        }
+        else if(gameName.equals("SlidingTiles")){
+            this.correctSlot = meUser.correctSlot("SlidingTiles");
+            this.newActivity = new Intent(this, SlidingTilesGameActivity.class);
+        }
+        else if(gameName.equals("FeedTheNanu")){
+            this.correctSlot = meUser.correctSlot("FeedTheNanu");
+            this.newActivity = new Intent(this, MainActivity.class);
+        }
+        else {
+            // TODO: Change this to the Memory Matrix game
+            this.correctSlot = meUser.correctSlot("MemoryMatrix");
+            this.newActivity = new Intent(this, MainActivity.class);
+        }
+
+        this.newActivity.putExtra("slot", this.correctSlot);
     }
+
 
     /**
      * Detect if slot 1 is clicked, if clicked, bring the user to the game saved i slot 1.
@@ -73,31 +100,7 @@ public class SavedGamesActivity extends AppCompatActivity {
                 each.setBackgroundColor(getColor(R.color.app_theme));
             }
             slot1.setBackgroundColor(getColor(R.color.app_button));
-
-//            Intent tmp = new Intent(this, SlidingTilesGameActivity.class);
-            Intent newActivity;
-
-            if (gameName == null) {
-                System.out.println("XXX OMG game name was null");
-            }
-
-
-            if (gameName.equals("SlidingTiles")){
-                newActivity = new Intent(this, SlidingTilesGameActivity.class);
-
-            }
-            else if(gameName.equals("FeedTheNanu")){
-                int slot = meUser.correctSlot("FeedTheNanu");
-                newActivity = new Intent(this, MainActivity.class);
-                newActivity.putExtra("slot", slot);
-            }
-            else {
-                // TODO: Change this to the Memory Matrix game
-                newActivity = new Intent(this, MainActivity.class);
-            }
             startActivity(newActivity);
-
-
             newActivity.putExtra("slot", 0);
             startActivity(newActivity);
 
@@ -114,31 +117,6 @@ public class SavedGamesActivity extends AppCompatActivity {
                 each.setBackgroundColor(getColor(R.color.app_theme));
             }
             slot2.setBackgroundColor(getColor(R.color.app_button));
-
-//            Intent tmp = new Intent(this, SlidingTilesGameActivity.class);
-            Intent newActivity;
-
-            if (gameName == null) {
-                System.out.println("XXX OMG game name was null");
-            }
-
-
-            if (gameName.equals("SlidingTiles")){
-                newActivity = new Intent(this, SlidingTilesGameActivity.class);
-
-            }
-            else if(gameName.equals("FeedTheNanu")){
-                int slot = meUser.correctSlot("FeedTheNanu");
-                newActivity = new Intent(this, MainActivity.class);
-                newActivity.putExtra("slot", slot);
-            }
-            else {
-                // TODO: Change this to the Memory Matrix game
-                newActivity = new Intent(this, MainActivity.class);
-            }
-            startActivity(newActivity);
-
-
             newActivity.putExtra("slot", 1);
             startActivity(newActivity);
 
@@ -155,29 +133,6 @@ public class SavedGamesActivity extends AppCompatActivity {
                 each.setBackgroundColor(getColor(R.color.app_theme));
             }
             slot3.setBackgroundColor(getColor(R.color.app_button));
-//            Intent tmp = new Intent(this, SlidingTilesGameActivity.class);
-
-            Intent newActivity;
-
-            if (gameName == null) {
-                System.out.println("XXX OMG game name was null");
-            }
-
-
-            if (gameName.equals("SlidingTiles")){
-                newActivity = new Intent(this, SlidingTilesGameActivity.class);
-
-            }
-            else if(gameName.equals("FeedTheNanu")){
-                int slot = meUser.correctSlot("FeedTheNanu");
-                newActivity = new Intent(this, MainActivity.class);
-                newActivity.putExtra("slot", slot);
-            }
-            else {
-                // TODO: Change this to the Memory Matrix game
-                newActivity = new Intent(this, MainActivity.class);
-            }
-
             newActivity.putExtra("slot", 2);
             startActivity(newActivity);
         });
@@ -189,6 +144,9 @@ public class SavedGamesActivity extends AppCompatActivity {
 
     private void setupDelete1Listener() {
         delete1.setOnClickListener((V) -> {
+            if (gameName == null) {
+                System.out.println("XXX OMG game name was null");
+            }
             meUser.deleteGame(gameName,0);
             ss = meUser.getSavedGamesForGameName(gameName);
             setSlot();
@@ -201,6 +159,9 @@ public class SavedGamesActivity extends AppCompatActivity {
 
     private void setupDelete2Listener() {
         delete2.setOnClickListener((V) -> {
+            if (gameName == null) {
+                System.out.println("XXX OMG game name was null");
+            }
             meUser.deleteGame(gameName, 1);
             ss = meUser.getSavedGamesForGameName(gameName);
             setSlot();
@@ -214,6 +175,9 @@ public class SavedGamesActivity extends AppCompatActivity {
 
     private void setupDelete3Listener() {
         delete3.setOnClickListener((V) -> {
+            if (gameName == null) {
+                System.out.println("XXX OMG game name was null");
+            }
             meUser.deleteGame(gameName,2);
             ss = meUser.getSavedGamesForGameName(gameName);
             setSlot();

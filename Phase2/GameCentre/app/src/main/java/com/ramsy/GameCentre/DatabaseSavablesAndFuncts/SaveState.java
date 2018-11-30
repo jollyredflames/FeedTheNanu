@@ -8,8 +8,9 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * A class that represents a condensed version of a SlidingTileGame,
- * that stores minimal details needed to recreate the game.
+ * A class that represents a condensed version of a Sliding Tile game,
+ * or a Feed The Nanu game, or a Memory Matrix game,
+ * that stores minimal details needed to recreate the games.
  * This is the object that is saved in the database
  */
 
@@ -24,8 +25,11 @@ public class SaveState {
     public float currentLife;
 
 
-    // TODO:
-    // Memory Matrix specific attributes that need saving
+    private int numX;
+    private int numY;
+    private int numUndo;
+    private int life;
+    private boolean difficulty;
 
 
     // Sliding Tiles specific attributes that need saving
@@ -69,6 +73,7 @@ public class SaveState {
     public SaveState(int score, float currentLife) {
         this.score = score;
         this.currentLife = currentLife;
+        this.localTime = LocalDateTime.now().toString();
     }
 
 
@@ -76,7 +81,50 @@ public class SaveState {
     Init for a save for a Memory Matrix
      */
 
-    // TODO:
+    public SaveState(boolean difficulty){
+        this.difficulty = difficulty;
+    }
+    public int getNumX() {
+        return numX;
+    }
+
+    public void setNumX(int numX) {
+        this.numX = numX;
+    }
+
+    public int getNumY() {
+        return numY;
+    }
+
+    public void setNumY(int numY) {
+        this.numY = numY;
+    }
+
+
+    public int getNumUndo() {
+        return numUndo;
+    }
+
+    public void setNumUndo(int numUndo) {
+        this.numUndo = numUndo;
+    }
+
+    public int getLife() {
+        return life;
+    }
+
+    public void setLife(int life) {
+        this.life = life;
+    }
+
+
+    public void setDifficulty(boolean difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public boolean getDifficulty() {
+        return difficulty;
+    }
 
 
     public SaveState(){}

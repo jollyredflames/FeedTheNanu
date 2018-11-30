@@ -26,7 +26,7 @@ public class ChooseMemoryMatrixGameType extends AppCompatActivity {
         playMovingGame.putExtra("numUndo",5);
         int slot = meUser.correctSlot("MemoryMatrix");
         playMovingGame.putExtra("slot",slot);
-        playMovingGame.putExtra("score","0");
+        playMovingGame.putExtra("score",0);
         startActivity(playMovingGame);
 
     }
@@ -38,7 +38,7 @@ public class ChooseMemoryMatrixGameType extends AppCompatActivity {
         playNonMovingGame.putExtra("numUndo",5);
         int slot = meUser.correctSlot("MemoryMatrix");
         playNonMovingGame.putExtra("slot",slot);
-        playNonMovingGame.putExtra("score","0");
+        playNonMovingGame.putExtra("score",0);
         startActivity(playNonMovingGame);
     }
 }
