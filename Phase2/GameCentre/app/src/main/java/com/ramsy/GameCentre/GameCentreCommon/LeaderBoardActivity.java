@@ -13,6 +13,7 @@ import android.view.MenuItem;
 
 import com.ramsy.GameCentre.R;
 
+
 /**
  * This class will make the layout for tabbed activity, and allow the user to swipe between
  * tabs from the leader board of 2x2 to 10x10
@@ -20,6 +21,7 @@ import com.ramsy.GameCentre.R;
 public class LeaderBoardActivity extends AppCompatActivity {
     private String lastScore;
     private String lastGame;
+    private String gameIdentifier;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -50,6 +52,7 @@ public class LeaderBoardActivity extends AppCompatActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
         lastGame = getIntent().getExtras().getString("lastGame");
         lastScore = getIntent().getExtras().getString("lastScore");
+        gameIdentifier = getIntent().getExtras().getString("gameIdentifier");
     }
     //create three icon bar on the top
     @Override
@@ -89,6 +92,10 @@ public class LeaderBoardActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             LeaderBoardView frag = new LeaderBoardView();
             Bundle bundle = new Bundle();
+            bundle.putString("lastScore",lastScore);
+            bundle.putString("lastGame",lastGame);
+            bundle.putString("gameIdentifier",gameIdentifier);
+            bundle.putInt("position",position);
             frag.setArguments(bundle);
             return frag;
         }

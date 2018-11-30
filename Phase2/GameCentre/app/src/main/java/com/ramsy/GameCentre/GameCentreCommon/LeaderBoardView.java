@@ -1,5 +1,6 @@
 package com.ramsy.GameCentre.GameCentreCommon;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,11 +25,20 @@ public class LeaderBoardView extends Fragment {
     int numTextViews;
     int buttonID;
 
+    String lastGame;
+    String lastScore;
+    String gameIdentifier;
+    int position;
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Bundle bundle = this.getArguments();
+        lastGame = bundle.getString("lastGame");
+        lastScore = bundle.getString("lastScore");
+        gameIdentifier = bundle.getString("gameIdentifier");
+        position = bundle.getInt("position");
         setInstanceVariables();
         addLeaderBoardTextView();
         addUserNameTextView();
@@ -38,7 +48,7 @@ public class LeaderBoardView extends Fragment {
         addUpdaterButton();
         addPrevScore();
         Button changer = (Button)activityView.getChildAt(4);
-        changer.setOnClickListener(new LeaderBoardAndroidController(activityView,0,"SlidingTiles",scrollContainer,mainHeight));
+        changer.setOnClickListener(new LeaderBoardAndroidController(activityView,position,gameIdentifier,scrollContainer,mainHeight));
         return activityView;
     }
 

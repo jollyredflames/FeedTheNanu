@@ -26,6 +26,7 @@ public class LeaderBoardAndroidController implements Button.OnClickListener{
 
 
     public LeaderBoardAndroidController(RelativeLayout container,int position,String gameName,RelativeLayout scroll,int height){
+        meUser = FirebaseFuncts.getUser();
         this.container = container;
         String USERNAME = meUser.getUsername();
         this.scrollView =scroll;
