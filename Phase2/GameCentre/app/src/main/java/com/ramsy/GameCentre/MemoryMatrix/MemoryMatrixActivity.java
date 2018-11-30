@@ -213,6 +213,7 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
         else{
             v.setBackgroundColor(Color.RED);
             if (person.gameOver()){
+                meUser.deleteGame("MemoryMatrix",person.getSlot());
                 Intent finishedGame = new Intent(this,FinishedGameActivity.class);
                 finishedGame.putExtra("gameIdentifier","MemoryMatrix");
                 finishedGame.putExtra("gameScore","100");

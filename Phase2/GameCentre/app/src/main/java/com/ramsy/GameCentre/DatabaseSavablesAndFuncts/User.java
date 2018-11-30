@@ -165,7 +165,7 @@ public class User {
      */
     public int correctSlot(String gameName){
         ArrayList<SaveState> savedGamesForName = savedGames.containsKey(gameName) ? savedGames.get(gameName) : new ArrayList<>();
-        if(savedGamesForName.size() >= 3){
+        if(savedGamesForName.size() > 3){
             deleteGame(gameName,2);
             stateChange();
             return 2;
