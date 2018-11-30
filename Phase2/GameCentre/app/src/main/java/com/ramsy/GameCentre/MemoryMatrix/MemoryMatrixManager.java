@@ -36,8 +36,12 @@ public class MemoryMatrixManager implements Iterable<Block> {
             return true;
         } else {
             wrongClicks.add(ID);
+            loseHP();
         }
         return false;
+    }
+    public boolean gameOver(){
+        return this.hp == 0;
     }
 
     public void setCanClick(boolean yes){

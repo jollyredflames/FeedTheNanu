@@ -6,8 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.FirebaseFuncts;
+import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.GlobalLeaderBoard;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.User;
 import com.ramsy.GameCentre.R;
 
@@ -28,11 +30,10 @@ public class FinishedGameActivity extends AppCompatActivity {
         TextView scoreText = findViewById(R.id.score);
         scoreText.setText(gameScore);
         User meUser = FirebaseFuncts.getUser();
-//        GlobalLeaderBoard glb = FirebaseFuncts.getGlobalLeaderBoard();
+//     GlobalLeaderBoard glb = FirebaseFuncts.getGlobalLeaderBoard();
         meUser.addScore(gameName, gameScore);
 //        meUser = FirebaseFuncts.getUser();
 //        Toast.makeText(this, glb.getGameGlobalLeaderBoard(gameName).toString() + meUser.getUsername(), Toast.LENGTH_LONG).show();
-        //scoreText.setText("9000");
 
         Button button = findViewById(R.id.leaderboardbutton);
 

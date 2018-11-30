@@ -48,7 +48,7 @@ public class LeaderBoardView extends Fragment {
         addUpdaterButton();
         addPrevScore();
         Button changer = (Button)activityView.getChildAt(4);
-        changer.setOnClickListener(new LeaderBoardAndroidController(activityView,position,gameIdentifier,scrollContainer,mainHeight));
+        changer.setOnClickListener(new LeaderBoardAndroidController(activityView,position,gameIdentifier,scrollContainer,mainHeight/10));
         return activityView;
     }
 
@@ -67,10 +67,10 @@ public class LeaderBoardView extends Fragment {
     }
 
     private void defineDimensionsOfTextViews(TextView tempUserName, TextView tempScore, int index){
-        RelativeLayout.LayoutParams uParam = new RelativeLayout.LayoutParams(mainWidth,100);
+        RelativeLayout.LayoutParams uParam = new RelativeLayout.LayoutParams(mainWidth,300);
         uParam.addRule(RelativeLayout.BELOW,index-1);
         tempUserName.setLayoutParams(uParam);
-        RelativeLayout.LayoutParams sParam = new RelativeLayout.LayoutParams(mainWidth,100);
+        RelativeLayout.LayoutParams sParam = new RelativeLayout.LayoutParams(mainWidth,300);
         sParam.addRule(RelativeLayout.BELOW,index-1);
         sParam.addRule(RelativeLayout.RIGHT_OF,index);
         tempScore.setLayoutParams(sParam);
@@ -128,7 +128,7 @@ public class LeaderBoardView extends Fragment {
         ScrollView scrollView = new ScrollView(getActivity());
         scrollView.addView(scrollContainer);
         scrollView.setId(2*numTextViews+3);
-        RelativeLayout.LayoutParams items = new RelativeLayout.LayoutParams(mainWidth*2,1000);
+        RelativeLayout.LayoutParams items = new RelativeLayout.LayoutParams(mainWidth*2,mainHeight/2);
         items.addRule(RelativeLayout.BELOW,2);
         scrollView.setLayoutParams(items);
         activityView.addView(scrollView);
@@ -141,6 +141,6 @@ public class LeaderBoardView extends Fragment {
         mainWidth = displaymetrics.widthPixels/2;
         activityView = new RelativeLayout(getActivity());
         scrollContainer = new RelativeLayout(getActivity());
-        numTextViews =100;
+        numTextViews =10;
     }
 }
