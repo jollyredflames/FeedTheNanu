@@ -139,7 +139,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
 
         }
 
-        meUser.saveGame("SlidingTiles", save, slot);
+        save();
 
         // Create a View Group
         RelativeLayout container = new RelativeLayout(this);
