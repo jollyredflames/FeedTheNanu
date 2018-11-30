@@ -192,7 +192,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
         pauseView.setText("Pause");
         pauseView.setTextColor(Color.BLACK);
         pauseView.setBackgroundColor(Color.WHITE);
-        pauseView.setId((int)-2);
+        pauseView.setId(-2);
         pauseView.setOnClickListener(this);
         pauseView.setGravity(Gravity.CENTER);
         this.container.addView(pauseView);
@@ -372,23 +372,23 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
             return;
         }
 
-        if (v.getId() == (int)-1) {
+        if (v.getId() == -1) {
             this.undo(this.defaultUndoAmount);
             return;
         }
 
-        if (v.getId() == (int)-2) {
+        if (v.getId() == -2) {
             this.pauseTapped();
             return;
         }
 
         // Quit button
-        if (v.getId() == (int)1000) {
+        if (v.getId() == 1000) {
             this.quitPressed();
             return;
         }
 
-        if (v.getId() == (int)-999) {
+        if (v.getId() == -999) {
             if (this.defaultUndoAmount == 1) {
             } else {
                 this.defaultUndoAmount -= 1;
@@ -398,7 +398,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
         }
 
 
-        if (v.getId() == (int)999) {
+        if (v.getId() == 999) {
             if (this.defaultUndoAmount == 10) {
             } else {
                 this.defaultUndoAmount += 1;
@@ -592,7 +592,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
 
         // Add the Quit Button
         Button b = new Button(this);
-        b.setId((int)1000);
+        b.setId(1000);
         b.setText("Quit");
         b.setGravity(Gravity.CENTER);
         b.setOnClickListener(this);
@@ -609,7 +609,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
         TextView label = new TextView(this);
         label.setText(String.valueOf(this.defaultUndoAmount));
         label.setTextColor(Color.WHITE);
-        label.setId((int)1234);
+        label.setId(1234);
         label.setTextSize(100);
 //        label.setBackgroundColor(Color.RED);
         label.setGravity(Gravity.CENTER);
@@ -627,7 +627,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
         decrementButton.setText("-");
         decrementButton.setTextColor(Color.BLACK);
         decrementButton.setBackgroundColor(Color.WHITE);
-        decrementButton.setId((int)-999);
+        decrementButton.setId(-999);
         decrementButton.setOnClickListener(this);
         decrementButton.setGravity(Gravity.CENTER);
         con.addView(decrementButton);
@@ -645,7 +645,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
         incrementButton.setText("+");
         incrementButton.setTextColor(Color.BLACK);
         incrementButton.setBackgroundColor(Color.WHITE);
-        incrementButton.setId((int)999);
+        incrementButton.setId(999);
         incrementButton.setOnClickListener(this);
         incrementButton.setGravity(Gravity.CENTER);
         con.addView(incrementButton);

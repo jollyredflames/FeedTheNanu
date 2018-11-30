@@ -64,7 +64,7 @@ class Nanu extends ImageView implements Pausable {
         LICKING_LIPS,
         FINISHED_LICKING_LIPS,
         CHEWING,
-        FINISHED_CHEWING;
+        FINISHED_CHEWING
     }
 
 

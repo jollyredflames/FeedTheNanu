@@ -1,15 +1,9 @@
 package com.ramsy.GameCentre.MemoryMatrix;
 
-import android.graphics.Color;
-import android.view.View;
-import android.widget.RelativeLayout;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 public class MemoryMatrixManager implements Iterable<Block> {
@@ -80,10 +74,7 @@ public class MemoryMatrixManager implements Iterable<Block> {
         if (undo <= 0) {
             return false;
         }
-        if (wrongClicks.size() == 0) {
-            return false;
-        }
-        return true;
+        return wrongClicks.size() != 0;
     }
 
     public int performUndo() {

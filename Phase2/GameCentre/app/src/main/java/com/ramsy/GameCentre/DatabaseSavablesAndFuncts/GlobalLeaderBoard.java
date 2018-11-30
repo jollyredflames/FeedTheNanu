@@ -22,7 +22,7 @@ public class GlobalLeaderBoard{
 
     public GlobalLeaderBoard(HashMap<String, ArrayList<String>> globalLeaderBoard){
         mDatabase.keepSynced(true);
-        this.globalLeaderBoard = globalLeaderBoard;
+        GlobalLeaderBoard.globalLeaderBoard = globalLeaderBoard;
     }
 
     public HashMap<String, ArrayList<String>> getGlobalLeaderBoard() {
@@ -30,7 +30,7 @@ public class GlobalLeaderBoard{
     }
 
     public void setGlobalLeaderBoard(HashMap<String, ArrayList<String>> globalLeaderBoard) {
-        this.globalLeaderBoard = globalLeaderBoard;
+        GlobalLeaderBoard.globalLeaderBoard = globalLeaderBoard;
     }
 
     public ArrayList<String> getGameGlobalLeaderBoard(String gameName){
