@@ -43,6 +43,15 @@ public class MemoryMatrixManager implements Iterable<Block> {
         save();
     }
 
+
+    public int getNumUndo(){
+        return this.numUndo;
+    }
+
+    public int getLife(){
+        return this.life;
+    }
+
     public boolean checkTileCorrect(int ID) {
         boolean valid;
         if (mustBeClicked.contains(ID)) {
@@ -141,6 +150,10 @@ public class MemoryMatrixManager implements Iterable<Block> {
 
     public Set<Integer> getMustBeClicked(){
         return mustBeClicked;
+    }
+
+    public int getSlot(){
+        return slot;
     }
 
 
