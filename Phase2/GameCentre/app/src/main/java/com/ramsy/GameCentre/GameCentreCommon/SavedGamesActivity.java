@@ -98,7 +98,6 @@ public class SavedGamesActivity extends AppCompatActivity {
                 each.setBackgroundColor(getColor(R.color.app_theme));
             }
             slot1.setBackgroundColor(getColor(R.color.app_button));
-            startActivity(newActivity);
             newActivity.putExtra("slot", 0);
             startActivity(newActivity);
 

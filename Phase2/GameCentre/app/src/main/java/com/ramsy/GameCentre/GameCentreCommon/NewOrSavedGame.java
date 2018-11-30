@@ -107,10 +107,7 @@ public class NewOrSavedGame extends AppCompatActivity {
                     newActivity = new Intent(this, ChooseMemoryMatrixGameType.class);
                 }
                 startActivity(newActivity);
-
             }
-
-
         });
     }
 
