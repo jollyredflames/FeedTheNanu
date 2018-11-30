@@ -61,6 +61,10 @@ public class LoginPage extends AppCompatActivity {
         }
     }
 
+    /**
+     * A variety of if statements to check for simple errors (i.e. email without a .com etc)
+     * @param login_button "login" button clicked to run this code.
+     */
     public void tryLogin(View login_button) {
 
         //Take input from username text field
@@ -97,7 +101,11 @@ public class LoginPage extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * make a call to the database. Call updateUI on the return from the database
+     * @param email account to login with
+     * @param password must match registration password
+     */
     private void firebaseLogin(String email, String password){
 
         //Go to Firebase database and try authenticating with username and password
@@ -145,6 +153,10 @@ public class LoginPage extends AppCompatActivity {
         uid = "";
     }
 
+    /**
+     * If login has been authenticated, move to the chooseGame Page, otherwise inform them of an error.
+     * @param uname unique Identifier by FireBase; null if authentication fails
+     */
     public void updateUI(FirebaseUser uname){
         //Method invoked with null if login unsuccessful, else with FirebaseUser instance
         if (uname == null){

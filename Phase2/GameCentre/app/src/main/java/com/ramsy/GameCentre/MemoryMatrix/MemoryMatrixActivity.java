@@ -17,7 +17,6 @@ import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.User;
 import com.ramsy.GameCentre.GameCentreCommon.ChooseGame;
 import com.ramsy.GameCentre.GameCentreCommon.FinishedGameActivity;
 import com.ramsy.GameCentre.GameCentreCommon.LeaderBoardModel;
-import com.ramsy.GameCentre.GameCentreCommon.NewOrSavedGame;
 import com.ramsy.GameCentre.R;
 
 import java.util.ArrayList;
@@ -44,6 +43,9 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
     int badIndex;
     private MemoryMatrixManager person;
     private User meUser = FirebaseFuncts.getUser();
+
+    //NOTE: Views made programitcally resulting in long code. Otherwise short class.
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Bundle bundle = getIntent().getExtras();
@@ -183,6 +185,10 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
         resetColor();
     }
 
+    /**
+     * If a button is tapped in regular MemoryMatrix, this will handle the appropriate response.
+     * @param v the button that was clicked
+     */
     @Override
     public void onClick(View v) {
         if (v.getId() == -500) {
@@ -237,6 +243,9 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
         }
     }
 
+    /**
+     * Specifies layout attributes of this activity
+     */
     private void setInstanceVariables() {
         container = new RelativeLayout(this);
         double heightRatio = 0.80;

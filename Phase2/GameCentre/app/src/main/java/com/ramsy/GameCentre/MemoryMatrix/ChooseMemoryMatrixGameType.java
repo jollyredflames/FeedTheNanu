@@ -18,6 +18,10 @@ public class ChooseMemoryMatrixGameType extends AppCompatActivity {
         meUser = FirebaseFuncts.getUser();
     }
 
+    /**
+     * If user chooses the hard game, start the Hard memory matrix
+     * @param view "Moving Memory Matrix" button that was clicked
+     */
     public void onMovingClicked(View view){
         Intent playMovingGame = new Intent(this, MemoryMatrixMovingActivity.class);
         int slot = meUser.correctSlot("MemoryMatrix");
@@ -25,6 +29,10 @@ public class ChooseMemoryMatrixGameType extends AppCompatActivity {
         startActivity(playMovingGame);
     }
 
+    /**
+     * If user chooses the regular game, start the regular memory matrix
+     * @param view "Regular Memory Matrix" button that was clicked
+     */
     public void onNonMovingClicked(View view){
         Intent playNonMovingGame = new Intent(this, MemoryMatrixActivity.class);
         int slot = meUser.correctSlot("MemoryMatrix");

@@ -1,8 +1,10 @@
 package com.ramsy.GameCentre.FeedTheNanu;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.RelativeLayout;
+
 import com.ramsy.GameCentre.R;
 
 /**
@@ -12,6 +14,10 @@ import com.ramsy.GameCentre.R;
 public class HealthBar extends RelativeLayout {
     View health;
 
+    /**
+     * Constucts a HealthBar View object.
+     * @param context place to display the HealthBar
+     */
     HealthBar(Context context){
 
         super(context);
