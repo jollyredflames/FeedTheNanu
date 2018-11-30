@@ -54,6 +54,8 @@ public class NewOrSavedGame extends AppCompatActivity {
         // value for feed the nanu is "FeedTheNanu"
         // value for memory tile is "MemoryMatrix"
         Intent currentIntent = getIntent();
+
+        System.out.println("XXX HELLOOOOOOOOO");
         this.gameName = currentIntent.getStringExtra("GAME_NAME");
         Button newGame = findViewById(R.id.newGame);
         Button savedGames = findViewById(R.id.savedGames);
@@ -72,11 +74,14 @@ public class NewOrSavedGame extends AppCompatActivity {
     private void setupNewGameListener(){
         group[0].setOnClickListener((V) ->{
             meUser = FirebaseFuncts.getUser();
+
+            System.out.println("XXX " + gameName);
+
             if (meUser.getTheNumberSaved(gameName) == 3){
 
-                    Log.e("check", "meuser not null, inner if block reached");
-                    NewGameDialog newGameDialog = new NewGameDialog();
-                    newGameDialog.show(getSupportFragmentManager(),"over ride saved");
+                Log.e("check", "meuser not null, inner if block reached");
+                NewGameDialog newGameDialog = new NewGameDialog();
+                newGameDialog.show(getSupportFragmentManager(),"over ride saved");
             }
             else {
                 group[1].setBackgroundColor(getColor(R.color.app_button1));
@@ -88,7 +93,6 @@ public class NewOrSavedGame extends AppCompatActivity {
                     System.out.println("XXX OMG game name was null");
                 }
 
-                System.out.println("XXX " + gameName);
 
                 if (gameName.equals("SlidingTiles")){
                     System.out.println("XXX Should start sliding tiles size activity");
