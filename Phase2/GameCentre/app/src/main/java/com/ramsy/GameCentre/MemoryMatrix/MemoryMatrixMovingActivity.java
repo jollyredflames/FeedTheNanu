@@ -29,7 +29,7 @@ public class MemoryMatrixMovingActivity extends Activity implements View.OnClick
     private DisplayMetrics displayMetrics;
     int screenHeight;
     int screenWidth;
-    int resetDelay = 5000;
+    int resetDelay = 4000;
     RelativeLayout test;
     int dim = 150;
     Handler handler = new Handler();
@@ -106,11 +106,17 @@ public class MemoryMatrixMovingActivity extends Activity implements View.OnClick
         collisionDetecter = new CollisionDetecter(screenWidth,screenHeight);
         Button undoer = (Button) test.getChildAt(0);
         undoer.setText("UNDO: "+String.valueOf(person.getNumUndo())+" LEFT");
-
         TextView info = (TextView) test.getChildAt(1);
         LeaderBoardModel.generateTextViewDesign(info,"LIVES LEFT: "+person.getLife());
         go();
         resetColor();
+        beginMoving();
+    }
+
+    /**
+     * this handler will constantly be running to update the view objects on the screen
+     */
+    public void beginMoving(){
         Runnable update = new Runnable() {
             @Override
             public void run() {
@@ -127,12 +133,20 @@ public class MemoryMatrixMovingActivity extends Activity implements View.OnClick
         handler.post(update);
     }
 
-
+    /**
+     *
+     * @param v view object to be updated with a new x and y
+     * @param x the new x value for the view
+     * @param y the new y value for the view
+     */
     public void shift(View v, int x, int y) {
         v.setX(x);
         v.setY(y);
     }
 
+    /**
+     * set up the screen height and width and how big/small the view object should be
+     */
     private void setInstanceVariables() {
         displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -141,6 +155,10 @@ public class MemoryMatrixMovingActivity extends Activity implements View.OnClick
         //1080 x 1794
     }
 
+    /**
+     *
+     * @param v the view that was just clicked by the user
+     */
     @Override
     public void onClick(View v) {
         if (v.getId() == -500) {
@@ -190,30 +208,26 @@ public class MemoryMatrixMovingActivity extends Activity implements View.OnClick
         }
     }
 
+    /**
+     *
+     *  set the views that should be clicked to yellow
+     *
+     */
     public void go() {
-        Set<Integer> clickers = person.getMustBeClicked();
-        for (Block item : person) {
-            if (clickers.contains(item.getId())) {
-                test.getChildAt(item.getId()).setBackgroundColor(Color.YELLOW);
-            }
-        }
+        MemoryGameCommon.go(test,person.getMustBeClicked(),person,2);
 
     }
 
+    /**
+     *  when the reset timer is up make those text views gray so they are hidden
+     */
     public void resetColor() {
-        final Timer t = new Timer();
-        t.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                for (Block item : person) {
-                    test.getChildAt(item.getId()).setBackgroundColor(Color.GRAY);
-                }
-                person.setCanClick(true);
-                t.cancel();
-            }
-        }, resetDelay, 500);
+        MemoryGameCommon.resetColor(test,person,resetDelay,2);
     }
 
+    /**
+     * when the user clicks on the back button take them to choose game
+     */
     @Override
     public void onBackPressed() {
         person.save();

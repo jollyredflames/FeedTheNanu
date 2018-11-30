@@ -9,6 +9,9 @@ import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.FirebaseFuncts;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.User;
 import com.ramsy.GameCentre.R;
 
+/**
+ * take the user to easy or hard memory matrix depending on which button they click on
+ */
 public class ChooseMemoryMatrixGameType extends AppCompatActivity {
     private User meUser;
     @Override
@@ -18,6 +21,11 @@ public class ChooseMemoryMatrixGameType extends AppCompatActivity {
         meUser = FirebaseFuncts.getUser();
     }
 
+    /**
+     *
+     * @param view not used
+     *             if they clicked the moving version then send them to the moving memory matrix
+     */
     public void onMovingClicked(View view){
         Intent playMovingGame = new Intent(this, MemoryMatrixMovingActivity.class);
         int slot = meUser.correctSlot("MemoryMatrix");
@@ -25,6 +33,11 @@ public class ChooseMemoryMatrixGameType extends AppCompatActivity {
         startActivity(playMovingGame);
     }
 
+    /**
+     *
+     * @param view not user
+     *             if they clicked the easy memory matrix take them there
+     */
     public void onNonMovingClicked(View view){
         Intent playNonMovingGame = new Intent(this, MemoryMatrixActivity.class);
         int slot = meUser.correctSlot("MemoryMatrix");
