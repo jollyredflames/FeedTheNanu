@@ -9,8 +9,8 @@ import android.widget.TextView;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.FirebaseFuncts;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.SaveState;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.User;
-import com.ramsy.GameCentre.MemoryMatrix.MemoryMatrixActivity;
 import com.ramsy.GameCentre.R;
+import com.ramsy.GameCentre.SlidingTiles.SlidingTilesGameActivity;
 
 import java.util.ArrayList;
 
@@ -64,7 +64,7 @@ public class SavedGamesActivity extends AppCompatActivity {
                 each.setBackgroundColor(getColor(R.color.app_theme));
             }
             slot1.setBackgroundColor(getColor(R.color.app_button));
-            Intent tmp = new Intent(this, MemoryMatrixActivity.class);
+            Intent tmp = new Intent(this, SlidingTilesGameActivity.class);
             tmp.putExtra("slot", 0);
             startActivity(tmp);
 
@@ -81,7 +81,7 @@ public class SavedGamesActivity extends AppCompatActivity {
                 each.setBackgroundColor(getColor(R.color.app_theme));
             }
             slot2.setBackgroundColor(getColor(R.color.app_button));
-            Intent tmp = new Intent(this, MemoryMatrixActivity.class);
+            Intent tmp = new Intent(this, SlidingTilesGameActivity.class);
             tmp.putExtra("slot", 1);
             startActivity(tmp);
 
@@ -98,7 +98,7 @@ public class SavedGamesActivity extends AppCompatActivity {
                 each.setBackgroundColor(getColor(R.color.app_theme));
             }
             slot3.setBackgroundColor(getColor(R.color.app_button));
-            Intent tmp = new Intent(this, MemoryMatrixActivity.class);
+            Intent tmp = new Intent(this, SlidingTilesGameActivity.class);
             tmp.putExtra("slot", 2);
             startActivity(tmp);
         });
