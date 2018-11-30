@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
              that property is visible to the compiler (case them as a DropItem).
              */
 
+            System.out.println("XXX Hello from itemDropRunnable");
             // Vend an item
             DropItem newItem = (DropItem)itemGenerator.getItem();
             newItem.setId(10);
@@ -119,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         @Override
         public void run() {
 
+            System.out.println("XXX Hello from updateRunnable");
             boolean foodIsNearby = false;
             Edible foodItemForEating = null;
 
@@ -151,11 +153,29 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
             nanu.foodItemForEating = foodItemForEating;
             nanu.foodIsNearby = foodIsNearby;
+
+
+            /*
+            This next line can eventually call a delegate method,
+            which we had set to call the pauseButtonWasTapped(true) method,
+            But it wasn't actually stopping this handler,
+            Because the call to stop it is made within the scope of the handler itself.
+            The pause button taps worked because that code wasn't running within the context of the handler.
+            What's more is, only the itemDrop handler was stopped, which makes sense because
+            we weren't trying to stop it from within its own context.
+            So, keep the delegate method as a chance to call normal pausing functionality,
+            But then have a method that returns true if the Nanu is still alive,
+            And only schedule the next run if the Nanu is still alive.
+             */
+
             nanu.timeDidElapse();
+
 
             healthBar.setHealthTo(nanu.getCurrentLifePercent());
 
-            updateHandler.postDelayed(this, gameLoopInterval);
+            if (!nanu.currentLifeIsZero()) {
+                updateHandler.postDelayed(this, gameLoopInterval);
+            }
         }
     };
 
@@ -272,6 +292,13 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     public void lifeReachedZero() {
         // TODO:
         // game over functionality
+        System.out.println("XXX Game Over");
+
+        // Need to dispatch this code
+        // This didn't fix the problem.
+        pauseButtonWasTapped(true);
+
+
     }
 
     @Override
@@ -351,6 +378,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         if (paused) {
             itemDropHandler.removeCallbacks(itemDrop); // stop new items from falling
             updateHandler.removeCallbacks(update); // pause the game engine loop, for efficiency
+            System.out.println("XXX Just paused all handlers");
         } else {
             itemDropHandler.postDelayed(itemDrop, 1000); // we use post delayed here, to prevent the situation where spamming the pause button
             // caused an item to drop on each resume. But then it's possible to spam the pause button and progress time
