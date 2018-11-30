@@ -181,7 +181,11 @@ public class User {
      * @return SaveState
      */
     public SaveState getGame(String gameName, int index){
-        return savedGames.get(gameName).size() > index ? savedGames.get(gameName).get(index): null;
+        if (savedGames.containsKey(gameName)) {
+            return savedGames.get(gameName).size() > index ? savedGames.get(gameName).get(index): null;
+        } else {
+            return null;
+        }
     }
 
     /**

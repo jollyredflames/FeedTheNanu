@@ -258,6 +258,7 @@ class Nanu extends ImageView implements Pausable {
      */
 
     void timeDidElapse() {
+        System.out.println("XXX time did elapse");
         this.changeLifeBy(this.amountLifeChangesByOverTime);
     }
 
@@ -303,11 +304,47 @@ class Nanu extends ImageView implements Pausable {
 
     private long animationInterval = 50;
 
+
+    /**
+     * The normal animation interval, so we know what interval to return to
+     * after a boost item (coffee) wears off.
+     */
+
+
+    private long normalAnimationInterval = 50;
+
+
+    /**
+     * Whether the Nanu is boosted by a coffee or not.
+     */
+
+    private boolean boosted = false;
+
+
+    /**
+     * The amount of time in milliseconds that the effects of a boost item (coffee) last for.
+     */
+
+    private long boostDuration = 5000;
+
     Handler handler = new Handler();
+
+    Handler coolDownHandler = new Handler();
+
+    private Runnable coolDown = new Runnable() {
+        @Override
+        public void run() {
+            animationInterval = normalAnimationInterval;
+            boosted = false;
+            delegate.boostWoreOff();
+        }
+    };
 
     private Runnable update = new Runnable() {
         @Override
         public void run() {
+
+            System.out.println("XXX hello from the animation handler");
 
             // Animation state machine logic goes here
 
@@ -512,7 +549,9 @@ class Nanu extends ImageView implements Pausable {
 
 
             // Recursion
-            handler.postDelayed(this, animationInterval);
+            if (!currentLifeIsZero()) {
+                handler.postDelayed(this, animationInterval);
+            }
         }
     };
 
@@ -537,7 +576,7 @@ class Nanu extends ImageView implements Pausable {
      * The Nanu will start a chewing animation, and process the effects of the Edible.
      * It is also the responsibility of the other class to manage the Edible by removing it
      * from the view hierarchy, or recycling it.
-     * @param item The Edible to be eaten
+     * @param edible The Edible to be eaten
      */
 
     private void processEdible(Edible edible) {
@@ -546,15 +585,17 @@ class Nanu extends ImageView implements Pausable {
         // Alert delegate if the score should change (pass in the amount to change the score by)
         // No need to alert delegate if the animationInterval changes, as that is used only in this class.
 
-        // TODO:
         delegate.aboutToEat(edible);
         delegate.scoreShouldChangeBy(edible.effectOnScore());
         this.changeLifeBy(edible.effectOnLife());
 
-//        // Speed changing functionality
-//        if (edible.effectOnSpeed() != 1) {
-//            this.speed /= edible.effectOnSpeed();
-//        }
+        // Speed changing functionality
+        if (!this.boosted && edible.effectOnSpeed() != 1) {
+            this.boosted = true;
+            this.animationInterval /= edible.effectOnSpeed();
+            this.coolDownHandler.postDelayed(coolDown, boostDuration);
+            this.delegate.didGetBoosted();
+        }
 
 
 

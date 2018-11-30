@@ -1,4 +1,5 @@
 package com.ramsy.GameCentre.FeedTheNanu;
+
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
@@ -13,22 +14,21 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.ramsy.GameCentre.GameCentreCommon.ChooseGame;
-import com.ramsy.GameCentre.GameCentreCommon.FinishedGameActivity;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.FirebaseFuncts;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.SaveState;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.User;
+import com.ramsy.GameCentre.GameCentreCommon.ChooseGame;
+import com.ramsy.GameCentre.GameCentreCommon.FinishedGameActivity;
 import com.ramsy.GameCentre.R;
+
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener, NanuDelegate, PauseButtonDelegate {
 
-    // TODO:
     // - Lock to portrait orientation only (app wide?)
     // - Disable status bar
 
@@ -54,6 +54,19 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     TextView scoreLabel;
 
     boolean isPaused = false;
+
+    /**
+     * The time interval in milliseconds between food item drops.
+     */
+
+    long itemDropInterval = 1200;
+
+
+    /**
+     * The time it takes in milliseconds for a falling food item to reach the bottom.
+     */
+
+    long itemDropDuration = 5000;
 
 
     Handler updateHandler = new Handler();
@@ -100,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
             // Create a new animation
             ObjectAnimator anim = ObjectAnimator.ofFloat(newItem, "y", screenHeight());
-            anim.setDuration(5000);
+            anim.setDuration(itemDropDuration);
             anim.setInterpolator(null);
             anim.addListener(new Animator.AnimatorListener() {
                 @Override
@@ -127,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             newItem.animator = anim;
             anim.start();
 
-            itemDropHandler.postDelayed(this, 1200);
+            itemDropHandler.postDelayed(this, itemDropInterval);
         }
     };
 
@@ -221,7 +234,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     private void save() {
         // Save logic here
-        System.out.println("XXX hello from the save handler");
         SaveState s = new SaveState(score, nanu.currentLife);
         // Throw this to the backend function
         meUser.saveGame("FeedTheNanu", s, this.slot);
@@ -285,6 +297,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             this.score = 0;
         }
 
+        this.save();
 
         nanu.setTimeSliceInterval(gameLoopInterval);
         nanu.resume();
@@ -424,19 +437,45 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
     /**
+     * Method to increase the rate of food item falls and their animation speed
+     */
+
+    @Override
+    public void didGetBoosted() {
+//        itemDropInterval /= 2;
+//        itemDropDuration /= 2;
+    }
+
+    /**
+     * Method to set the rate of food item falls and their animation speed back to normal
+     */
+
+    @Override
+    public void boostWoreOff() {
+//        itemDropInterval *= 2;
+//        itemDropDuration *= 2;
+    }
+
+    /**
      * Method to end game when nanu's life reach zero, bring users to the FinishGameActivity when
      * Game is over.
      */
     @Override
     public void lifeReachedZero() {
-        // TODO:
         // game over functionality
         pauseButtonWasTapped(true);
+
+
+        // Delete the saved game
+        meUser.deleteGame(gameName, slot);
+
+
         String s = "" + this.score;
         Intent tmp = new Intent(this, FinishedGameActivity.class);
         tmp.putExtra("gameName", "FeedTheNanu");
         tmp.putExtra("gameScore", s);
         tmp.putExtra("gameIdentifier", "FeedTheNanu");
+        tmp.putExtra("slot", slot);
         startActivity(tmp);
 
     }
@@ -534,17 +573,17 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
      */
     @Override
     public void pauseButtonWasTapped(boolean paused) {
-        // Do a save
-        this.save();
 
         this.isPaused = paused;
 
         // Pause/Resume non view stuff (like stop the handlers that generate new food, prevent Nanu from being moved)
         if (paused) {
+            // Do a save
+            this.save();
+
             itemDropHandler.removeCallbacks(itemDrop); // stop new items from falling
             updateHandler.removeCallbacks(update); // pause the game engine loop, for efficiency
             saveHandler.removeCallbacks(autoSave);
-            System.out.println("XXX Just paused all handlers");
         } else {
             itemDropHandler.postDelayed(itemDrop, 1000); // we use post delayed here, to prevent the situation where spamming the pause button
             // caused an item to drop on each resume. But then it's possible to spam the pause button and progress time

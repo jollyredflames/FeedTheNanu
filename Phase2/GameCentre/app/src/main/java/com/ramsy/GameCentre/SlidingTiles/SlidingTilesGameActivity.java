@@ -478,9 +478,6 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
 
     }
 
-    //TODO:check for == should be equals()
-    // TODO: use refactoring for views
-
     void undo(int i) {
         // When the undoView is tapped, it'll call this function with i being the default number of moves to undo (3).
 
