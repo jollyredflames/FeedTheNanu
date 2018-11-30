@@ -549,7 +549,7 @@ class Nanu extends ImageView implements Pausable {
      * The Nanu will start a chewing animation, and process the effects of the Edible.
      * It is also the responsibility of the other class to manage the Edible by removing it
      * from the view hierarchy, or recycling it.
-     * @param item The Edible to be eaten
+     * @param edible The Edible to be eaten
      */
 
     private void processEdible(Edible edible) {
@@ -558,7 +558,6 @@ class Nanu extends ImageView implements Pausable {
         // Alert delegate if the score should change (pass in the amount to change the score by)
         // No need to alert delegate if the animationInterval changes, as that is used only in this class.
 
-        // TODO:
         delegate.aboutToEat(edible);
         delegate.scoreShouldChangeBy(edible.effectOnScore());
         this.changeLifeBy(edible.effectOnLife());

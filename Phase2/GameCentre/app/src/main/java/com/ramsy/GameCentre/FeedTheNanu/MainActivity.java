@@ -1,4 +1,5 @@
 package com.ramsy.GameCentre.FeedTheNanu;
+
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
@@ -13,22 +14,21 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.ramsy.GameCentre.GameCentreCommon.ChooseGame;
-import com.ramsy.GameCentre.GameCentreCommon.FinishedGameActivity;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.FirebaseFuncts;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.SaveState;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.User;
+import com.ramsy.GameCentre.GameCentreCommon.ChooseGame;
+import com.ramsy.GameCentre.GameCentreCommon.FinishedGameActivity;
 import com.ramsy.GameCentre.R;
+
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener, NanuDelegate, PauseButtonDelegate {
 
-    // TODO:
     // - Lock to portrait orientation only (app wide?)
     // - Disable status bar
 
