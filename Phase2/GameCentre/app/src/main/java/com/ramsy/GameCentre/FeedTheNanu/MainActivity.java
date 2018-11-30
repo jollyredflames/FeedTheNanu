@@ -218,10 +218,10 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     private void save() {
         // Save logic here
-        Save s = new Save(score, nanu.currentLife);
+        SaveState s = new SaveState(score, nanu.currentLife);
 
         // Throw this to the backend function
-        meUser.saveGame("FeedTheNanu", (SaveState) s, this.slot);
+        meUser.saveGame("FeedTheNanu", s, this.slot);
     }
 
     /**
@@ -229,6 +229,12 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
      */
 
     private User meUser;
+
+    /**
+     * The name of the game.
+     */
+
+    String gameName = "FeedTheNanu";
 
 
     @Override
@@ -241,6 +247,15 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         // Retrieve Slot Number from Intent
         Bundle b = getIntent().getExtras();
         this.slot = b.getInt("slot");
+
+
+        SaveState save = meUser.getGame(gameName, slot);
+
+        if (save != null) {
+            System.out.println("XXX the save is not null");
+        } else {
+            System.out.println("XXX the save is null");
+        }
 
 
         // Create the Item Generator
