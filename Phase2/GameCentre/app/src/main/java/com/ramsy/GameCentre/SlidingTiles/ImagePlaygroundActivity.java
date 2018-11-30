@@ -15,6 +15,12 @@ import java.io.ByteArrayOutputStream;
 
 public class ImagePlaygroundActivity extends AppCompatActivity {
 
+    /**
+     * Given a picture, size the image to fit into the square to be played in SlidingTiles
+     * @param i the picture to be scaled
+     * @param n number of rows we want in our game
+     * @return picture that will fit perfectly in square
+     */
     Bitmap scaleImageToFitInsideSquareOfSideLength(Bitmap i, double n) {
 
         /*
@@ -53,7 +59,12 @@ public class ImagePlaygroundActivity extends AppCompatActivity {
 
     }
 
-
+    /**
+     * Given a picture, slice the image into equal sized tiles.
+     * @param i picture to be sliced
+     * @param n int representing number of rows wanted.
+     * @return array of mini-square-pictures in row-major order
+     */
     Bitmap[] sliceImageIntoGridOfSideLength(Bitmap i, int n) {
         /*
         PRECONDITION: image is a square image

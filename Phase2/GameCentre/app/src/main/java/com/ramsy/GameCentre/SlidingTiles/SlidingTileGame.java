@@ -91,18 +91,27 @@ class SlidingTileGame {
 
     }
 
-
+    /**
+     * Save this game
+     * @return SaveState representing this game
+     */
     SaveState save() {
         // Returns a SaveState object configured to represent the game in its current state.
 
         return new SaveState(this.positionMap, this.gap, this.score, this.size);
     }
 
+    /**
+     * pause this game
+     */
     void pause() {
         this.timer.cancel();
 
     }
 
+    /**
+     * resume this game
+     */
     void resume() {
         // Start a timer that decrements the score and calls a delegate method.
 
@@ -120,6 +129,10 @@ class SlidingTileGame {
 
     }
 
+    /**
+     * score decreases as time increases. This sets initial score proportional to size.
+     * @return int representing starting score
+     */
     private int startingScore() {
         // Algorithm to set the starting score based on game size.
 
@@ -127,12 +140,19 @@ class SlidingTileGame {
         return 10000 + (int) n * 20;
     }
 
+    /**
+     * Based on complexity of puzzle, more iterations of the scrambler must occur to get a good mix
+     * @return int representing how many times scramble should run
+     */
     private int scrambleAmount() {
         // Algorithm that uses game size to determine how many moves to scramble by.
         return this.size * this.size * 10; // just a constant factor
 //        return 4;
     }
 
+    /**
+     * method to move pieces simulating a touchEvent
+     */
     void scramble() {
 
         int n = this.scrambleAmount();
@@ -170,7 +190,11 @@ class SlidingTileGame {
     }
 
 
-
+    /**
+     * Return valid moves for this View Point object
+     * @param v the tapped view point object
+     * @return Moves available to view
+     */
     Move moveFor(View v) {
         // Return a Move for id, if there is a valid move possible,
         // Otherwise return null.
@@ -193,6 +217,12 @@ class SlidingTileGame {
         }
     }
 
+    /**
+     * given move m, make the move.
+     * bool forward checks if the move is occuring due to an 'undo' in which case these moves wont decrease points.
+     * @param m a valid move
+     * @param forward bool representing whether these moves are occuring due to undo or not
+     */
     void makeMove(Move m, boolean forward) {
         // Update the model with the move passed in.
         // Whenever the View's are rearranged, by performing a move,
@@ -238,6 +268,10 @@ class SlidingTileGame {
         }
     }
 
+    /**
+     * Check if the user has solved the puzzle
+     * @return true if puzzle solved, else return false.
+     */
     private boolean isComplete() {
         // Returns true if the game is completed (has been won).
 

@@ -338,6 +338,7 @@ class Nanu extends ImageView implements Pausable {
         public void run() {
             animationInterval = normalAnimationInterval;
             boosted = false;
+            delegate.boostWoreOff();
         }
     };
 
@@ -595,6 +596,7 @@ class Nanu extends ImageView implements Pausable {
             this.boosted = true;
             this.animationInterval /= edible.effectOnSpeed();
             this.coolDownHandler.postDelayed(coolDown, boostDuration);
+            this.delegate.didGetBoosted();
         }
 
 
