@@ -170,11 +170,14 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
 
     }
 
+    /**
+     * overrides normal backpress which stops edge case resulting in failed save -> null pointer
+     */
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-
         this.stopAutoSaving(); // important, otherwise the timer keeps running
+        Intent gotoChoose = new Intent(this, ChooseGame.class);
+        startActivity(gotoChoose);
     }
 
     private void setupScoreLabel() {

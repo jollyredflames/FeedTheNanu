@@ -183,12 +183,7 @@ public class MemoryMatrixManager implements Iterable<Block> {
      */
     public void save(){
         boolean difficulty;
-        if (this.y == 0){
-            difficulty = true;
-        }
-        else{
-            difficulty = false;
-        }
+        difficulty = this.y == 0;
         SaveState save = new SaveState(difficulty);
         save.setNumY(y);
         save.setNumX(x);
