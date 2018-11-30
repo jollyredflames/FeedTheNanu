@@ -28,7 +28,7 @@ public class SavedGamesActivity extends AppCompatActivity {
     ArrayList<SaveState> ss;
     TextView tv;
     User meUser;
-    Button[] group= new Button[3];
+    Button[] group = new Button[3];
     String gameName;
     Intent newActivity;
     int correctSlot;
@@ -71,6 +71,7 @@ public class SavedGamesActivity extends AppCompatActivity {
             System.out.println("XXX OMG game name was null");
         }
         else if(gameName.equals("SlidingTiles")){
+//            int size = this.getIntent().getExtras("size");
             this.correctSlot = meUser.correctSlot("SlidingTiles");
             this.newActivity = new Intent(this, SlidingTilesGameActivity.class);
         }
@@ -164,9 +165,6 @@ public class SavedGamesActivity extends AppCompatActivity {
 
     private void setupDelete1Listener() {
         delete1.setOnClickListener((V) -> {
-            if (gameName == null) {
-                System.out.println("XXX OMG game name was null");
-            }
             meUser.deleteGame(gameName,0);
             ss = meUser.getSavedGamesForGameName(gameName);
             setSlot();
@@ -179,9 +177,6 @@ public class SavedGamesActivity extends AppCompatActivity {
 
     private void setupDelete2Listener() {
         delete2.setOnClickListener((V) -> {
-            if (gameName == null) {
-                System.out.println("XXX OMG game name was null");
-            }
             meUser.deleteGame(gameName, 1);
             ss = meUser.getSavedGamesForGameName(gameName);
             setSlot();
@@ -195,9 +190,6 @@ public class SavedGamesActivity extends AppCompatActivity {
 
     private void setupDelete3Listener() {
         delete3.setOnClickListener((V) -> {
-            if (gameName == null) {
-                System.out.println("XXX OMG game name was null");
-            }
             meUser.deleteGame(gameName,2);
             ss = meUser.getSavedGamesForGameName(gameName);
             setSlot();

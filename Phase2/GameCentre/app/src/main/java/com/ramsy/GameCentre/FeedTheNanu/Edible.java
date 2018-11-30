@@ -44,5 +44,4 @@ public interface Edible {
 
     int effectOnSpeed();
 
-
 }

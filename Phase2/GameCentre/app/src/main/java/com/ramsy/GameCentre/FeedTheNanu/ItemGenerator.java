@@ -24,7 +24,6 @@ public class ItemGenerator {
     ItemGenerator(Context context){
         this.context = context;
     }
-
     /**
      * A function choose a random edible item and return it.
      * @return a class representing the Edible item that is going to fall from the screen
@@ -33,7 +32,7 @@ public class ItemGenerator {
         Random ran = new Random();
         int i = ran.nextInt(drop.length);
 
-        if (drop[i].equals("candy")) {
+        if(drop[i].equals("candy")) {
             return new Candy(this.context);
         }
         else if (drop[i].equals("coffee")) {

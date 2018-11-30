@@ -25,6 +25,7 @@ public class SaveState {
     public float currentLife;
 
 
+    // Memory Matrix specific attributes that need saving
     private int numX;
     private int numY;
     private int numUndo;
