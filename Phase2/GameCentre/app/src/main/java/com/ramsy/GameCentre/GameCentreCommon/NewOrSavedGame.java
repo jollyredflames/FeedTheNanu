@@ -84,6 +84,11 @@ public class NewOrSavedGame extends AppCompatActivity {
 
                 Intent newActivity;
 
+                if (gameName == null) {
+                    System.out.println("XXX OMG game name was null");
+                }
+
+                System.out.println("XXX " + gameName);
 
                 if (gameName.equals("SlidingTiles")){
                     System.out.println("XXX Should start sliding tiles size activity");
@@ -112,9 +117,9 @@ public class NewOrSavedGame extends AppCompatActivity {
         group[1].setOnClickListener((V) ->{
             group[0].setBackgroundColor(getColor(R.color.app_button1));
             group[1].setBackgroundColor(getColor(R.color.app_button));
-//            Intent tmp = new Intent(this, SavedGamesActivity.class);
-//            startActivity(tmp);
             //TODO: NEED TO INTENT TO THE CORRECT SAVED GAMES ACTIVITY
+            Intent tmp = new Intent(this, SavedGamesActivity.class);
+            startActivity(tmp);
         });
     }
 
