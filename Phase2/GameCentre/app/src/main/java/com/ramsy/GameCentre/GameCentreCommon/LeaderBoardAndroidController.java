@@ -23,10 +23,15 @@ public class LeaderBoardAndroidController implements Button.OnClickListener{
     private int height;
     private GlobalLeaderBoard leaderBoard;
     private final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    private String lastGame;
+    private String lastScore;
+    private boolean showScore;
 
 
-    public LeaderBoardAndroidController(RelativeLayout container,int position,String gameName,RelativeLayout scroll,int height){
+    public LeaderBoardAndroidController(RelativeLayout container,int position,String gameName,RelativeLayout scroll,int height,String lastGame,String lastScore){
         meUser = FirebaseFuncts.getUser();
+        this.lastScore = lastScore;
+        this.lastGame = lastGame;
         this.container = container;
         String USERNAME = meUser.getUsername();
         this.scrollView =scroll;
@@ -39,19 +44,13 @@ public class LeaderBoardAndroidController implements Button.OnClickListener{
         String value = hi.currentTabForDatabase(pos);
         ArrayList<String> temp = leaderBoard.getGameGlobalLeaderBoard(value);
         controller.setScores(temp);
-//        ArrayList<String> alex = new ArrayList<>();
-//        alex.add("12345 nani");
-//        alex.add("167 yuh");
-//        alex.add("DFJFFH czxfasdfads");
-//        alex.add("1234567 FUCKING WORKS");
-//        alex.add("2 yuh");
-//        alex.add("17 ya boi");
-//        controller.setScores(alex);
+        showScore = lastGame.equals(value);
         setTextForUserNames();
         setTextForScores();
         setLeaderBoardTextView();
         upDateButton();
         updateUserNameAndScoreTextViews();
+        lastScoreTextView();
     }
 
     @Override
@@ -114,6 +113,16 @@ public class LeaderBoardAndroidController implements Button.OnClickListener{
         }
         else{
             LeaderBoardModel.upDateButton(b,"View \nPublic LeaderBoard");
+        }
+    }
+
+    public void lastScoreTextView(){
+        TextView t = (TextView) container.getChildAt(5);
+        if(showScore){
+            LeaderBoardModel.generateTextViewDesign(t,"Your Score Was: \n"+lastScore);
+        }
+        else{
+            LeaderBoardModel.generateTextViewDesign(t,"");
         }
     }
 }

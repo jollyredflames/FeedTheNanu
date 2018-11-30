@@ -48,7 +48,7 @@ public class LeaderBoardView extends Fragment {
         addUpdaterButton();
         addPrevScore();
         Button changer = (Button)activityView.getChildAt(4);
-        changer.setOnClickListener(new LeaderBoardAndroidController(activityView,position,gameIdentifier,scrollContainer,mainHeight/10));
+        changer.setOnClickListener(new LeaderBoardAndroidController(activityView,position,gameIdentifier,scrollContainer,mainHeight/10,lastGame,lastScore));
         return activityView;
     }
 
