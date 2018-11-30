@@ -73,7 +73,7 @@ public class CollisionDetecter {
         if (moves.getDown() && (y + moves.getHeight() > screenHeight)) {
             moves.setDown(false);
             y = y - 10;
-        } else if (!moves.getDown() && (y <= 300)) {
+        } else if (!moves.getDown() && (y <= 175)) {
             moves.setDown(true);
             y = y + 10;
         } else if (moves.getDown()) {

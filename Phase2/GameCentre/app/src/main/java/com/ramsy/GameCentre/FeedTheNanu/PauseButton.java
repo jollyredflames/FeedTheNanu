@@ -46,6 +46,11 @@ class PauseButton extends RelativeLayout implements View.OnClickListener {
 
     }
 
+    /**
+     * Method to decide which Icon to set transparent.
+     * The method set pauseIcon transparent when the animation is playing
+     * set resumeIcon transparent when the animation is paused
+     */
     private void toggle() {
         this.playing = !this.playing;
         if (this.playing) {
@@ -56,17 +61,30 @@ class PauseButton extends RelativeLayout implements View.OnClickListener {
 
     }
 
+    /**
+     * method to make the Resume button transparent and only show the Pause button.
+     * when the game is not paused, this function would get called and showing only the pause
+     * button.
+     */
     private void showPauseIcon() {
         resumeImageView.setAlpha(0f);
         pauseImageView.setAlpha(1f);
     }
 
+    /**
+     * method to make the pause button transparent and only show the resume button.
+     * this method is called when the game is paused, so that no pause button is shown.
+     */
     private void showResumeIcon() {
         resumeImageView.setAlpha(1f);
         pauseImageView.setAlpha(0f);
     }
 
-
+    /**
+     * set up listener for pause button, such that every time when the paused button is clicked
+     * the animation and the nanu stop
+     * @param v the act of clicking the pause button
+     */
     @Override
     public void onClick(View v) {
         this.toggle();
