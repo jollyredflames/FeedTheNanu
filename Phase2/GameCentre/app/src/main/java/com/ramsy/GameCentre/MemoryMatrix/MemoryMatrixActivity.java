@@ -16,6 +16,8 @@ import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.SaveState;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.User;
 import com.ramsy.GameCentre.GameCentreCommon.ChooseGame;
 import com.ramsy.GameCentre.GameCentreCommon.FinishedGameActivity;
+import com.ramsy.GameCentre.GameCentreCommon.LeaderBoardModel;
+import com.ramsy.GameCentre.GameCentreCommon.NewOrSavedGame;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -69,19 +71,19 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
         setContentView(container);
         Button undo = new Button(this);
         undo.setOnClickListener(this);
-        undo.setText("Undo");
-        undo.setBackgroundColor(Color.YELLOW);
+        undo.setText("Undo:");
+        undo.setBackgroundColor(Color.GREEN);
         undo.setId(-2);
         container.addView(undo);
-        RelativeLayout.LayoutParams other = new RelativeLayout.LayoutParams(200, 100);
+        RelativeLayout.LayoutParams other = new RelativeLayout.LayoutParams(displayMetrics.widthPixels/3, 175);
         other.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         undo.setLayoutParams(other);
-        Button gameInfo = new Button(this);
+        TextView gameInfo = new TextView(this);
         gameInfo.setText("Game Info");
-        gameInfo.setBackgroundColor(Color.BLUE);
+        gameInfo.setBackgroundColor(Color.WHITE);
         gameInfo.setId(-999);
         container.addView(gameInfo);
-        RelativeLayout.LayoutParams other1 = new RelativeLayout.LayoutParams(200, 100);
+        RelativeLayout.LayoutParams other1 = new RelativeLayout.LayoutParams(displayMetrics.widthPixels/3, 175);
         other1.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         other1.addRule(RelativeLayout.RIGHT_OF, -2);
         gameInfo.setLayoutParams(other1);
@@ -91,7 +93,7 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
         quit.setBackgroundColor(Color.GREEN);
         quit.setOnClickListener(this);
         container.addView(quit);
-        RelativeLayout.LayoutParams other2 = new RelativeLayout.LayoutParams(200, 100);
+        RelativeLayout.LayoutParams other2 = new RelativeLayout.LayoutParams(displayMetrics.widthPixels/3, 175);
         other2.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         other2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         quit.setLayoutParams(other2);
@@ -170,6 +172,12 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
 
         System.out.println("yuh");
         person = new MemoryMatrixManager(clicker,clickable, badIndex,life,numUndo,slot,score,numTileX,numTileX);
+        Button undoer = (Button) container.getChildAt(0);
+        undoer.setText("UNDO: "+String.valueOf(person.getNumUndo())+" LEFT");
+
+        TextView info = (TextView) container.getChildAt(1);
+        LeaderBoardModel.generateTextViewDesign(info,"LIVES LEFT: "+person.getLife());
+
         go();
         resetColor();
     }
@@ -177,15 +185,17 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         if (v.getId() == -500) {
-            //person.se
-            // tUpQuit();
-//            Intent pullChooseGameActivity = new Intent (this, NewOrSavedGame.class);
-//            startActivity(pullChooseGameActivity);
-//            return;
+            Intent pullChooseGameActivity = new Intent (this, ChooseGame.class);
+            startActivity(pullChooseGameActivity);
+            return;
         }
         if (v.getId() == -2) {
             if (person.setUpUndo()) {
                 container.getChildAt(person.performUndo() + 2).setBackgroundColor(Color.GRAY);
+                Button undoer = (Button) container.getChildAt(0);
+                undoer.setText("UNDO: "+String.valueOf(person.getNumUndo())+" LEFT");
+                TextView info = (TextView) container.getChildAt(1);
+                LeaderBoardModel.generateTextViewDesign(info,"LIVES LEFT: "+person.getLife());
             }
             return;
         }
@@ -202,6 +212,7 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
                 else{
                     person.setY(numTileY+1);
                 }
+                person.calculateScore();
                 person.save();
                 int slot = person.getSlot();
                 newGame.putExtra("slot",slot);
@@ -212,11 +223,13 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
         }
         else{
             v.setBackgroundColor(Color.RED);
+            TextView info = (TextView) container.getChildAt(1);
+            info.setText("LIVES LEFT: "+person.getLife());
             if (person.gameOver()){
                 meUser.deleteGame("MemoryMatrix",person.getSlot());
                 Intent finishedGame = new Intent(this,FinishedGameActivity.class);
                 finishedGame.putExtra("gameIdentifier","MemoryMatrix");
-                finishedGame.putExtra("gameScore","100");
+                finishedGame.putExtra("gameScore",person.getScore());
                 finishedGame.putExtra("gameName","Easy");
                 startActivity(finishedGame);
             }
@@ -229,10 +242,10 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
         double widthRatio = 0.90;
         displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        tileHeight = (int) Math.floor(((displayMetrics.heightPixels) * heightRatio) / (numTileY)) - 3;
+        tileHeight = (int) Math.floor(((displayMetrics.heightPixels-250) * heightRatio) / (numTileY)) - 3;
         tileWidth = (int) Math.ceil((displayMetrics.widthPixels * widthRatio) / (numTileX));
         vertSpacerWidth = (int) Math.ceil((displayMetrics.widthPixels * (1 - widthRatio)) / (numTileX - 1));
-        horSpacerHeight = (int) Math.floor((displayMetrics.heightPixels * (1 - heightRatio)) / (numTileY - 1));
+        horSpacerHeight = (int) Math.floor(((displayMetrics.heightPixels) * (1 - (heightRatio))) / (numTileY - 1));
         horSpacerWidth = displayMetrics.heightPixels;
         //1080 x 1794
     }
