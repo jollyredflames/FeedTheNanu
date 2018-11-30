@@ -11,6 +11,8 @@ import com.ramsy.GameCentre.R;
 
 import java.util.HashMap;
 
+//NOTE: Class only contains about 150 lines of code. Long because of importing textures and comments.
+
 /**
  * A class that represents the game creature, called a 'Nanu'.
  * This class encapsulates the animation state machine logic,

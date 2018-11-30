@@ -136,6 +136,11 @@ public class Point {
         return Objects.hash(this.x, this.y);
     }
 
+    /**
+     * compare if 2 Points are equal
+     * @param obj Point to compare 'this' to
+     * @return boolean on whether same or not
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {

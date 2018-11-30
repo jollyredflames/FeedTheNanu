@@ -22,21 +22,19 @@ import com.ramsy.GameCentre.GameCentreCommon.LeaderBoardModel;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MemoryMatrixMovingActivity extends Activity implements View.OnClickListener {
     private DisplayMetrics displayMetrics;
     int screenHeight;
     int screenWidth;
-    int resetDelay = 5000;
-    RelativeLayout test;
+    int resetDelay = 4000;
+    RelativeLayout container;
     int dim = 150;
     Handler handler = new Handler();
     ArrayList<Block> blocks = new ArrayList<>();
     int numBalls = 5;
     Set<Integer> clickableID = new HashSet<>();
-    MemoryMatrixManager person;
+    MemoryMatrixManager manager;
     private CollisionDetecter collisionDetecter;
     private User meUser = FirebaseFuncts.getUser();
     @Override
@@ -60,14 +58,14 @@ public class MemoryMatrixMovingActivity extends Activity implements View.OnClick
         setInstanceVariables();
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        test = new RelativeLayout(this);
-        setContentView(test);
+        container = new RelativeLayout(this);
+        setContentView(container);
         Button undo = new Button(this);
         undo.setOnClickListener(this);
         undo.setText("Undo");
         undo.setBackgroundColor(Color.GREEN);
         undo.setId(-2);
-        test.addView(undo);
+        container.addView(undo);
         RelativeLayout.LayoutParams other = new RelativeLayout.LayoutParams(displayMetrics.widthPixels/3, 175);
         other.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         undo.setLayoutParams(other);
@@ -75,7 +73,7 @@ public class MemoryMatrixMovingActivity extends Activity implements View.OnClick
         gameInfo.setText("Game Info");
         gameInfo.setBackgroundColor(Color.WHITE);
         gameInfo.setId(-999);
-        test.addView(gameInfo);
+        container.addView(gameInfo);
         RelativeLayout.LayoutParams other1 = new RelativeLayout.LayoutParams(displayMetrics.widthPixels/3, 175);
         other1.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         other1.addRule(RelativeLayout.RIGHT_OF, -2);
@@ -85,7 +83,7 @@ public class MemoryMatrixMovingActivity extends Activity implements View.OnClick
         quit.setId(-500);
         quit.setBackgroundColor(Color.GREEN);
         quit.setOnClickListener(this);
-        test.addView(quit);
+        container.addView(quit);
         RelativeLayout.LayoutParams other2 = new RelativeLayout.LayoutParams(displayMetrics.widthPixels/3, 175);
         other2.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         other2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
@@ -96,28 +94,34 @@ public class MemoryMatrixMovingActivity extends Activity implements View.OnClick
             ballView.setOnClickListener(this);
             ballView.setId(i+3);
             clickableID.add(i+3);
-            test.addView(ballView);
+            container.addView(ballView);
             RelativeLayout.LayoutParams other11 = new RelativeLayout.LayoutParams(dim, dim);
             ballView.setLayoutParams(other11);
             Block block1 = new Block(i+3, 500, 500, dim, dim);
             blocks.add(block1);
         }
-        person = new MemoryMatrixManager(blocks,clickableID,0,life,numUndo,slot,score,blocks.size(),0);
+        manager = new MemoryMatrixManager(blocks,clickableID,0,life,numUndo,slot,score,blocks.size(),0);
         collisionDetecter = new CollisionDetecter(screenWidth,screenHeight);
-        Button undoer = (Button) test.getChildAt(0);
-        undoer.setText("UNDO: "+String.valueOf(person.getNumUndo())+" LEFT");
-
-        TextView info = (TextView) test.getChildAt(1);
-        LeaderBoardModel.generateTextViewDesign(info,"LIVES LEFT: "+person.getLife());
+        Button undoer = (Button) container.getChildAt(0);
+        undoer.setText("UNDO: "+String.valueOf(manager.getNumUndo())+" LEFT");
+        TextView info = (TextView) container.getChildAt(1);
+        LeaderBoardModel.generateTextViewDesign(info,"LIVES LEFT: "+ manager.getLife());
         go();
         resetColor();
+        beginMoving();
+    }
+
+    /**
+     * this handler will constantly be running to update the view objects on the screen
+     */
+    public void beginMoving(){
         Runnable update = new Runnable() {
             @Override
             public void run() {
-                for(Block first:person){
-                    for(Block second:person){
+                for(Block first: manager){
+                    for(Block second: manager){
                         collisionDetecter.detectCollision(first,second);
-                        View v = test.getChildAt(first.getId());
+                        View v = container.getChildAt(first.getId());
                         shift(v,first.getX(),first.getY());
                     }
                 }
@@ -127,12 +131,20 @@ public class MemoryMatrixMovingActivity extends Activity implements View.OnClick
         handler.post(update);
     }
 
-
+    /**
+     *
+     * @param v view object to be updated with a new x and y
+     * @param x the new x value for the view
+     * @param y the new y value for the view
+     */
     public void shift(View v, int x, int y) {
         v.setX(x);
         v.setY(y);
     }
 
+    /**
+     * set up the screen height and width and how big/small the view object should be
+     */
     private void setInstanceVariables() {
         displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -141,6 +153,10 @@ public class MemoryMatrixMovingActivity extends Activity implements View.OnClick
         //1080 x 1794
     }
 
+    /**
+     *
+     * @param v the view that was just clicked by the user
+     */
     @Override
     public void onClick(View v) {
         if (v.getId() == -500) {
@@ -149,27 +165,27 @@ public class MemoryMatrixMovingActivity extends Activity implements View.OnClick
             return;
         }
         if (v.getId() == -2) {
-            if (person.setUpUndo()) {
-                test.getChildAt(person.performUndo()).setBackgroundColor(Color.GRAY);
-                Button undoer = (Button) test.getChildAt(0);
-                undoer.setText("UNDO: "+String.valueOf(person.getNumUndo())+" LEFT");
-                TextView info = (TextView) test.getChildAt(1);
-                LeaderBoardModel.generateTextViewDesign(info,"LIVES LEFT: "+person.getLife());
+            if (manager.setUpUndo()) {
+                container.getChildAt(manager.performUndo()).setBackgroundColor(Color.GRAY);
+                Button undoer = (Button) container.getChildAt(0);
+                undoer.setText("UNDO: "+String.valueOf(manager.getNumUndo())+" LEFT");
+                TextView info = (TextView) container.getChildAt(1);
+                LeaderBoardModel.generateTextViewDesign(info,"LIVES LEFT: "+ manager.getLife());
             }
             return;
         }
-        if (!person.getClick()) {
+        if (!manager.getClick()) {
             return;
         }
-        if(person.checkTileCorrect(v.getId())){
+        if(manager.checkTileCorrect(v.getId())){
             v.setBackgroundColor(Color.GREEN);
-            if (person.isGameComplete()) {
-                person.setX(numBalls+1);
-                person.save();
-                person.calculateScore();
-                person.save();
+            if (manager.isGameComplete()) {
+                manager.setX(numBalls+1);
+                manager.save();
+                manager.calculateScore();
+                manager.save();
                 Intent newGame = new Intent(this,MemoryMatrixMovingActivity.class);
-                int slot = person.getSlot();
+                int slot = manager.getSlot();
                 newGame.putExtra("slot",slot);
                 startActivity(newGame);
             }
@@ -177,46 +193,42 @@ public class MemoryMatrixMovingActivity extends Activity implements View.OnClick
         }
         else{
             v.setBackgroundColor(Color.RED);
-            TextView info = (TextView) test.getChildAt(1);
-            info.setText("LIVES LEFT: "+person.getLife());
-            if (person.gameOver()){
-                meUser.deleteGame("MemoryMatrix",person.getSlot());
+            TextView info = (TextView) container.getChildAt(1);
+            info.setText("LIVES LEFT: "+ manager.getLife());
+            if (manager.gameOver()){
+                meUser.deleteGame("MemoryMatrix", manager.getSlot());
                 Intent finishedGame = new Intent(this,FinishedGameActivity.class);
                 finishedGame.putExtra("gameIdentifier","MemoryMatrix");
-                finishedGame.putExtra("gameScore",person.getScore());
+                finishedGame.putExtra("gameScore", manager.getScore());
                 finishedGame.putExtra("gameName","Hard");
                 startActivity(finishedGame);
             }
         }
     }
 
+    /**
+     *
+     *  set the views that should be clicked to yellow
+     *
+     */
     public void go() {
-        Set<Integer> clickers = person.getMustBeClicked();
-        for (Block item : person) {
-            if (clickers.contains(item.getId())) {
-                test.getChildAt(item.getId()).setBackgroundColor(Color.YELLOW);
-            }
-        }
+        MemoryGameCommon.go(container, manager.getMustBeClicked(), manager,2);
 
     }
 
+    /**
+     *  when the reset timer is up make those text views gray so they are hidden
+     */
     public void resetColor() {
-        final Timer t = new Timer();
-        t.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                for (Block item : person) {
-                    test.getChildAt(item.getId()).setBackgroundColor(Color.GRAY);
-                }
-                person.setCanClick(true);
-                t.cancel();
-            }
-        }, resetDelay, 500);
+        MemoryGameCommon.resetColor(container, manager,resetDelay,2);
     }
 
+    /**
+     * when the user clicks on the back button take them to choose game
+     */
     @Override
     public void onBackPressed() {
-        person.save();
+        manager.save();
         Intent goToChoose = new Intent(this, ChooseGame.class);
         startActivity(goToChoose);
     }
