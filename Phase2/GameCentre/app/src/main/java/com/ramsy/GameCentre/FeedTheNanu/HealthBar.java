@@ -32,7 +32,6 @@ public class HealthBar extends RelativeLayout {
 
 
     public void setHealthTo(float f){
-
         // health bar need to have been laid out before this method is called
         //precondition, float has to be between 0 and 1 inclusive
         int width = this.getWidth();
