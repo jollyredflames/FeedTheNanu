@@ -7,16 +7,11 @@ public class LeaderBoardSlidingTiles implements LeaderBoardGeneralGame {
     }
 
     @Override
-    public String currentTabForDatabase(int position) {
-        return "SlidingTiles"+gameIdentifier(position);
-    }
-
-    @Override
     public String displayLeaderBoard(int position) {
-        return "Leader Board for \n"+gameIdentifier(position);
+        return "Leader Board for \n"+currentTabForDatabase(position);
     }
 
-    public String gameIdentifier(int position){
+    public String currentTabForDatabase(int position){
         return String.valueOf(position+2)+"x"+String.valueOf(position+2);
     }
 }

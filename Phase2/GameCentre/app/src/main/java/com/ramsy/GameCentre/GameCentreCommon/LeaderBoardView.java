@@ -79,7 +79,7 @@ public class LeaderBoardView extends Fragment {
         TextView leaderBoardName = new TextView(getActivity());
         leaderBoardName.setId(1);
         activityView.addView(leaderBoardName);
-        RelativeLayout.LayoutParams leaderBoardNameParam = new RelativeLayout.LayoutParams(mainWidth*2,100);
+        RelativeLayout.LayoutParams leaderBoardNameParam = new RelativeLayout.LayoutParams(mainWidth*2,200);
         leaderBoardNameParam.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         leaderBoardNameParam.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         leaderBoardName.setLayoutParams(leaderBoardNameParam);
