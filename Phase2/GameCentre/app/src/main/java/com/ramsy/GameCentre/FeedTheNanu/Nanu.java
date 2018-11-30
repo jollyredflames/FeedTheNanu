@@ -258,7 +258,6 @@ class Nanu extends ImageView implements Pausable {
      */
 
     void timeDidElapse() {
-        System.out.println("XXX Hello from the time did elapse method");
         this.changeLifeBy(this.amountLifeChangesByOverTime);
     }
 

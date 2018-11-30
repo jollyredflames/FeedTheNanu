@@ -8,8 +8,9 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * A class that represents a condensed version of a SlidingTileGame,
- * that stores minimal details needed to recreate the game.
+ * A class that represents a condensed version of a Sliding Tile game,
+ * or a Feed The Nanu game, or a Memory Matrix game,
+ * that stores minimal details needed to recreate the games.
  * This is the object that is saved in the database
  */
 
@@ -69,6 +70,7 @@ public class SaveState {
     public SaveState(int score, float currentLife) {
         this.score = score;
         this.currentLife = currentLife;
+        this.localTime = LocalDateTime.now().toString();
     }
 
 
