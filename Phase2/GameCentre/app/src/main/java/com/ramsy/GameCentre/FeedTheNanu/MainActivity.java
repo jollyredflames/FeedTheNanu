@@ -255,15 +255,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         final RelativeLayout container = new RelativeLayout(this);
         this.container = container;
 
-
-
-
-
-
-
-
-
-
         // Set the Activity's window to the View Group
         setContentView(container);
         setupBackground();
@@ -273,7 +264,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         setBackButtonListener();
         setupHealthBar();
         setupNanu();
-
 
         // Grab the user
         this.meUser = FirebaseFuncts.getUser();
