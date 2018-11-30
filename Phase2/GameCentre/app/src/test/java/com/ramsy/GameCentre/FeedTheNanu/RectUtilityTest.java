@@ -26,6 +26,9 @@ public class RectUtilityTest {
 //
 //    }
 
+    /**
+     * unit test to check if padRect return the desire Rect
+     */
     @Test
     public void padRect() {
         Rect inputRect = new Rect(0,0,0,0);

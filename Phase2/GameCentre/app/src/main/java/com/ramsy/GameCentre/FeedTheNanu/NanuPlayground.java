@@ -27,7 +27,6 @@ public class NanuPlayground extends AppCompatActivity {
         container.addView(hb);
         setContentView(container);
         hb.setHealthTo(0.5f);
-
     }
 
     private int screenWidth() {

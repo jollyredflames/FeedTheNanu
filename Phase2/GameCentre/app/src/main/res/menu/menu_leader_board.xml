@@ -10,8 +10,28 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_signout"
+    android:id="@+id/action_signout"
+    android:orderInCategory="100"
+    android:title="Sign out"
+    app:showAsAction="never" />
+
+    <item
+        android:id="@+id/checkSlding"
         android:orderInCategory="100"
-        android:title="Sign out"
-        app:showAsAction="never" />
+        android:title="SlidingTiles Leader Board"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/checkNanu"
+        android:orderInCategory="100"
+        android:title="NanuGame Leader Board"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/checkMatrix"
+        android:orderInCategory="100"
+        android:title="MemoryMatrix Leader Board"
+        app:showAsAction="never"/>
+
+
 </menu>
