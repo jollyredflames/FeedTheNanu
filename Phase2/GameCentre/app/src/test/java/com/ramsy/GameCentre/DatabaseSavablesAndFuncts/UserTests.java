@@ -159,7 +159,7 @@ public class UserTests {
 
     @Test
     public void correctSlot() {
-        assertEquals(2, test.correctSlot("SlidingTiles"));
+        assertEquals(0, test.correctSlot("SlidingTiles"));
     }
 
     @Test
@@ -178,10 +178,11 @@ public class UserTests {
 
     @Test
     public void saveGame() {
-        SaveState newSave = test.getGame("2x2", 0);
+        SaveState newSave = new SaveState(67, (float)86.5);
         test.saveGame("2x2", newSave, 2);
         assertEquals(3, test.getTheNumberSaved("2x2"));
-        assertEquals(2, test.correctSlot("SlidingTiles"));
+        assertEquals(3, test.getSavedGamesForGameName("2x2").size());
+        assertEquals(3, test.correctSlot("2x2"));
         resetUser();
     }
 
