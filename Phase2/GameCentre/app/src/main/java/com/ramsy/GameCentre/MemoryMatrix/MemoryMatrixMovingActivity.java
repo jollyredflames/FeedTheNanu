@@ -150,16 +150,26 @@ public class MemoryMatrixMovingActivity extends Activity implements View.OnClick
         if(person.checkTileCorrect(v.getId())){
             v.setBackgroundColor(Color.GREEN);
             if (person.isGameComplete()) {
+                Intent newGame = new Intent(this,MemoryMatrixMovingActivity.class);
+                newGame.putExtra("numBlocks",blocks.size()+1);
+                newGame.putExtra("life",person.getLife());
+                newGame.putExtra("numUndo",person.getNumUndo());
+                int slot = person.getSlot();
+                newGame.putExtra("slot",slot);
+                newGame.putExtra("score",0);
+                startActivity(newGame);
+            }
+            return;
+        }
+        else{
+            v.setBackgroundColor(Color.RED);
+            if (person.gameOver()){
                 Intent finishedGame = new Intent(this,FinishedGameActivity.class);
                 finishedGame.putExtra("gameIdentifier","MemoryMatrix");
                 finishedGame.putExtra("gameScore","100");
                 finishedGame.putExtra("gameName","Hard");
                 startActivity(finishedGame);
             }
-            return;
-        }
-        else{
-            v.setBackgroundColor(Color.RED);
         }
     }
 

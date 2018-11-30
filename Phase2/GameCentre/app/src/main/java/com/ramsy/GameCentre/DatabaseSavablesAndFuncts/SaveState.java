@@ -83,6 +83,8 @@ public class SaveState {
 
     public SaveState(boolean difficulty){
         this.difficulty = difficulty;
+        this.localTime = LocalDateTime.now().toString();
+
     }
     public int getNumX() {
         return numX;

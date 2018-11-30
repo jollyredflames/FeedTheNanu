@@ -83,14 +83,14 @@ public class LeaderBoardActivity extends AppCompatActivity {
            startActivity(pullNewGame);
        }
        else if (id == R.id.checkNanu) {
-            Intent tmp = new Intent(this, LeaderBoardFeedTheNanu.class);
+            Intent tmp = new Intent(this, LeaderBoardActivity.class);
             tmp.putExtra("lastGame", lastGame);
             tmp.putExtra("lastScore", lastScore);
             tmp.putExtra("gameIdentifier", "FeedTheNanu");
             startActivity(tmp);
         }
        else if (id == R.id.checkMatrix){
-            Intent tmp = new Intent(this, LeaderBoardMemoryMatrix.class);
+            Intent tmp = new Intent(this, LeaderBoardActivity.class);
             tmp.putExtra("lastGame", lastGame);
             tmp.putExtra("lastScore", lastScore);
             tmp.putExtra("gameIdentifier", "MemoryMatrix");
@@ -99,7 +99,7 @@ public class LeaderBoardActivity extends AppCompatActivity {
             }
 
         else{
-            Intent tmp = new Intent(this,LeaderBoardSlidingTiles.class);
+            Intent tmp = new Intent(this,LeaderBoardActivity.class);
             tmp.putExtra("lastGame", lastGame);
             tmp.putExtra("lastScore", lastScore);
             tmp.putExtra("gameIdentifier", "SlidingTiles");
