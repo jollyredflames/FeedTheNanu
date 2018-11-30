@@ -15,11 +15,28 @@ import java.util.Map;
 
 public class SaveState {
 
-    public ArrayList<Point> positionMap;
+    // General attributes that are saved for all games
     public int score;
+    public String localTime; // so saved games can also be identified by when they were saved.
+
+
+    // Feed The Nanu specific attributes that need saving
+    public float currentLife;
+
+
+    // TODO:
+    // Memory Matrix specific attributes that need saving
+
+
+    // Sliding Tiles specific attributes that need saving
+    public ArrayList<Point> positionMap;
     public int size; // although size can be determined from the positionMap,
     // this is to allow the 'load game' phase to easily grab the necessary details needed to display saved games.
-    public String localTime; // so saved games can also be identified by when they were saved.
+
+
+    /*
+    Init for a save for a Sliding Tiles game
+     */
 
     public SaveState(Map<String, Point> positionMap, Point gap, int score, int size) {
 
@@ -43,9 +60,26 @@ public class SaveState {
         this.localTime = LocalDateTime.now().toString();
     }
 
-    public SaveState(){
-        this.localTime = LocalDateTime.now().toString();
+
+
+    /*
+    Init for a save for a Feed The Nanu
+     */
+
+    public SaveState(int score, float currentLife) {
+        this.score = score;
+        this.currentLife = currentLife;
     }
+
+
+    /*
+    Init for a save for a Memory Matrix
+     */
+
+    // TODO:
+
+
+    public SaveState(){}
 
     public ArrayList<Point> getPositionMap() {
         return positionMap;
