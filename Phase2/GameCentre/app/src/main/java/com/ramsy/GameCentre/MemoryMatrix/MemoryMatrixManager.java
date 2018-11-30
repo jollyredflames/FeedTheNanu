@@ -1,5 +1,9 @@
 package com.ramsy.GameCentre.MemoryMatrix;
 
+import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.FirebaseFuncts;
+import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.SaveState;
+import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.User;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -10,20 +14,32 @@ public class MemoryMatrixManager implements Iterable<Block> {
     private Set<Integer> clickableID;
     private Set<Integer> mustBeClicked;
     private int numToBeClicked;
-    private int undo = 5;
-    private int hp = 5;
+    private int numUndo;
+    private int life;
+    private int slot;
     private int correctClick = 0;
     private boolean canClick = false;
     private Set<Integer> correctClicks = new HashSet<>();
     private ArrayList<Integer> wrongClicks = new ArrayList<>();
     private ArrayList<Block> blocksToHighLight;
+    private String score;
+    private int x;
+    private int y;
+    private User meUser;
 
-    public MemoryMatrixManager(ArrayList<Block> blocksToHighLight ,Set<Integer> clickableID,int badIndex) {
+    public MemoryMatrixManager(ArrayList<Block> blocksToHighLight ,Set<Integer> clickableID,int badIndex,int life,int numUndo,int slot,String score,int x,int y) {
+        meUser = FirebaseFuncts.getUser();
         this.clickableID = clickableID;
         this.numToBeClicked = (int) Math.ceil(blocksToHighLight.size()*0.25);
         MemoryMatrixRandomizer randomer = new MemoryMatrixRandomizer(clickableID, numToBeClicked, badIndex);
         mustBeClicked = randomer.randomizer();
         this.blocksToHighLight = blocksToHighLight;
+        this.life = life;
+        this.numUndo = numUndo;
+        this.slot = slot;
+        this.score = score;
+        this.x = x;
+        this.y = y;
     }
 
     public boolean checkTileCorrect(int ID) {
@@ -41,7 +57,7 @@ public class MemoryMatrixManager implements Iterable<Block> {
         return false;
     }
     public boolean gameOver(){
-        return this.hp == 0;
+        return this.life == 0;
     }
 
     public void setCanClick(boolean yes){
@@ -49,11 +65,11 @@ public class MemoryMatrixManager implements Iterable<Block> {
     }
 
     public void loseHP() {
-        hp--;
+        life--;
     }
 
     public void gainHP() {
-        hp++;
+        life++;
     }
 
     public int calculateScore(int prevScore) {
@@ -75,7 +91,7 @@ public class MemoryMatrixManager implements Iterable<Block> {
 
 
     public boolean setUpUndo() {
-        if (undo <= 0) {
+        if (numUndo <= 0) {
             return false;
         }
         return wrongClicks.size() != 0;
@@ -83,7 +99,7 @@ public class MemoryMatrixManager implements Iterable<Block> {
 
     public int performUndo() {
         this.gainHP();
-        undo--;
+        numUndo--;
 
         int index = wrongClicks.size() - 1;
         int item = wrongClicks.get(index);
@@ -119,6 +135,23 @@ public class MemoryMatrixManager implements Iterable<Block> {
 
     public Set<Integer> getMustBeClicked(){
         return mustBeClicked;
+    }
+
+
+    public void save(){
+        Save save = new Save();
+        save.setNumY(y);
+        save.setNumX(x);
+        save.setScore(score);
+        save.setLife(life);
+        save.setNumUndo(numUndo);
+        if(y == 0){
+            save.setDifficulty(true);
+        }
+        else{
+            save.setDifficulty(false);
+        }
+        meUser.saveGame("MemoryMatrix",(SaveState)save,slot);
     }
 
 }

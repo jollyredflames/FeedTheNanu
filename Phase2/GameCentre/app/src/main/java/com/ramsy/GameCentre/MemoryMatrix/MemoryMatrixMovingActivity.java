@@ -37,6 +37,11 @@ public class MemoryMatrixMovingActivity extends Activity implements View.OnClick
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        numBalls = getIntent().getExtras().getInt("numBlocks");
+        int life = getIntent().getExtras().getInt("life");
+        int numUndo = getIntent().getExtras().getInt("numUndo");
+        int slot = getIntent().getExtras().getInt("slot");
+        String score = getIntent().getExtras().getString("score");
         setInstanceVariables();
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -82,7 +87,7 @@ public class MemoryMatrixMovingActivity extends Activity implements View.OnClick
             Block block1 = new Block(i+3, 500, 500, dim, dim);
             blocks.add(block1);
         }
-        person = new MemoryMatrixManager(blocks,clickableID,0);
+        person = new MemoryMatrixManager(blocks,clickableID,0,life,numUndo,slot,score,blocks.size(),0);
         collisionDetecter = new CollisionDetecter(screenWidth,screenHeight);
         go();
         resetColor();
