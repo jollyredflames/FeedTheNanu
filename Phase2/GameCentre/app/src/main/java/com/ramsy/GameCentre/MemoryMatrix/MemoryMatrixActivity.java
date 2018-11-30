@@ -18,6 +18,7 @@ import com.ramsy.GameCentre.GameCentreCommon.ChooseGame;
 import com.ramsy.GameCentre.GameCentreCommon.FinishedGameActivity;
 import com.ramsy.GameCentre.GameCentreCommon.LeaderBoardModel;
 import com.ramsy.GameCentre.GameCentreCommon.NewOrSavedGame;
+import com.ramsy.GameCentre.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -115,7 +116,7 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
             i++;
             if (i < 2 * numTileX) {
                 TextView v1 = new TextView(this);
-                v1.setBackgroundColor(Color.RED);
+                v1.setBackgroundColor(getColor(R.color.app_button1));
                 v1.setId(rightOfCounter);
                 rightID.add(rightOfCounter);
                 container.addView(v1);
@@ -131,7 +132,7 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
             TextView v = new TextView(this);
             v.setId(belowID + 1);
             underID.add(belowID + 1);
-            v.setBackgroundColor(Color.RED);
+            v.setBackgroundColor(getColor(R.color.app_button1));
             container.addView(v);
             RelativeLayout.LayoutParams vParam = new RelativeLayout.LayoutParams(horSpacerWidth, horSpacerHeight);
             vParam.addRule(RelativeLayout.BELOW, belowID);
