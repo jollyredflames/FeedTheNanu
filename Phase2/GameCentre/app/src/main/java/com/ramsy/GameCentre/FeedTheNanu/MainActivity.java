@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     So just don't make it abstract then.
      */
 
-
     Nanu nanu;
     RelativeLayout container;
     ItemGenerator itemGenerator;

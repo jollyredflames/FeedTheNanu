@@ -71,6 +71,7 @@ public class SavedGamesActivity extends AppCompatActivity {
             System.out.println("XXX OMG game name was null");
         }
         else if(gameName.equals("SlidingTiles")){
+//            int size = this.getIntent().getExtras("size");
             this.correctSlot = meUser.correctSlot("SlidingTiles");
             this.newActivity = new Intent(this, SlidingTilesGameActivity.class);
         }
