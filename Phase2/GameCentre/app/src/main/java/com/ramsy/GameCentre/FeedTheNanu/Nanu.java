@@ -304,6 +304,13 @@ class Nanu extends ImageView implements Pausable {
 
     private long animationInterval = 50;
 
+
+    /**
+     * Whether the Nanu is boosted by a coffee or not.
+     */
+
+    private boolean boosted = false;
+
     Handler handler = new Handler();
 
     private Runnable update = new Runnable() {
@@ -557,6 +564,7 @@ class Nanu extends ImageView implements Pausable {
         this.changeLifeBy(edible.effectOnLife());
 
         // Speed changing functionality
+        if this.animationInterval
         if (edible.effectOnSpeed() != 1) {
             this.animationInterval /= edible.effectOnSpeed();
 
