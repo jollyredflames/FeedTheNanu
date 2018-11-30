@@ -39,12 +39,15 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
     private MemoryMatrixManager person;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        numTileX = getIntent().getExtras().getInt("X");
-        numTileY = getIntent().getExtras().getInt("Y");
-        int life = getIntent().getExtras().getInt("life");
-        int numUndo = getIntent().getExtras().getInt("numUndo");
-        int slot = getIntent().getExtras().getInt("slot");
-        int score = getIntent().getExtras().getInt("score");
+        Bundle bundle = getIntent().getExtras();
+        int tempNumTileX = bundle.getInt("X");
+        int tempNumTileY = bundle.getInt("Y");
+        numTileX = tempNumTileX;
+        numTileY = tempNumTileY;
+        int life = bundle.getInt("life");
+        int numUndo = bundle.getInt("numUndo");
+        int slot = bundle.getInt("slot");
+        int score = bundle.getInt("score");
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setInstanceVariables();
@@ -147,7 +150,10 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
                 viewID++;
             }
         }
-        badIndex = Collections.min(underID);
+        System.out.println("XXXXXXX");
+       badIndex = Collections.min(underID);
+
+        System.out.println("yuh");
         person = new MemoryMatrixManager(clicker,clickable, badIndex,life,numUndo,slot,score,numTileX,numTileX);
         go();
         resetColor();
@@ -175,6 +181,19 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
             v.setBackgroundColor(Color.GREEN);
             if (person.isGameComplete()) {
                 Intent newGame = new Intent(this,MemoryMatrixActivity.class);
+                if(numTileY == numTileX){
+                    numTileX++;
+                }
+                else{
+                    numTileY++;
+                }
+                newGame.putExtra("X", numTileX);
+                newGame.putExtra("Y",numTileY);
+                newGame.putExtra("life",person.getLife());
+                newGame.putExtra("numUndo",person.getNumUndo());
+                int slot = person.getSlot();
+                newGame.putExtra("slot",slot);
+                newGame.putExtra("score",0);
                 startActivity(newGame);
             }
             return;

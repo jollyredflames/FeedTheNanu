@@ -70,6 +70,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         meUser = FirebaseFuncts.getUser();
 
         // Extract this information from the intent
