@@ -284,6 +284,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             this.score = 0;
         }
 
+        this.save();
 
         nanu.setTimeSliceInterval(gameLoopInterval);
         nanu.resume();
@@ -428,9 +429,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
      */
     @Override
     public void lifeReachedZero() {
-        // TODO:
         // game over functionality
         pauseButtonWasTapped(true);
+
+        meUser.deleteGame(gameName, slot);
+
         String s = "" + this.score;
         Intent tmp = new Intent(this, FinishedGameActivity.class);
         tmp.putExtra("gameName", "FeedTheNanu");
