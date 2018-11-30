@@ -570,7 +570,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
         // stop autosaving
         this.stopAutoSaving();
 
-        // delete slot?
+        meUser.deleteGame("SlidingTiles", slot);
 
         // Transition to finish screen activity in 1 second.
         Intent n = new Intent(this, FinishedGameActivity.class);
