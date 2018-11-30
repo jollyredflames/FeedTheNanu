@@ -9,8 +9,11 @@ import android.widget.TextView;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.FirebaseFuncts;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.SaveState;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.User;
+import com.ramsy.GameCentre.FeedTheNanu.MainActivity;
+import com.ramsy.GameCentre.MemoryMatrix.ChooseMemoryMatrixGameType;
 import com.ramsy.GameCentre.R;
 import com.ramsy.GameCentre.SlidingTiles.SlidingTilesGameActivity;
+import com.ramsy.GameCentre.SlidingTiles.SlidingTilesSizeActivity;
 
 import java.util.ArrayList;
 
@@ -70,9 +73,33 @@ public class SavedGamesActivity extends AppCompatActivity {
                 each.setBackgroundColor(getColor(R.color.app_theme));
             }
             slot1.setBackgroundColor(getColor(R.color.app_button));
-            Intent tmp = new Intent(this, SlidingTilesGameActivity.class);
-            tmp.putExtra("slot", 0);
-            startActivity(tmp);
+
+//            Intent tmp = new Intent(this, SlidingTilesGameActivity.class);
+            Intent newActivity;
+
+            if (gameName == null) {
+                System.out.println("XXX OMG game name was null");
+            }
+
+
+            if (gameName.equals("SlidingTiles")){
+                newActivity = new Intent(this, SlidingTilesGameActivity.class);
+
+            }
+            else if(gameName.equals("FeedTheNanu")){
+                int slot = meUser.correctSlot("FeedTheNanu");
+                newActivity = new Intent(this, MainActivity.class);
+                newActivity.putExtra("slot", slot);
+            }
+            else {
+                // TODO: Change this to the Memory Matrix game
+                newActivity = new Intent(this, MainActivity.class);
+            }
+            startActivity(newActivity);
+
+
+            newActivity.putExtra("slot", 0);
+            startActivity(newActivity);
 
         });
     }
@@ -87,9 +114,33 @@ public class SavedGamesActivity extends AppCompatActivity {
                 each.setBackgroundColor(getColor(R.color.app_theme));
             }
             slot2.setBackgroundColor(getColor(R.color.app_button));
-            Intent tmp = new Intent(this, SlidingTilesGameActivity.class);
-            tmp.putExtra("slot", 1);
-            startActivity(tmp);
+
+//            Intent tmp = new Intent(this, SlidingTilesGameActivity.class);
+            Intent newActivity;
+
+            if (gameName == null) {
+                System.out.println("XXX OMG game name was null");
+            }
+
+
+            if (gameName.equals("SlidingTiles")){
+                newActivity = new Intent(this, SlidingTilesGameActivity.class);
+
+            }
+            else if(gameName.equals("FeedTheNanu")){
+                int slot = meUser.correctSlot("FeedTheNanu");
+                newActivity = new Intent(this, MainActivity.class);
+                newActivity.putExtra("slot", slot);
+            }
+            else {
+                // TODO: Change this to the Memory Matrix game
+                newActivity = new Intent(this, MainActivity.class);
+            }
+            startActivity(newActivity);
+
+
+            newActivity.putExtra("slot", 1);
+            startActivity(newActivity);
 
         });
     }
@@ -104,9 +155,31 @@ public class SavedGamesActivity extends AppCompatActivity {
                 each.setBackgroundColor(getColor(R.color.app_theme));
             }
             slot3.setBackgroundColor(getColor(R.color.app_button));
-            Intent tmp = new Intent(this, SlidingTilesGameActivity.class);
-            tmp.putExtra("slot", 2);
-            startActivity(tmp);
+//            Intent tmp = new Intent(this, SlidingTilesGameActivity.class);
+
+            Intent newActivity;
+
+            if (gameName == null) {
+                System.out.println("XXX OMG game name was null");
+            }
+
+
+            if (gameName.equals("SlidingTiles")){
+                newActivity = new Intent(this, SlidingTilesGameActivity.class);
+
+            }
+            else if(gameName.equals("FeedTheNanu")){
+                int slot = meUser.correctSlot("FeedTheNanu");
+                newActivity = new Intent(this, MainActivity.class);
+                newActivity.putExtra("slot", slot);
+            }
+            else {
+                // TODO: Change this to the Memory Matrix game
+                newActivity = new Intent(this, MainActivity.class);
+            }
+
+            newActivity.putExtra("slot", 2);
+            startActivity(newActivity);
         });
     }
 

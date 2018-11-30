@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
              that property is visible to the compiler (case them as a DropItem).
              */
 
-            System.out.println("XXX Hello from itemDropRunnable");
             // Vend an item
             DropItem newItem = (DropItem)itemGenerator.getItem();
             newItem.setId(10);
@@ -133,7 +132,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         @Override
         public void run() {
 
-            System.out.println("XXX Hello from updateRunnable");
             boolean foodIsNearby = false;
             Edible foodItemForEating = null;
 
@@ -203,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
      * Period in milliseconds to save the game automatically
      */
 
-    long saveInterval = 10000;
+    long saveInterval = 5000;
 
 
     /**
