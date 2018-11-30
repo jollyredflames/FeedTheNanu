@@ -20,20 +20,19 @@ public class ChooseMemoryMatrixGameType extends AppCompatActivity {
 
     public void onMovingClicked(View view){
         Intent playMovingGame = new Intent(this, MemoryMatrixMovingActivity.class);
-        playMovingGame.putExtra("X",3);
-        playMovingGame.putExtra("Y",3);
+        playMovingGame.putExtra("numBlocks",3);
         playMovingGame.putExtra("life",5);
         playMovingGame.putExtra("numUndo",5);
         int slot = meUser.correctSlot("MemoryMatrix");
         playMovingGame.putExtra("slot",slot);
         playMovingGame.putExtra("score",0);
         startActivity(playMovingGame);
-
     }
 
     public void onNonMovingClicked(View view){
         Intent playNonMovingGame = new Intent(this, MemoryMatrixActivity.class);
-        playNonMovingGame.putExtra("numBlocks",3);
+        playNonMovingGame.putExtra("X", 3);
+        playNonMovingGame.putExtra("Y",3);
         playNonMovingGame.putExtra("life",5);
         playNonMovingGame.putExtra("numUndo",5);
         int slot = meUser.correctSlot("MemoryMatrix");
