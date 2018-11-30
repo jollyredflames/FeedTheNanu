@@ -11,6 +11,8 @@ import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.SaveState;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.User;
 import com.ramsy.GameCentre.FeedTheNanu.MainActivity;
 import com.ramsy.GameCentre.MemoryMatrix.ChooseMemoryMatrixGameType;
+import com.ramsy.GameCentre.MemoryMatrix.MemoryMatrixActivity;
+import com.ramsy.GameCentre.MemoryMatrix.MemoryMatrixMovingActivity;
 import com.ramsy.GameCentre.R;
 import com.ramsy.GameCentre.SlidingTiles.SlidingTilesGameActivity;
 import com.ramsy.GameCentre.SlidingTiles.SlidingTilesSizeActivity;
@@ -93,6 +95,7 @@ public class SavedGamesActivity extends AppCompatActivity {
             }
             else {
                 // TODO: Change this to the Memory Matrix game
+                int slot = meUser.correctSlot("FeedTheNanu");
                 newActivity = new Intent(this, MainActivity.class);
             }
             startActivity(newActivity);
@@ -133,8 +136,21 @@ public class SavedGamesActivity extends AppCompatActivity {
                 newActivity.putExtra("slot", slot);
             }
             else {
-                // TODO: Change this to the Memory Matrix game
-                newActivity = new Intent(this, MainActivity.class);
+                int slot = meUser.correctSlot("MemoryMatrix");
+                SaveState save = meUser.getGame(gameName, slot);
+                boolean difficult = save.getDifficulty();
+                if  (difficult){
+                    newActivity = new Intent(this, MemoryMatrixMovingActivity.class);
+                }
+                else{
+                    newActivity = new Intent(this, MemoryMatrixActivity.class);
+                }
+                newActivity.putExtra("slot",slot);
+                newActivity.putExtra("X",save.getNumX());
+                newActivity.putExtra("Y",save.getNumY());
+                newActivity.putExtra("score",save.getScore());
+                newActivity.putExtra("life",save.getLife());
+                newActivity.putExtra("numUndo",save.getNumUndo());
             }
             startActivity(newActivity);
 
