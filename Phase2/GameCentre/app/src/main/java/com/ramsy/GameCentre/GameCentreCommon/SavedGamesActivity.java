@@ -10,12 +10,10 @@ import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.FirebaseFuncts;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.SaveState;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.User;
 import com.ramsy.GameCentre.FeedTheNanu.MainActivity;
-import com.ramsy.GameCentre.MemoryMatrix.ChooseMemoryMatrixGameType;
 import com.ramsy.GameCentre.MemoryMatrix.MemoryMatrixActivity;
 import com.ramsy.GameCentre.MemoryMatrix.MemoryMatrixMovingActivity;
 import com.ramsy.GameCentre.R;
 import com.ramsy.GameCentre.SlidingTiles.SlidingTilesGameActivity;
-import com.ramsy.GameCentre.SlidingTiles.SlidingTilesSizeActivity;
 
 import java.util.ArrayList;
 
@@ -83,7 +81,6 @@ public class SavedGamesActivity extends AppCompatActivity {
         else {
             // TODO: Change this to the Memory Matrix game
             this.correctSlot = meUser.correctSlot("MemoryMatrix");
-            this.newActivity = new Intent(this, MainActivity.class);
         }
 
         this.newActivity.putExtra("slot", this.correctSlot);
@@ -101,6 +98,13 @@ public class SavedGamesActivity extends AppCompatActivity {
             }
             slot1.setBackgroundColor(getColor(R.color.app_button));
             newActivity.putExtra("slot", 0);
+            if (gameName.equals("MemoryMatrix")){
+                if(meUser.getGame(gameName, 0).getDifficulty()) {
+                    this.newActivity = new Intent(this, MemoryMatrixMovingActivity.class);
+                }else{
+                    this.newActivity = new Intent(this, MemoryMatrixActivity.class);
+                }
+            }
             startActivity(newActivity);
         });
     }
@@ -116,6 +120,13 @@ public class SavedGamesActivity extends AppCompatActivity {
             }
             slot2.setBackgroundColor(getColor(R.color.app_button));
             newActivity.putExtra("slot", 1);
+            if (gameName.equals("MemoryMatrix")){
+                if(meUser.getGame(gameName, 1).getDifficulty()) {
+                    this.newActivity = new Intent(this, MemoryMatrixMovingActivity.class);
+                }else{
+                    this.newActivity = new Intent(this, MemoryMatrixActivity.class);
+                }
+            }
             startActivity(newActivity);
 
         });
@@ -132,6 +143,13 @@ public class SavedGamesActivity extends AppCompatActivity {
             }
             slot3.setBackgroundColor(getColor(R.color.app_button));
             newActivity.putExtra("slot", 2);
+            if (gameName.equals("MemoryMatrix")){
+                if(meUser.getGame(gameName, 2).getDifficulty()) {
+                    this.newActivity = new Intent(this, MemoryMatrixMovingActivity.class);
+                }else{
+                    this.newActivity = new Intent(this, MemoryMatrixActivity.class);
+                }
+            }
             startActivity(newActivity);
         });
     }

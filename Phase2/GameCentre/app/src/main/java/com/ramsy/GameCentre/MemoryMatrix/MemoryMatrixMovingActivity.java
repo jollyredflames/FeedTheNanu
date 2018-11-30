@@ -10,8 +10,11 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
+import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.FirebaseFuncts;
+import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.SaveState;
+import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.User;
+import com.ramsy.GameCentre.GameCentreCommon.ChooseGame;
 import com.ramsy.GameCentre.GameCentreCommon.FinishedGameActivity;
 
 import java.util.ArrayList;
@@ -33,15 +36,31 @@ public class MemoryMatrixMovingActivity extends Activity implements View.OnClick
     Set<Integer> clickableID = new HashSet<>();
     MemoryMatrixManager person;
     private CollisionDetecter collisionDetecter;
+    private User meUser = FirebaseFuncts.getUser();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        numBalls = getIntent().getExtras().getInt("numBlocks");
-        int life = getIntent().getExtras().getInt("life");
-        int numUndo = getIntent().getExtras().getInt("numUndo");
         int slot = getIntent().getExtras().getInt("slot");
-        int score = getIntent().getExtras().getInt("score");
+        SaveState thisSave = meUser.getGame("MemoryMatrix", slot);
+        int life;
+        int numUndo;
+        int score;
+        if (thisSave == null){
+            numBalls = 3;
+            life = 5;
+            numUndo = 5;
+            score = 0;
+        } else{
+            life = thisSave.getLife();
+            numUndo = thisSave.getNumUndo();
+            score = thisSave.getScore();
+            numBalls = thisSave.getNumX();
+        }
+
+
+
+
         setInstanceVariables();
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -140,13 +159,11 @@ public class MemoryMatrixMovingActivity extends Activity implements View.OnClick
         if(person.checkTileCorrect(v.getId())){
             v.setBackgroundColor(Color.GREEN);
             if (person.isGameComplete()) {
+                person.setX(numBalls+1);
+                person.save();
                 Intent newGame = new Intent(this,MemoryMatrixMovingActivity.class);
-                newGame.putExtra("numBlocks",blocks.size()+1);
-                newGame.putExtra("life",person.getLife());
-                newGame.putExtra("numUndo",person.getNumUndo());
                 int slot = person.getSlot();
                 newGame.putExtra("slot",slot);
-                newGame.putExtra("score",0);
                 startActivity(newGame);
             }
             return;
@@ -185,5 +202,12 @@ public class MemoryMatrixMovingActivity extends Activity implements View.OnClick
                 t.cancel();
             }
         }, resetDelay, 500);
+    }
+
+    @Override
+    public void onBackPressed() {
+        person.save();
+        Intent goToChoose = new Intent(this, ChooseGame.class);
+        startActivity(goToChoose);
     }
 }
