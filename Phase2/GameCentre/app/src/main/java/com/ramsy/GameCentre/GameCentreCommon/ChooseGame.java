@@ -69,7 +69,6 @@ public class ChooseGame extends AppCompatActivity {
             Intent tmp = new Intent(this, NewOrSavedGame.class);
             tmp.putExtra("GAME_NAME", "SlidingTiles");
             startActivity(tmp);
-
         });
     }
 }

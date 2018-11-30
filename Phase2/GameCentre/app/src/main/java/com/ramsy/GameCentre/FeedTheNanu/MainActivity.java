@@ -1,6 +1,7 @@
 package com.ramsy.GameCentre.FeedTheNanu;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -15,6 +16,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.FirebaseFuncts;
+import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.SaveState;
+import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.User;
 import com.ramsy.GameCentre.R;
 import java.util.Random;
 
@@ -51,6 +55,15 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     Handler updateHandler = new Handler();
     Handler itemDropHandler = new Handler();
+    Handler saveHandler = new Handler();
+
+    Runnable autoSave = new Runnable() {
+        @Override
+        public void run() {
+            save();
+            saveHandler.postDelayed(this, saveInterval);
+        }
+    };
 
 
     Runnable itemDrop = new Runnable() {
@@ -186,10 +199,51 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     long gameLoopInterval = 20;
 
+    /**
+     * Period in milliseconds to save the game automatically
+     */
+
+    long saveInterval = 10000;
+
+
+    /**
+     * The slot number to save in.
+     * Retrieved from the Intent.
+     */
+
+    int slot;
+
+
+    /**
+     * Saves the game
+     */
+
+    private void save() {
+        // Save logic here
+        Save s = new Save(score, nanu.currentLife);
+
+        // Throw this to the backend function
+        meUser.saveGame("FeedTheNanu", (SaveState) s, this.slot);
+    }
+
+    /**
+     * The user that is currently logged in.
+     */
+
+    private User meUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Grab the user
+        this.meUser = FirebaseFuncts.getUser();
+
+        // Retrieve Slot Number from Intent
+        Bundle b = getIntent().getExtras();
+        this.slot = b.getInt("slot");
+
 
         // Create the Item Generator
         this.itemGenerator = new ItemGenerator(this);
@@ -215,6 +269,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         // Start running tasks
         updateHandler.post(update);
         itemDropHandler.post(itemDrop);
+        saveHandler.postDelayed(autoSave, saveInterval);
 
     }
 
@@ -290,7 +345,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        pauseButtonWasTapped(true);
+        pauseButtonWasTapped(true); // to stop the handlers
 
     }
 
@@ -298,8 +353,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     public void lifeReachedZero() {
         // TODO:
         // game over functionality
-        pauseButtonWasTapped(true);
-
+        pauseButtonWasTapped(true); // to stop the handlers
 
     }
 
@@ -373,6 +427,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     @Override
     public void pauseButtonWasTapped(boolean paused) {
+
+        /*
+        While this is the delegate method called by the Pause Button,
+        we will also call this method ourselves in lifeDidReachZero and onBackPressed
+         */
 
         this.isPaused = paused;
 

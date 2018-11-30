@@ -227,7 +227,7 @@ class Nanu extends ImageView implements Pausable {
      */
 
 
-    private float endurance = 10000f;
+    private float endurance = 20000f;
 
 
     /**

@@ -26,7 +26,7 @@ public class SavedGamesActivity extends AppCompatActivity {
     TextView tv;
     User meUser;
     Button[] group= new Button[3];
-    String gameName = "SlidingTiles";
+    String gameName;
 
     /**
      * defined all buttons and set the screen
@@ -48,6 +48,12 @@ public class SavedGamesActivity extends AppCompatActivity {
         group[2]=slot3;
 
         tv = findViewById(R.id.textView3);
+
+        // Get game name from the intent
+        Intent currentIntent = getIntent();
+        this.gameName = currentIntent.getStringExtra("GAME_NAME");
+
+
         ss = meUser.getSavedGamesForGameName(gameName);
         tv.setText("Select Game");
         setSlot();
