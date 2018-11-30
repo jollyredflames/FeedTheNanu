@@ -16,6 +16,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.ramsy.GameCentre.GameCentreCommon.FinishedGameActivity;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.FirebaseFuncts;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.SaveState;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.User;
@@ -286,6 +288,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     }
 
+    /**
+     * set the game background
+     */
     private void setupBackground() {
         ImageView v = new ImageView(this);
         Bitmap im = BitmapFactory.decodeResource(getResources(), R.drawable.background1);
@@ -295,6 +300,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         v.setOnTouchListener(this);
     }
 
+    /**
+     * set up the score label on the top of the game screen
+     */
     private void setupScoreLabel() {
         // Setup Score label
         TextView label = new TextView(this);
@@ -315,6 +323,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         label.setLayoutParams(params);
     }
 
+    /**
+     * set up pause button on the top right corner of the game screen
+     */
     private void setupPauseButton() {
         PauseButton p = new PauseButton(this);
         p.delegate = this;
@@ -327,8 +338,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         container.addView(p);
     }
 
+    /**
+     * set up a health bar representing the nanu's hp on the top left corner of the screen
+     */
     private void setupHealthBar() {
-        int h = 120;
+        int h = 100;
         int w = 500;
         HealthBar hb = new HealthBar(this);
         RelativeLayout.LayoutParams healthBarParams = new RelativeLayout.
@@ -341,6 +355,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         this.healthBar = hb;
     }
 
+    /**
+     * set up a nanu creature eating at the bottom of the game screen
+     */
     private void setupNanu() {
         Nanu n = new Nanu(this);
         n.delegate = this;
@@ -366,7 +383,14 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     public void lifeReachedZero() {
         // TODO:
         // game over functionality
-        pauseButtonWasTapped(true); // to stop the handlers
+        pauseButtonWasTapped(true);
+        String s = "" + this.score;
+        Intent tmp = new Intent(this, FinishedGameActivity.class);
+        tmp.putExtra("gameName", "FeedTheNanu");
+        tmp.putExtra("gameScore",
+                s);
+        tmp.putExtra("gameIdentifier", "FeedTheNanu");
+        startActivity(tmp);
 
     }
 

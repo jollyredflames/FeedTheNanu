@@ -9,13 +9,14 @@ public class NanuPlayground extends AppCompatActivity {
     HealthBar hb;
     int healthBarW;
     int healthBarH;
+    public RelativeLayout container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         healthBarW = screenWidth()/3;
         healthBarH = screenHeight()/15;
-        RelativeLayout container = new RelativeLayout(this);
+        container = new RelativeLayout(this);
         hb = new HealthBar(this);
         RelativeLayout.LayoutParams healthBarParams = new RelativeLayout.
                 LayoutParams(healthBarW, healthBarH);
@@ -25,7 +26,6 @@ public class NanuPlayground extends AppCompatActivity {
         hb.setLayoutParams(healthBarParams);
         container.addView(hb);
         setContentView(container);
-
         hb.setHealthTo(0.5f);
 
     }

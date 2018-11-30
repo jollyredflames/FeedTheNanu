@@ -28,8 +28,8 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
     private int vertSpacerWidth;
     private int horSpacerWidth;
     private int horSpacerHeight;
-    private int numTileX = 3;
-    private int numTileY = 3;
+    private int numTileX;
+    private int numTileY;
     private DisplayMetrics displayMetrics;
     private Set<Integer> underID = new HashSet<>();
     private Set<Integer> rightID = new HashSet<>();
@@ -39,6 +39,12 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
     private MemoryMatrixManager person;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        numTileX = getIntent().getExtras().getInt("X");
+        numTileY = getIntent().getExtras().getInt("Y");
+        int life = getIntent().getExtras().getInt("life");
+        int numUndo = getIntent().getExtras().getInt("numUndo");
+        int slot = getIntent().getExtras().getInt("slot");
+        String score = getIntent().getExtras().getString("score");
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setInstanceVariables();
@@ -142,7 +148,7 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
             }
         }
         badIndex = Collections.min(underID);
-        person = new MemoryMatrixManager(clicker,clickable, badIndex);
+        person = new MemoryMatrixManager(clicker,clickable, badIndex,life,numUndo,slot,score,numTileX,numTileX);
         go();
         resetColor();
     }
@@ -168,7 +174,8 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
         if(person.checkTileCorrect(v.getId())){
             v.setBackgroundColor(Color.GREEN);
             if (person.isGameComplete()) {
-
+                Intent newGame = new Intent(this,MemoryMatrixActivity.class);
+                startActivity(newGame);
             }
             return;
         }
