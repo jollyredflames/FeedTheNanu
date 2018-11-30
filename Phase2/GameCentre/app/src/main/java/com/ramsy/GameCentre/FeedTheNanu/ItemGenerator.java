@@ -5,7 +5,9 @@ import android.widget.ImageView;
 import com.ramsy.GameCentre.FeedTheNanu.DropItems.*;
 import java.util.Random;
 
-
+/**
+ * A class 
+ */
 public class ItemGenerator {
     //        set up drop so that items have a certain probability of dropping
     String[] drop = new String[]{
