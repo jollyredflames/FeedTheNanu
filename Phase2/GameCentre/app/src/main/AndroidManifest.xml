@@ -85,13 +85,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".FeedTheNanu.NanuGameActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.NanuGameActivity" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
         <activity android:name=".FeedTheNanu.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.FeedTheNanu.MainActivity" />
@@ -113,7 +106,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".FeedTheNanu.NanuNewOrSavedActivity" />
         <activity android:name=".GameCentreCommon.NewOrSavedGame">
             <intent-filter>
                 <action android:name="android.intent.action.GameCentreCommon.NewOrSavedGame" />
