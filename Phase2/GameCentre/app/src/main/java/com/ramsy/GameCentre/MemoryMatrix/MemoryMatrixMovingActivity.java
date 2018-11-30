@@ -1,17 +1,23 @@
 package com.ramsy.GameCentre.MemoryMatrix;
 
 import android.app.Activity;
+import android.app.Person;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -19,12 +25,15 @@ public class MemoryMatrixMovingActivity extends Activity implements View.OnClick
     private DisplayMetrics displayMetrics;
     int screenHeight;
     int screenWidth;
-
+    int resetDelay = 5000;
     RelativeLayout test;
-    int dim = 200;
+    int dim = 150;
     Handler handler = new Handler();
     ArrayList<Block> blocks = new ArrayList<>();
-
+    int numBalls = 5;
+    Set<Integer> clickableID = new HashSet<>();
+    MemoryMatrixManager person;
+    private CollisionDetecter collisionDetecter;
 
 
     @Override
@@ -33,170 +42,67 @@ public class MemoryMatrixMovingActivity extends Activity implements View.OnClick
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         test = new RelativeLayout(this);
-
         setContentView(test);
-
-
-        View ballView_1 = new View(this);
-        ballView_1.setBackgroundColor(Color.BLACK);
-        ballView_1.setOnClickListener(this);
-        ballView_1.setId(1);
-        test.addView(ballView_1);
-        RelativeLayout.LayoutParams other1 = new RelativeLayout.LayoutParams(200, 200);
-        ballView_1.setLayoutParams(other1);
-        Block block1 = new Block(ballView_1, 300, 500,dim,dim);
-
-
-
-        View temp = new View(this);
-        temp.setOnClickListener(this);
-        RelativeLayout.LayoutParams other2 = new RelativeLayout.LayoutParams(200, 200);
-        temp.setLayoutParams(other2);
-        temp.setId(2);
-        temp.setBackgroundColor(Color.BLACK);
-        test.addView(temp);
-        Block block2 = new Block(temp, 400, 1000,dim,dim);
-        temp.setOnClickListener(this);
-
-        View no = new View(this);
-        no.setId(3);
-        no.setOnClickListener(this);
-        RelativeLayout.LayoutParams noP = new RelativeLayout.LayoutParams(200, 200);
-        no.setLayoutParams(noP);
-        no.setBackgroundColor(Color.BLACK);
-        test.addView(no);
-        Block block3 = new Block(no, 250, 1500,dim,dim);
-
-
-        View person = new View(this);
-        person.setId(4);
-        person.setOnClickListener(this);
-        RelativeLayout.LayoutParams personP = new RelativeLayout.LayoutParams(200, 200);
-        person.setLayoutParams(personP);
-        person.setBackgroundColor(Color.BLACK);
-        test.addView(person);
-        Block block4 = new Block(person, 100, 1500,dim,dim);
-
-        blocks.add(block1);
-        blocks.add(block2);
-        blocks.add(block3);
-        blocks.add(block4);
-
+        Button undo = new Button(this);
+        undo.setOnClickListener(this);
+        undo.setText("Undo");
+        undo.setBackgroundColor(Color.YELLOW);
+        undo.setId((int) (-2));
+        test.addView(undo);
+        RelativeLayout.LayoutParams other = new RelativeLayout.LayoutParams(200, 100);
+        other.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        undo.setLayoutParams(other);
+        Button gameInfo = new Button(this);
+        gameInfo.setText("Game Info");
+        gameInfo.setBackgroundColor(Color.BLUE);
+        gameInfo.setId((int) -999);
+        test.addView(gameInfo);
+        RelativeLayout.LayoutParams other1 = new RelativeLayout.LayoutParams(200, 100);
+        other1.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        other1.addRule(RelativeLayout.RIGHT_OF, -2);
+        gameInfo.setLayoutParams(other1);
+        Button quit = new Button(this);
+        quit.setText("Quit");
+        quit.setId((int) -500);
+        quit.setBackgroundColor(Color.GREEN);
+        quit.setOnClickListener(this);
+        test.addView(quit);
+        RelativeLayout.LayoutParams other2 = new RelativeLayout.LayoutParams(200, 100);
+        other2.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        other2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        quit.setLayoutParams(other2);
+        for (int i = 0; i < numBalls; i++) {
+            View ballView = new View(this);
+            ballView.setBackgroundColor(Color.GRAY);
+            ballView.setOnClickListener(this);
+            ballView.setId(i+3);
+            clickableID.add(i+3);
+            test.addView(ballView);
+            RelativeLayout.LayoutParams other11 = new RelativeLayout.LayoutParams(dim, dim);
+            ballView.setLayoutParams(other11);
+            Block block1 = new Block(i+3, 500, 500, dim, dim);
+            blocks.add(block1);
+        }
+        person = new MemoryMatrixManager(blocks,clickableID,0);
+        collisionDetecter = new CollisionDetecter(screenWidth,screenHeight);
+        go();
+        resetColor();
         Runnable update = new Runnable() {
             @Override
             public void run() {
-                for (Block moves : blocks) {
-                    for(Block other:blocks) {
-                        if(moves != other) {
-                            int x = moves.getX();
-                            int xWidth = x + moves.getWidth();
-                            int y = moves.getY();
-                            int yHeight = y + moves.getHeight();
-                            if (xWidth >= other.getX() && xWidth <= other.getX() + other.getWidth()) {
-                                if (y >= other.getY() && y <= other.getY() + other.getHeight()) {
-                                    moves.setRight(false);
-                                    moves.setDown(true);
-                                    other.setRight(true);
-                                    other.setDown(false);
-                                    moves.setX(moves.getX() - 1);
-                                    moves.setY(moves.getY() + 1);
-                                    other.setX(other.getX() + 1);
-                                    other.setY(other.getY() - 1);
-                                    shift(moves.getView(), moves.getX(), moves.getY());
-                                    shift(other.getView(), other.getX(), other.getY());
-                                    generateNewXAndY(moves);
-                                    //generateNewXAndY(other);
-                                } else if (yHeight >= other.getY() && yHeight <= other.getY() + other.getHeight()) {
-                                    moves.setRight(true);
-                                    moves.setDown(false);
-                                    other.setRight(false);
-                                    other.setDown(true);
-                                    moves.setX(moves.getX() + 1);
-                                    moves.setY(moves.getY() - 1);
-                                    other.setX(other.getX() - 1);
-                                    other.setY(other.getY() + 1);
-                                    shift(moves.getView(), moves.getX(), moves.getY());
-                                    shift(other.getView(), other.getX(), other.getY());
-                                    generateNewXAndY(moves);
-                                    //generateNewXAndY(other);
-                                }
-                            }  else if (x >= other.getX() && x <= other.getX() + other.getY()) {
-                                if (y >= other.getY() && y <= other.getY() + other.getHeight()) {
-                                    moves.setRight(true);
-                                    moves.setDown(true);
-                                    other.setRight(false);
-                                    other.setDown(false);
-                                    moves.setX(moves.getX() + 1);
-                                    moves.setY(moves.getY() + 1);
-                                    other.setX(other.getX() - 1);
-                                    other.setY(other.getY() - 1);
-                                    shift(moves.getView(), moves.getX(), moves.getY());
-                                    shift(other.getView(), other.getX(), other.getY());
-                                    generateNewXAndY(moves);
-                                    //generateNewXAndY(other);
-                                }   else if (yHeight >= other.getY() && yHeight <= other.getY() + other.getHeight()) {
-                                    moves.setRight(false);
-                                    moves.setDown(false);
-                                    other.setRight(true);
-                                    other.setDown(true);
-                                    moves.setX(moves.getX() - 1);
-                                    moves.setY(moves.getY() - 1);
-                                    other.setX(other.getX() + 1);
-                                    other.setY(other.getY() + 1);
-                                    shift(moves.getView(), moves.getX(), moves.getY());
-                                    shift(other.getView(), other.getX(), other.getY());
-                                    generateNewXAndY(moves);
-                                    //generateNewXAndY(other);
-                                }
-                            }
-                        }
-                        else{
-                            generateNewXAndY(moves);
-                        }
-
-                        //generateNewXAndY(other);
+                for(Block first:person){
+                    for(Block second:person){
+                        collisionDetecter.detectCollision(first,second);
+                        View v = test.getChildAt(first.getId());
+                        shift(v,first.getX(),first.getY());
                     }
                 }
-
                 handler.postDelayed(this, 1);
             }
         };
         handler.post(update);
-
-
     }
 
-    private void generateNewXAndY(Block moves) {
-        int x = moves.getX();
-        int y = moves.getY();
-        if (moves.getRight() && (x + 200 > screenWidth)) {
-            moves.setRight(false);
-            x = x-10;
-        } else if (!moves.getRight() && (x <= 0)) {
-            moves.setRight(true);
-            x = x +10;
-        }
-        else if (moves.getRight()) {
-            x = x + 10;
-        } else if (!moves.getRight()) {
-            x = x - 10;
-        }
-        if (moves.getDown() && (y + 225 > screenHeight)) {
-            moves.setDown(false);
-            y = y-20;
-        } else if (!moves.getDown() && (y <= 0)) {
-            moves.setDown(true);
-            y = y+20;
-        }
-        else if (moves.getDown()) {
-            y = y + 20;
-        } else if (!moves.getDown()) {
-            y = y - 20;
-        }
-        moves.setX(x);
-        moves.setY(y);
-        shift(moves.getView(), moves.getX(), moves.getY());
-    }
 
     public void shift(View v, int x, int y) {
         v.setX(x);
@@ -211,17 +117,55 @@ public class MemoryMatrixMovingActivity extends Activity implements View.OnClick
         //1080 x 1794
     }
 
+    @Override
     public void onClick(View v) {
-        if (v.getId() == 1) {
-            v.setBackgroundColor(Color.BLUE);
+        if (v.getId() == (int) -500) {
+            Intent pullChooseGameActivity = new Intent (this, MemoryMatrixMovingActivity.class);
+            startActivity(pullChooseGameActivity);
+            return;
         }
-        else if(v.getId() == 2){
-            v.setBackgroundColor(Color.YELLOW);
+        if (v.getId() == (int) -2) {
+            if (person.setUpUndo()) {
+                test.getChildAt(person.performUndo()).setBackgroundColor(Color.GRAY);
+            }
+            return;
         }
-        else if(v.getId() == 3){
+        if (!person.getClick()) {
+            return;
+        }
+        if(person.checkTileCorrect(v.getId())){
+            v.setBackgroundColor(Color.GREEN);
+            if (person.isGameComplete()) {
+                Toast.makeText(this, "Correct tiles selected", Toast.LENGTH_LONG).show();
+            }
+            return;
+        }
+        else{
             v.setBackgroundColor(Color.RED);
         }
     }
 
-}
+    public void go() {
+        Set<Integer> clickers = person.getMustBeClicked();
+        for (Block item : person) {
+            if (clickers.contains(item.getId())) {
+                test.getChildAt(item.getId()).setBackgroundColor(Color.YELLOW);
+            }
+        }
 
+    }
+
+    public void resetColor() {
+        final Timer t = new Timer();
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                for (Block item : person) {
+                    test.getChildAt(item.getId()).setBackgroundColor(Color.GRAY);
+                }
+                person.setCanClick(true);
+                t.cancel();
+            }
+        }, resetDelay, 500);
+    }
+}

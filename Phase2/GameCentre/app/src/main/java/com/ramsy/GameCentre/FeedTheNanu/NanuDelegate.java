@@ -9,10 +9,11 @@ package com.ramsy.GameCentre.FeedTheNanu;
 interface NanuDelegate {
 
     /**
-     * @param amount The amount life changed by
+     * Called when the Nanu's life reaches 0
      */
 
-    void lifeDidChangeBy(int amount);
+    void lifeReachedZero();
+
 
     /**
      * @param amount The amount the score should change by

@@ -12,15 +12,16 @@ import android.widget.NumberPicker;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.FirebaseFuncts;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.User;
 import com.ramsy.GameCentre.GameCentreCommon.LoginPage;
-import com.ramsy.GameCentre.MemoryMatrix.MemoryMatrixActivity;
 import com.ramsy.GameCentre.R;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
- * check if the user wants to play with pictures or tiles and then take them to the game
+ * The activity where you choose the board size for the new game, and whether to play a
+ * Sliding Tiles game with a picture or numbers. Then take the user to the game.
  */
+
 public class SlidingTilesSizeActivity extends AppCompatActivity {
     String bg;
     int size;
@@ -35,9 +36,15 @@ public class SlidingTilesSizeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        System.out.println("XXX hello 1");
+
         new FirebaseFuncts(LoginPage.uid);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_game_size2);
+
+        System.out.println("XXX hello 2");
+
         meUser = FirebaseFuncts.getUser();
         np = findViewById(R.id.numberPicker);
         next = findViewById(R.id.four);
@@ -94,7 +101,7 @@ public class SlidingTilesSizeActivity extends AppCompatActivity {
                 openGallery();
                 }
                 else{
-                    Intent t = new Intent(this, MemoryMatrixActivity.class);
+                    Intent t = new Intent(this, SlidingTilesGameActivity.class);
                     image = null;
                     t.putExtra("size", this.size);
                     t.putExtra("slot", this.slot);
@@ -126,7 +133,7 @@ public class SlidingTilesSizeActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Intent t = new Intent(this, MemoryMatrixActivity.class);
+            Intent t = new Intent(this, SlidingTilesGameActivity.class);
             t.putExtra("size", this.size);
             t.putExtra("slot", 0);
             startActivity(t);

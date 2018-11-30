@@ -3,25 +3,28 @@ package com.ramsy.GameCentre.FeedTheNanu.DropItems;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.view.ContextMenu;
-
-
+import com.ramsy.GameCentre.FeedTheNanu.DropItem;
 import com.ramsy.GameCentre.FeedTheNanu.Edible;
 import com.ramsy.GameCentre.R;
 
-public class Coffee extends android.support.v7.widget.AppCompatImageView implements Edible {
+public class Coffee extends DropItem implements Edible {
 
-    Bitmap image;
+    static Bitmap texture;
+
     public Coffee(Context context){
         super(context);
-        this.image = BitmapFactory.decodeResource(getResources(), R.drawable.coffee);
-        this.setImageBitmap(this.image);
+
+        if (Coffee.texture == null) {
+            Coffee.texture = BitmapFactory.decodeResource(getResources(), R.drawable.coffee);
+        }
+        this.setImageBitmap(Coffee.texture);
+
 
     }
 
     @Override
     public int effectOnLife() {
-        return 1;
+        return 10;
     }
 
     @Override
