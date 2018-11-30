@@ -82,6 +82,7 @@ public class SavedGamesActivity extends AppCompatActivity {
         else {
             // TODO: Change this to the Memory Matrix game
             this.correctSlot = meUser.correctSlot("MemoryMatrix");
+            this.newActivity = new Intent(this, MemoryMatrixMovingActivity.class);
         }
 
         this.newActivity.putExtra("slot", this.correctSlot);
@@ -102,10 +103,13 @@ public class SavedGamesActivity extends AppCompatActivity {
             if (gameName.equals("MemoryMatrix")){
                 if(meUser.getGame(gameName, 0).getDifficulty()) {
                     this.newActivity = new Intent(this, MemoryMatrixMovingActivity.class);
+
                 }else{
                     this.newActivity = new Intent(this, MemoryMatrixActivity.class);
+
                 }
             }
+            newActivity.putExtra("slot", 0);
             startActivity(newActivity);
         });
     }
@@ -120,7 +124,6 @@ public class SavedGamesActivity extends AppCompatActivity {
                 each.setBackgroundColor(getColor(R.color.app_theme));
             }
             slot2.setBackgroundColor(getColor(R.color.app_button));
-            newActivity.putExtra("slot", 1);
             if (gameName.equals("MemoryMatrix")){
                 if(meUser.getGame(gameName, 1).getDifficulty()) {
                     this.newActivity = new Intent(this, MemoryMatrixMovingActivity.class);
@@ -128,6 +131,7 @@ public class SavedGamesActivity extends AppCompatActivity {
                     this.newActivity = new Intent(this, MemoryMatrixActivity.class);
                 }
             }
+            newActivity.putExtra("slot", 1);
             startActivity(newActivity);
 
         });
@@ -143,7 +147,6 @@ public class SavedGamesActivity extends AppCompatActivity {
                 each.setBackgroundColor(getColor(R.color.app_theme));
             }
             slot3.setBackgroundColor(getColor(R.color.app_button));
-            newActivity.putExtra("slot", 2);
             if (gameName.equals("MemoryMatrix")){
                 if(meUser.getGame(gameName, 2).getDifficulty()) {
                     this.newActivity = new Intent(this, MemoryMatrixMovingActivity.class);
@@ -151,6 +154,7 @@ public class SavedGamesActivity extends AppCompatActivity {
                     this.newActivity = new Intent(this, MemoryMatrixActivity.class);
                 }
             }
+            newActivity.putExtra("slot", 2);
             startActivity(newActivity);
         });
     }
