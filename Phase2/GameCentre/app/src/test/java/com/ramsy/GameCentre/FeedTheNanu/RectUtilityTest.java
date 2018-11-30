@@ -2,12 +2,10 @@ package com.ramsy.GameCentre.FeedTheNanu;
 
 import android.content.Context;
 import android.graphics.Rect;
-import android.view.View;
-import android.widget.RelativeLayout;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class RectUtilityTest {
     Context context;
@@ -16,7 +14,6 @@ public class RectUtilityTest {
 
 //    @Test
 //    public void boundingBox() {
-//        NanuPlayground nanuPlayground = new NanuPlayground();
 //        View input = new View(context);
 //        nanuPlayground.container.addView(input);
 //        Rect output;
@@ -37,7 +34,7 @@ public class RectUtilityTest {
         int expectedTop = -4;
         int expectedRight = 5;
         int expectedBottom = 6;
-        t.padRect(inputRect, inputList);
+        RectUtility.padRect(inputRect, inputList);
         assertEquals(expectedLeft, inputRect.left);
         assertEquals(expectedTop, inputRect.top);
         assertEquals(expectedRight, inputRect.right);

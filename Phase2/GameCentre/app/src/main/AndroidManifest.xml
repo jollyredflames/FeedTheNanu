@@ -39,6 +39,7 @@
         <activity
             android:name=".SlidingTiles.SlidingTilesGameActivity"
             android:screenOrientation="portrait"
+            android:parentActivityName=".GameCentreCommon.ChooseGame"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.GameActivity" />
@@ -71,37 +72,26 @@
         </activity>
         <activity
             android:name=".MemoryMatrix.MemoryMatrixActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:parentActivityName=".GameCentreCommon.ChooseGame">
             <intent-filter>
                 <action android:name="android.intent.action.MemoryMatrixActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".FeedTheNanu.Playground">
-            <intent-filter>
-                <action android:name="android.intent.action.Playground" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".FeedTheNanu.MainActivity">
+        <activity android:name=".FeedTheNanu.MainActivity"
+            android:parentActivityName=".GameCentreCommon.ChooseGame">
             <intent-filter>
                 <action android:name="android.intent.action.FeedTheNanu.MainActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".MemoryMatrix.MemoryMatrixMovingActivity">
+        <activity android:name=".MemoryMatrix.MemoryMatrixMovingActivity"
+            android:parentActivityName=".GameCentreCommon.ChooseGame">
             <intent-filter>
                 <action android:name="android.intent.action.MemoryMatrixMovingActivity" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".FeedTheNanu.NanuPlayground">
-            <intent-filter>
-                <action android:name="android.intent.action.FeedTheNanu.NanuPlayground" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
