@@ -80,7 +80,6 @@ public class SavedGamesActivity extends AppCompatActivity {
             this.newActivity = new Intent(this, MainActivity.class);
         }
         else {
-            // TODO: Change this to the Memory Matrix game
             this.correctSlot = meUser.correctSlot("MemoryMatrix");
             this.newActivity = new Intent(this, MemoryMatrixMovingActivity.class);
         }

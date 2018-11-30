@@ -3,7 +3,6 @@ package com.ramsy.GameCentre.GameCentreCommon;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Button;
 
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.FirebaseFuncts;
@@ -24,7 +23,6 @@ import com.ramsy.GameCentre.SlidingTiles.SlidingTilesSizeActivity;
 public class NewOrSavedGame extends AppCompatActivity {
 
     /*
-    TODO:
     Generalizing NewOrSavedGame activity
 
     After selecting which of the 3 games to play (Sliding Tiles, Feed The Nanu, or Memory Matrix),

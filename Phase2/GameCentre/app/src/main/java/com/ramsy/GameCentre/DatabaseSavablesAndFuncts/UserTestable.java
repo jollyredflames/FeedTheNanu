@@ -20,7 +20,6 @@ public class UserTestable {
      * Create a user with No Attributes (used to implement Serializable for FireBase)
      */
     public UserTestable() {
-        //TODO:UNCOMMENT BELOW
         //mDatabase.keepSynced(true);
         this.email = "";
         this.username = "";
