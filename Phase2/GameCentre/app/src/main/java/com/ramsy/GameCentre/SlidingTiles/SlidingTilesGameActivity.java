@@ -20,7 +20,6 @@ import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.SaveState;
 import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.User;
 import com.ramsy.GameCentre.GameCentreCommon.ChooseGame;
 import com.ramsy.GameCentre.GameCentreCommon.FinishedGameActivity;
-import com.ramsy.GameCentre.GameCentreCommon.NewOrSavedGame;
 
 import java.util.Map;
 import java.util.Timer;
@@ -140,6 +139,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
 
         }
 
+        meUser.saveGame("SlidingTiles", save, slot);
 
         // Create a View Group
         RelativeLayout container = new RelativeLayout(this);
