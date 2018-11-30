@@ -14,9 +14,9 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-//private TextView mTxtView;
-//int height = 50; //your textview height
-//mTxtView.getLayoutParams().height = height;
+/**
+ * a fragment just laying out the outline of the leader board and what it will look like to the user
+ */
 public class LeaderBoardView extends Fragment {
     int mainHeight;
     int mainWidth;
@@ -30,7 +30,13 @@ public class LeaderBoardView extends Fragment {
     String gameIdentifier;
     int position;
 
-
+    /**
+     *
+     * @param inflater not used
+     * @param container not used
+     * @param savedInstanceState not used
+     * @return the view of the fragment, called activity view
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -52,6 +58,10 @@ public class LeaderBoardView extends Fragment {
         return activityView;
     }
 
+    /**
+     * make all the text views that will show user and scores of whoever should hold that ranking
+     * on the leader board
+     */
     private void addTextViewsNamesAndScores(){
         for(int i = 3;i<2*numTextViews+3; i=i+2){
             TextView tempUserName = new TextView(getActivity());
@@ -66,6 +76,12 @@ public class LeaderBoardView extends Fragment {
         }
     }
 
+    /**
+     *
+     * @param tempUserName a text view that will say the username of the person that holds that rank
+     * @param tempScore a text view that will show the score for the current ranking
+     * @param index the index that the text views should be below
+     */
     private void defineDimensionsOfTextViews(TextView tempUserName, TextView tempScore, int index){
         RelativeLayout.LayoutParams uParam = new RelativeLayout.LayoutParams(mainWidth,300);
         uParam.addRule(RelativeLayout.BELOW,index-1);
@@ -75,6 +91,10 @@ public class LeaderBoardView extends Fragment {
         sParam.addRule(RelativeLayout.RIGHT_OF,index);
         tempScore.setLayoutParams(sParam);
     }
+
+    /**
+     * add a text view to tell rhe user what leader board they are currently on
+     */
     private void addLeaderBoardTextView(){
         TextView leaderBoardName = new TextView(getActivity());
         leaderBoardName.setId(1);
@@ -85,6 +105,9 @@ public class LeaderBoardView extends Fragment {
         leaderBoardName.setLayoutParams(leaderBoardNameParam);
     }
 
+    /**
+     * add a textview to say username: to make the ui look pretty
+     */
     private void addUserNameTextView(){
         TextView userNameTextView = new TextView(getActivity());
         userNameTextView.setId(2);
@@ -94,6 +117,9 @@ public class LeaderBoardView extends Fragment {
         userNameTextView.setLayoutParams(userNameParam);
     }
 
+    /**
+     * add a text view that will say Scores: just to make the ui look nice
+     */
     private void addScoreTextView(){
         TextView scoreTextView = new TextView(getActivity());
         activityView.addView(scoreTextView);
@@ -103,6 +129,9 @@ public class LeaderBoardView extends Fragment {
         scoreTextView.setLayoutParams(scoreParam);
     }
 
+    /**
+     * add the button that the user will click on to change between private and public scores
+     */
     private void addUpdaterButton(){
         Button updaterButton = new Button(getActivity());
         updaterButton.setText("View other");
@@ -114,6 +143,9 @@ public class LeaderBoardView extends Fragment {
         buttonID = 2*numTextViews+4;
     }
 
+    /**
+     * Add a textview that will display the users previous score if they are in the correct game
+     */
     private void addPrevScore(){
         TextView prevScore = new TextView(getActivity());
         prevScore.setText("Your score was 1000");
@@ -124,6 +156,9 @@ public class LeaderBoardView extends Fragment {
         prevScore.setLayoutParams(prevScoreParam);
     }
 
+    /**
+     * add the scroll view container to the activity container to display n scores for example
+     */
     private void addScrollViewToActivityContainer(){
         ScrollView scrollView = new ScrollView(getActivity());
         scrollView.addView(scrollContainer);
@@ -134,6 +169,9 @@ public class LeaderBoardView extends Fragment {
         activityView.addView(scrollView);
     }
 
+    /**
+     * define the number of text views to make and also get the screen width and height
+     */
     private void setInstanceVariables(){
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);

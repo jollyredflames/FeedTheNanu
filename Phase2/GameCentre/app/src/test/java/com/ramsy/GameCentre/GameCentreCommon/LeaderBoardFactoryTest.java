@@ -2,7 +2,7 @@ package com.ramsy.GameCentre.GameCentreCommon;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class LeaderBoardFactoryTest {
     /**
@@ -12,7 +12,7 @@ public class LeaderBoardFactoryTest {
     @Test
     public void getGame() {
         String inputOne = "SlidingTiles";
-        String inputTwo = "FeedThenanu";
+        String inputTwo = "FeedTheNanu";
         String inputThree = "MemoryMatrix";
         String inputFour = "BOOBOOBIAH";
         LeaderBoardSlidingTiles expectedOne = new LeaderBoardSlidingTiles();
