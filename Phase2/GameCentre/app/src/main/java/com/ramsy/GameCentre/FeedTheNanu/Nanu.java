@@ -258,6 +258,7 @@ class Nanu extends ImageView implements Pausable {
      */
 
     void timeDidElapse() {
+        System.out.println("XXX time did elapse");
         this.changeLifeBy(this.amountLifeChangesByOverTime);
     }
 
@@ -308,6 +309,8 @@ class Nanu extends ImageView implements Pausable {
     private Runnable update = new Runnable() {
         @Override
         public void run() {
+
+            System.out.println("XXX hello from the animation handler");
 
             // Animation state machine logic goes here
 
@@ -512,7 +515,9 @@ class Nanu extends ImageView implements Pausable {
 
 
             // Recursion
-            handler.postDelayed(this, animationInterval);
+            if (!currentLifeIsZero()) {
+                handler.postDelayed(this, animationInterval);
+            }
         }
     };
 

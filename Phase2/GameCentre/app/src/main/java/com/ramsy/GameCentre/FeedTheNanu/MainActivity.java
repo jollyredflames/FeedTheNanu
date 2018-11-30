@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     Runnable autoSave = new Runnable() {
         @Override
         public void run() {
+            System.out.println("XXX hello from the save handler");
             save();
             saveHandler.postDelayed(this, saveInterval);
         }
@@ -78,6 +79,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
              And the method that creates them and their animation (here), needs to be working with a type such that
              that property is visible to the compiler (case them as a DropItem).
              */
+
+            System.out.print("XXX hello from item drop handler");
 
             // Vend an item
             DropItem newItem = (DropItem)itemGenerator.getItem();
@@ -133,6 +136,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     Runnable update = new Runnable() {
         @Override
         public void run() {
+
+            System.out.println("XXX hello from update handler");
 
             boolean foodIsNearby = false;
             Edible foodItemForEating = null;
@@ -220,7 +225,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     private void save() {
         // Save logic here
-        System.out.println("XXX hello from the save handler");
         SaveState s = new SaveState(score, nanu.currentLife);
         // Throw this to the backend function
         meUser.saveGame("FeedTheNanu", s, this.slot);
@@ -384,15 +388,17 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     @Override
     public void lifeReachedZero() {
         // TODO:
+
+
+        System.out.println("XXX life reached zero");
         // game over functionality
         pauseButtonWasTapped(true);
-        String s = "" + this.score;
-        Intent tmp = new Intent(this, FinishedGameActivity.class);
-        tmp.putExtra("gameName", "FeedTheNanu");
-        tmp.putExtra("gameScore",
-                s);
-        tmp.putExtra("gameIdentifier", "FeedTheNanu");
-        startActivity(tmp);
+//        String s = "" + this.score;
+//        Intent tmp = new Intent(this, FinishedGameActivity.class);
+//        tmp.putExtra("gameName", "FeedTheNanu");
+//        tmp.putExtra("gameScore", s);
+//        tmp.putExtra("gameIdentifier", "FeedTheNanu");
+//        startActivity(tmp);
 
     }
 
@@ -471,18 +477,19 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         While this is the delegate method called by the Pause Button,
         we will also call this method ourselves in lifeDidReachZero and onBackPressed
          */
+        System.out.println("XXX Paused was called");
 
-        // Do a save
-        this.save();
 
         this.isPaused = paused;
 
         // Pause/Resume non view stuff (like stop the handlers that generate new food, prevent Nanu from being moved)
         if (paused) {
+            // Do a save
+            this.save();
+
             itemDropHandler.removeCallbacks(itemDrop); // stop new items from falling
             updateHandler.removeCallbacks(update); // pause the game engine loop, for efficiency
             saveHandler.removeCallbacks(autoSave);
-            System.out.println("XXX Just paused all handlers");
         } else {
             itemDropHandler.postDelayed(itemDrop, 1000); // we use post delayed here, to prevent the situation where spamming the pause button
             // caused an item to drop on each resume. But then it's possible to spam the pause button and progress time
