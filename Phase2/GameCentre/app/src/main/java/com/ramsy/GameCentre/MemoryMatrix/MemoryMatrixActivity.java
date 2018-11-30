@@ -17,15 +17,12 @@ import com.ramsy.GameCentre.DatabaseSavablesAndFuncts.User;
 import com.ramsy.GameCentre.GameCentreCommon.ChooseGame;
 import com.ramsy.GameCentre.GameCentreCommon.FinishedGameActivity;
 import com.ramsy.GameCentre.GameCentreCommon.LeaderBoardModel;
-import com.ramsy.GameCentre.GameCentreCommon.NewOrSavedGame;
 import com.ramsy.GameCentre.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MemoryMatrixActivity extends Activity implements View.OnClickListener {
     int resetDelay = 2000;
@@ -43,7 +40,7 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
     private Set<Integer> clickable = new HashSet<>();
     private ArrayList<Block> clicker = new ArrayList<>();
     int badIndex;
-    private MemoryMatrixManager person;
+    private MemoryMatrixManager manager;
     private User meUser = FirebaseFuncts.getUser();
 
     @Override
@@ -170,11 +167,11 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
             }
         }
         badIndex = Collections.min(underID);
-        person = new MemoryMatrixManager(clicker, clickable, badIndex, life, numUndo, slot, score, numTileX, numTileX);
+        manager = new MemoryMatrixManager(clicker, clickable, badIndex, life, numUndo, slot, score, numTileX, numTileX);
         Button undoer = (Button) container.getChildAt(0);
-        undoer.setText("UNDO: " + String.valueOf(person.getNumUndo()) + " LEFT");
+        undoer.setText("UNDO: " + String.valueOf(manager.getNumUndo()) + " LEFT");
         TextView info = (TextView) container.getChildAt(1);
-        LeaderBoardModel.generateTextViewDesign(info, "LIVES LEFT: " + person.getLife());
+        LeaderBoardModel.generateTextViewDesign(info, "LIVES LEFT: " + manager.getLife());
         go();
         resetColor();
     }
@@ -187,30 +184,30 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
             return;
         }
         if (v.getId() == -2) {
-            if (person.setUpUndo()) {
-                container.getChildAt(person.performUndo() + 2).setBackgroundColor(Color.GRAY);
+            if (manager.setUpUndo()) {
+                container.getChildAt(manager.performUndo() + 2).setBackgroundColor(Color.GRAY);
                 Button undoer = (Button) container.getChildAt(0);
-                undoer.setText("UNDO: " + String.valueOf(person.getNumUndo()) + " LEFT");
+                undoer.setText("UNDO: " + String.valueOf(manager.getNumUndo()) + " LEFT");
                 TextView info = (TextView) container.getChildAt(1);
-                LeaderBoardModel.generateTextViewDesign(info, "LIVES LEFT: " + person.getLife());
+                LeaderBoardModel.generateTextViewDesign(info, "LIVES LEFT: " + manager.getLife());
             }
             return;
         }
-        if (!person.getClick()) {
+        if (!manager.getClick()) {
             return;
         }
-        if (person.checkTileCorrect(v.getId())) {
+        if (manager.checkTileCorrect(v.getId())) {
             v.setBackgroundColor(Color.GREEN);
-            if (person.isGameComplete()) {
+            if (manager.isGameComplete()) {
                 Intent newGame = new Intent(this, MemoryMatrixActivity.class);
                 if (numTileY == numTileX) {
-                    person.setX(numTileX + 1);
+                    manager.setX(numTileX + 1);
                 } else {
-                    person.setY(numTileY + 1);
+                    manager.setY(numTileY + 1);
                 }
-                person.calculateScore();
-                person.save();
-                int slot = person.getSlot();
+                manager.calculateScore();
+                manager.save();
+                int slot = manager.getSlot();
                 newGame.putExtra("slot", slot);
                 newGame.putExtra("score", 0);
                 startActivity(newGame);
@@ -219,12 +216,12 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
         } else {
             v.setBackgroundColor(Color.RED);
             TextView info = (TextView) container.getChildAt(1);
-            info.setText("LIVES LEFT: " + person.getLife());
-            if (person.gameOver()) {
-                meUser.deleteGame("MemoryMatrix", person.getSlot());
+            info.setText("LIVES LEFT: " + manager.getLife());
+            if (manager.gameOver()) {
+                meUser.deleteGame("MemoryMatrix", manager.getSlot());
                 Intent finishedGame = new Intent(this, FinishedGameActivity.class);
                 finishedGame.putExtra("gameIdentifier", "MemoryMatrix");
-                finishedGame.putExtra("gameScore", person.getScore());
+                finishedGame.putExtra("gameScore", manager.getScore());
                 finishedGame.putExtra("gameName", "Easy");
                 startActivity(finishedGame);
             }
@@ -251,14 +248,14 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
      * set the views that should be clicked to yellow
      */
     public void go() {
-        MemoryGameCommon.go(container,person.getMustBeClicked(),person,0);
+        MemoryGameCommon.go(container, manager.getMustBeClicked(), manager,0);
     }
 
     /**
      * when the reset timer is up make those text views gray so they are hidden
      */
     public void resetColor() {
-        MemoryGameCommon.resetColor(container,person,resetDelay,0);
+        MemoryGameCommon.resetColor(container, manager,resetDelay,0);
     }
 
     /**
@@ -266,7 +263,7 @@ public class MemoryMatrixActivity extends Activity implements View.OnClickListen
      */
     @Override
     public void onBackPressed() {
-        person.save();
+        manager.save();
         Intent goToChoose = new Intent(this, ChooseGame.class);
         startActivity(goToChoose);
     }
