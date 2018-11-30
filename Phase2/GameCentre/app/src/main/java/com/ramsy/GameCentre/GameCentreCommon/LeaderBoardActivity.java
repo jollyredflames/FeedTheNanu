@@ -22,6 +22,7 @@ public class LeaderBoardActivity extends AppCompatActivity {
     private String lastScore;
     private String lastGame;
     private String gameIdentifier;
+    private LeaderBoardGeneralGame game;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -53,6 +54,8 @@ public class LeaderBoardActivity extends AppCompatActivity {
         lastGame = getIntent().getExtras().getString("lastGame");
         lastScore = getIntent().getExtras().getString("lastScore");
         gameIdentifier = getIntent().getExtras().getString("gameIdentifier");
+        LeaderBoardFactory factory = new LeaderBoardFactory();
+        game = factory.getGame(gameIdentifier);
     }
     //create three icon bar on the top
     @Override
@@ -102,7 +105,7 @@ public class LeaderBoardActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 9;
+            return game.numberTabs();
         }
     }
 }
