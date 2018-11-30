@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     Runnable autoSave = new Runnable() {
         @Override
         public void run() {
-//            save();
+            save();
             saveHandler.postDelayed(this, saveInterval);
         }
     };
@@ -220,10 +220,10 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     private void save() {
         // Save logic here
-        Save s = new Save(score, nanu.currentLife);
+        SaveState s = new SaveState(score, nanu.currentLife);
 
         // Throw this to the backend function
-//        meUser.saveGame("FeedTheNanu", (SaveState) s, this.slot);
+        meUser.saveGame("FeedTheNanu", s, this.slot);
     }
 
     /**
@@ -232,18 +232,16 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     private User meUser;
 
+    /**
+     * The name of the game.
+     */
+
+    String gameName = "FeedTheNanu";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Grab the user
-        this.meUser = FirebaseFuncts.getUser();
-
-        // Retrieve Slot Number from Intent
-//        Bundle b = getIntent().getExtras();
-//        this.slot = b.getInt("slot");
-
 
         // Create the Item Generator
         this.itemGenerator = new ItemGenerator(this);
@@ -255,13 +253,32 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         // Set the Activity's window to the View Group
         setContentView(container);
 
-        this.score = 0;
-
         setupBackground();
         setupScoreLabel();
         setupPauseButton();
         setupHealthBar();
         setupNanu();
+
+        // Grab the user
+        this.meUser = FirebaseFuncts.getUser();
+
+        // Retrieve Slot Number from Intent
+        Bundle b = getIntent().getExtras();
+        this.slot = b.getInt("slot");
+
+        SaveState save = meUser.getGame(gameName, slot);
+
+        if (save != null) {
+
+            System.out.println("XXX score: " + save.score + " life: " + save.currentLife);
+            this.score = save.score;
+            this.nanu.currentLife = save.currentLife;
+            this.healthBar.setHealthTo(nanu.currentLife);
+            this.scoreLabel.setText(String.valueOf(score));
+        } else {
+            this.score = 0;
+        }
+
 
         nanu.setTimeSliceInterval(gameLoopInterval);
         nanu.resume();
@@ -334,7 +351,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 LayoutParams(w, h);
         healthBarParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         healthBarParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        healthBarParams.setMargins(10, 10, 0, 0);
+        healthBarParams.setMargins(10, 20, 0, 0);
         hb.setLayoutParams(healthBarParams);
         container.addView(hb);
         this.healthBar = hb;
@@ -369,9 +386,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         // TODO:
         // game over functionality
         pauseButtonWasTapped(true);
-        int sc = this.score;
-        System.out.println(sc + "Nanu score xxxx");
-        String s = "" + sc;
+        String s = "" + this.score;
         Intent tmp = new Intent(this, FinishedGameActivity.class);
         tmp.putExtra("gameName", "FeedTheNanu");
         tmp.putExtra("gameScore",

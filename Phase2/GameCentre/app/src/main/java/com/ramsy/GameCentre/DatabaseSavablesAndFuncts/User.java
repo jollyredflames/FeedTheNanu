@@ -245,6 +245,9 @@ public class User {
         myScores.put(subGameName, myScoresList);
     }
 
+    /**
+     * Inform FireBase of a change in representation of this user
+     */
     private void stateChange(){
         mDatabase.child("users").child(meUserID).setValue(this);
     }

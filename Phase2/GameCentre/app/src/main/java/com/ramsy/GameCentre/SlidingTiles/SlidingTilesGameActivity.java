@@ -25,6 +25,10 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+
+//Dear TA, Professor Paul Gries asked us to inform you this class is long due to the Views being made programmatically.
+
+
 public class SlidingTilesGameActivity extends AppCompatActivity implements View.OnClickListener, SlidingTileGameDelegate {
 
 
@@ -183,9 +187,11 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
         this.scoreLabel = label;
 
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(0,100);
-        params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        int [] rules = {RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.ALIGN_PARENT_TOP};
+        for(int rule : rules)
+        {
+            params.addRule(rule);
+        }
         params.setMargins(0, 0, 0, 0);
         label.setLayoutParams(params);
     }
@@ -681,10 +687,6 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements View.
         // Add it below the pause button
         int i = this.container.indexOfChild(this.pauseButton);
         this.container.addView(con, i);
-    }
-
-    void setUpTextButton(TextView view, String text, Color textColor, Color background, int id, boolean listener, Gravity gravity){
-
     }
 
 }
