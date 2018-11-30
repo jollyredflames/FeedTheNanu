@@ -1,16 +1,13 @@
 package com.ramsy.GameCentre.DatabaseSavablesAndFuncts;
 
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-public class User {
+public class UserTestable {
 
-    private static DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    //private static DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     private String username;
     private String email;
     private static HashMap<String, ArrayList<String>> myScores = new HashMap<>();
@@ -22,9 +19,9 @@ public class User {
     /**
      * Create a user with No Attributes (used to implement Serializable for FireBase)
      */
-    public User() {
-
-        mDatabase.keepSynced(true);
+    public UserTestable() {
+        //TODO:UNCOMMENT BELOW
+        //mDatabase.keepSynced(true);
         this.email = "";
         this.username = "";
     }
@@ -37,13 +34,13 @@ public class User {
      * @param myScores
      * @param savedGames
      */
-    public User(String username, String email, String meUserID, HashMap<String, ArrayList<String>> myScores, HashMap<String, ArrayList<SaveState>> savedGames) {
-        mDatabase.keepSynced(true);
+    public UserTestable(String username, String email, String meUserID, HashMap<String, ArrayList<String>> myScores, HashMap<String, ArrayList<SaveState>> savedGames) {
+        //mDatabase.keepSynced(true);
         this.email = email;
         this.username = username;
-        User.myScores = myScores;
+        UserTestable.myScores = myScores;
         this.meUserID = meUserID;
-        User.savedGames = savedGames;
+        UserTestable.savedGames = savedGames;
     }
 
     /**
@@ -91,7 +88,7 @@ public class User {
      * @param myScores
      */
     public void setMyScores(HashMap<String, ArrayList<String>> myScores) {
-        User.myScores = myScores;
+        UserTestable.myScores = myScores;
     }
 
     /**
@@ -145,7 +142,7 @@ public class User {
      * @param savedGames : A list of all the saved games of this user.
      */
     public void setTheSavedGames(HashMap<String, ArrayList<SaveState>> savedGames) {
-        User.savedGames = savedGames;
+        UserTestable.savedGames = savedGames;
     }
 
     /**
@@ -214,8 +211,8 @@ public class User {
      * @param newScore the score of the game
      */
     public void addScore(String gameName, String newScore){
-        GlobalLeaderBoard glb = new GlobalLeaderBoard();
-        glb.addScore(gameName, newScore, getUsername());
+        //GlobalLeaderBoard glb = new GlobalLeaderBoard();
+        //glb.addScore(gameName, newScore, getUsername());
 
         sortAndPlaceNewScore(gameName, newScore);
 
@@ -250,7 +247,7 @@ public class User {
      * Inform FireBase of a change in representation of this user
      */
     private void stateChange(){
-        mDatabase.child("users").child(meUserID).setValue(this);
+        //mDatabase.child("users").child(meUserID).setValue(this);
     }
 
 
